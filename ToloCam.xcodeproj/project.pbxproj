@@ -1,0 +1,684 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B6B0B1721CC70262008448DD /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B0B1711CC70262008448DD /* PostDetailViewController.swift */; };
+		FF06E79B1C75BE8F00920007 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E79A1C75BE8F00920007 /* TabBar.swift */; };
+		FF06E7A51C75C84000920007 /* ExploreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */; };
+		FF06E7A71C75C91F00920007 /* ExploreCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */; };
+		FFA914DB1C7480E500121EE2 /* Analytics30.png in Resources */ = {isa = PBXBuildFile; fileRef = FFA914D51C7480E500121EE2 /* Analytics30.png */; };
+		FFA914DC1C7480E500121EE2 /* Analytics302x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFA914D61C7480E500121EE2 /* Analytics302x.png */; };
+		FFA914DD1C7480E500121EE2 /* Home30.png in Resources */ = {isa = PBXBuildFile; fileRef = FFA914D71C7480E500121EE2 /* Home30.png */; };
+		FFA914DE1C7480E500121EE2 /* Home302x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFA914D81C7480E500121EE2 /* Home302x.png */; };
+		FFA914DF1C7480E500121EE2 /* Setting30.png in Resources */ = {isa = PBXBuildFile; fileRef = FFA914D91C7480E500121EE2 /* Setting30.png */; };
+		FFA914E01C7480E500121EE2 /* Setting302x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFA914DA1C7480E500121EE2 /* Setting302x.png */; };
+		FFA914E21C748F0900121EE2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA914E11C748F0900121EE2 /* SettingsViewController.swift */; };
+		FFA914E41C74A68200121EE2 /* imageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA914E31C74A68200121EE2 /* imageTableViewCell.swift */; };
+		FFCBBDC01C6C8D8D00BA0773 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCBBDBF1C6C8D8D00BA0773 /* AppDelegate.swift */; };
+		FFCBBDC21C6C8D8D00BA0773 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCBBDC11C6C8D8D00BA0773 /* LoginViewController.swift */; };
+		FFCBBDC51C6C8D8D00BA0773 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFCBBDC31C6C8D8D00BA0773 /* Main.storyboard */; };
+		FFCBBDC81C6C8D8D00BA0773 /* ToloCam.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FFCBBDC61C6C8D8D00BA0773 /* ToloCam.xcdatamodeld */; };
+		FFCBBDCA1C6C8D8D00BA0773 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFCBBDC91C6C8D8D00BA0773 /* Assets.xcassets */; };
+		FFCBBDCD1C6C8D8D00BA0773 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFCBBDCB1C6C8D8D00BA0773 /* LaunchScreen.storyboard */; };
+		FFCBBDD81C6C8D8D00BA0773 /* ToloCamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCBBDD71C6C8D8D00BA0773 /* ToloCamTests.swift */; };
+		FFCBBDE31C6C8D8D00BA0773 /* ToloCamUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCBBDE21C6C8D8D00BA0773 /* ToloCamUITests.swift */; };
+		FFCBBDF11C6C8E2800BA0773 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFCBBDF01C6C8E2800BA0773 /* AudioToolbox.framework */; };
+		FFCBBDF31C6C8E3700BA0773 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFCBBDF21C6C8E3700BA0773 /* CFNetwork.framework */; };
+		FFCBBDF51C6C8E3E00BA0773 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFCBBDF41C6C8E3E00BA0773 /* CoreGraphics.framework */; };
+		FFCBBDF71C6C8E4400BA0773 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFCBBDF61C6C8E4400BA0773 /* CoreLocation.framework */; };
+		FFCBBDF91C6C8E4B00BA0773 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFCBBDF81C6C8E4B00BA0773 /* MobileCoreServices.framework */; };
+		FFCBBDFB1C6C8E5400BA0773 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFCBBDFA1C6C8E5400BA0773 /* QuartzCore.framework */; };
+		FFCBBDFD1C6C8E5E00BA0773 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFCBBDFC1C6C8E5E00BA0773 /* Security.framework */; };
+		FFCBBDFF1C6C8E6600BA0773 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFCBBDFE1C6C8E6600BA0773 /* StoreKit.framework */; };
+		FFCBBE011C6C8E6F00BA0773 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFCBBE001C6C8E6F00BA0773 /* SystemConfiguration.framework */; };
+		FFCBBE031C6C8E9200BA0773 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FFCBBE021C6C8E9200BA0773 /* libz.tbd */; };
+		FFCBBE051C6C8EA600BA0773 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FFCBBE041C6C8EA600BA0773 /* libsqlite3.tbd */; };
+		FFCBBE081C6C8F1600BA0773 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFCBBE061C6C8F1600BA0773 /* Bolts.framework */; };
+		FFCBBE091C6C8F1700BA0773 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFCBBE071C6C8F1600BA0773 /* Parse.framework */; };
+		FFD788501C6CB14300ACDB65 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD7884F1C6CB14300ACDB65 /* PostTableViewCell.swift */; };
+		FFD788521C6CB1BB00ACDB65 /* PostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD788511C6CB1BB00ACDB65 /* PostTableViewController.swift */; };
+		FFD788541C6CB55D00ACDB65 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFD788531C6CB55D00ACDB65 /* ParseUI.framework */; };
+		FFD788561C6CB89A00ACDB65 /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD788551C6CB89A00ACDB65 /* ComposeViewController.swift */; };
+		FFD788581C731EBF00ACDB65 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD788571C731EBE00ACDB65 /* RegisterViewController.swift */; };
+		FFE37A641C775BAD00C1670F /* ProfileCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE37A631C775BAD00C1670F /* ProfileCollectionViewController.swift */; };
+		FFE37A661C775BCE00C1670F /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE37A651C775BCE00C1670F /* ProfileCollectionViewCell.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FFCBBDD41C6C8D8D00BA0773 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FFCBBDB41C6C8D8C00BA0773 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FFCBBDBB1C6C8D8C00BA0773;
+			remoteInfo = ToloCam;
+		};
+		FFCBBDDF1C6C8D8D00BA0773 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FFCBBDB41C6C8D8C00BA0773 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FFCBBDBB1C6C8D8C00BA0773;
+			remoteInfo = ToloCam;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		B6B0B1711CC70262008448DD /* PostDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
+		FF06E79A1C75BE8F00920007 /* TabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
+		FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExploreCollectionViewCell.swift; path = ../ExploreCollectionViewCell.swift; sourceTree = "<group>"; };
+		FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewController.swift; sourceTree = "<group>"; };
+		FFA914D51C7480E500121EE2 /* Analytics30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Analytics30.png; sourceTree = "<group>"; };
+		FFA914D61C7480E500121EE2 /* Analytics302x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Analytics302x.png; sourceTree = "<group>"; };
+		FFA914D71C7480E500121EE2 /* Home30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Home30.png; sourceTree = "<group>"; };
+		FFA914D81C7480E500121EE2 /* Home302x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Home302x.png; sourceTree = "<group>"; };
+		FFA914D91C7480E500121EE2 /* Setting30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Setting30.png; sourceTree = "<group>"; };
+		FFA914DA1C7480E500121EE2 /* Setting302x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Setting302x.png; sourceTree = "<group>"; };
+		FFA914E11C748F0900121EE2 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		FFA914E31C74A68200121EE2 /* imageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = imageTableViewCell.swift; sourceTree = "<group>"; };
+		FFCBBDBC1C6C8D8D00BA0773 /* ToloCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToloCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFCBBDBF1C6C8D8D00BA0773 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FFCBBDC11C6C8D8D00BA0773 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		FFCBBDC41C6C8D8D00BA0773 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FFCBBDC71C6C8D8D00BA0773 /* ToloCam.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ToloCam.xcdatamodel; sourceTree = "<group>"; };
+		FFCBBDC91C6C8D8D00BA0773 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FFCBBDCC1C6C8D8D00BA0773 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FFCBBDCE1C6C8D8D00BA0773 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FFCBBDD31C6C8D8D00BA0773 /* ToloCamTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToloCamTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFCBBDD71C6C8D8D00BA0773 /* ToloCamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToloCamTests.swift; sourceTree = "<group>"; };
+		FFCBBDD91C6C8D8D00BA0773 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FFCBBDDE1C6C8D8D00BA0773 /* ToloCamUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToloCamUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFCBBDE21C6C8D8D00BA0773 /* ToloCamUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToloCamUITests.swift; sourceTree = "<group>"; };
+		FFCBBDE41C6C8D8D00BA0773 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FFCBBDF01C6C8E2800BA0773 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		FFCBBDF21C6C8E3700BA0773 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		FFCBBDF41C6C8E3E00BA0773 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		FFCBBDF61C6C8E4400BA0773 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		FFCBBDF81C6C8E4B00BA0773 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		FFCBBDFA1C6C8E5400BA0773 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		FFCBBDFC1C6C8E5E00BA0773 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		FFCBBDFE1C6C8E6600BA0773 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		FFCBBE001C6C8E6F00BA0773 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		FFCBBE021C6C8E9200BA0773 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		FFCBBE041C6C8EA600BA0773 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		FFCBBE061C6C8F1600BA0773 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		FFCBBE071C6C8F1600BA0773 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		FFD7884F1C6CB14300ACDB65 /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
+		FFD788511C6CB1BB00ACDB65 /* PostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewController.swift; sourceTree = "<group>"; };
+		FFD788531C6CB55D00ACDB65 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
+		FFD788551C6CB89A00ACDB65 /* ComposeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; };
+		FFD788571C731EBE00ACDB65 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		FFE37A631C775BAD00C1670F /* ProfileCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewController.swift; sourceTree = "<group>"; };
+		FFE37A651C775BCE00C1670F /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FFCBBDB91C6C8D8C00BA0773 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFCBBE051C6C8EA600BA0773 /* libsqlite3.tbd in Frameworks */,
+				FFCBBE031C6C8E9200BA0773 /* libz.tbd in Frameworks */,
+				FFD788541C6CB55D00ACDB65 /* ParseUI.framework in Frameworks */,
+				FFCBBE011C6C8E6F00BA0773 /* SystemConfiguration.framework in Frameworks */,
+				FFCBBE081C6C8F1600BA0773 /* Bolts.framework in Frameworks */,
+				FFCBBDFF1C6C8E6600BA0773 /* StoreKit.framework in Frameworks */,
+				FFCBBDFD1C6C8E5E00BA0773 /* Security.framework in Frameworks */,
+				FFCBBE091C6C8F1700BA0773 /* Parse.framework in Frameworks */,
+				FFCBBDFB1C6C8E5400BA0773 /* QuartzCore.framework in Frameworks */,
+				FFCBBDF91C6C8E4B00BA0773 /* MobileCoreServices.framework in Frameworks */,
+				FFCBBDF71C6C8E4400BA0773 /* CoreLocation.framework in Frameworks */,
+				FFCBBDF51C6C8E3E00BA0773 /* CoreGraphics.framework in Frameworks */,
+				FFCBBDF31C6C8E3700BA0773 /* CFNetwork.framework in Frameworks */,
+				FFCBBDF11C6C8E2800BA0773 /* AudioToolbox.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFCBBDD01C6C8D8D00BA0773 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFCBBDDB1C6C8D8D00BA0773 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FFA914D41C7480E500121EE2 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				FFA914D51C7480E500121EE2 /* Analytics30.png */,
+				FFA914D61C7480E500121EE2 /* Analytics302x.png */,
+				FFA914D71C7480E500121EE2 /* Home30.png */,
+				FFA914D81C7480E500121EE2 /* Home302x.png */,
+				FFA914D91C7480E500121EE2 /* Setting30.png */,
+				FFA914DA1C7480E500121EE2 /* Setting302x.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		FFCBBDB31C6C8D8C00BA0773 = {
+			isa = PBXGroup;
+			children = (
+				FFCBBE0A1C6C8F2600BA0773 /* Frameworks */,
+				FFCBBDBE1C6C8D8D00BA0773 /* ToloCam */,
+				FFCBBDD61C6C8D8D00BA0773 /* ToloCamTests */,
+				FFCBBDE11C6C8D8D00BA0773 /* ToloCamUITests */,
+				FFCBBDBD1C6C8D8D00BA0773 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FFCBBDBD1C6C8D8D00BA0773 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FFCBBDBC1C6C8D8D00BA0773 /* ToloCam.app */,
+				FFCBBDD31C6C8D8D00BA0773 /* ToloCamTests.xctest */,
+				FFCBBDDE1C6C8D8D00BA0773 /* ToloCamUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FFCBBDBE1C6C8D8D00BA0773 /* ToloCam */ = {
+			isa = PBXGroup;
+			children = (
+				FFCBBDBF1C6C8D8D00BA0773 /* AppDelegate.swift */,
+				FFCBBDC11C6C8D8D00BA0773 /* LoginViewController.swift */,
+				FFCBBDC31C6C8D8D00BA0773 /* Main.storyboard */,
+				FF06E79A1C75BE8F00920007 /* TabBar.swift */,
+				FFA914E31C74A68200121EE2 /* imageTableViewCell.swift */,
+				FFA914E11C748F0900121EE2 /* SettingsViewController.swift */,
+				FFD788571C731EBE00ACDB65 /* RegisterViewController.swift */,
+				FFD788551C6CB89A00ACDB65 /* ComposeViewController.swift */,
+				FFD7884F1C6CB14300ACDB65 /* PostTableViewCell.swift */,
+				FFD788511C6CB1BB00ACDB65 /* PostTableViewController.swift */,
+				FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */,
+				FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */,
+				B6B0B1711CC70262008448DD /* PostDetailViewController.swift */,
+				FFE37A651C775BCE00C1670F /* ProfileCollectionViewCell.swift */,
+				FFE37A631C775BAD00C1670F /* ProfileCollectionViewController.swift */,
+				FFCBBDC91C6C8D8D00BA0773 /* Assets.xcassets */,
+				FFA914D41C7480E500121EE2 /* Images */,
+				FFCBBDCB1C6C8D8D00BA0773 /* LaunchScreen.storyboard */,
+				FFCBBDCE1C6C8D8D00BA0773 /* Info.plist */,
+				FFCBBDC61C6C8D8D00BA0773 /* ToloCam.xcdatamodeld */,
+			);
+			path = ToloCam;
+			sourceTree = "<group>";
+		};
+		FFCBBDD61C6C8D8D00BA0773 /* ToloCamTests */ = {
+			isa = PBXGroup;
+			children = (
+				FFCBBDD71C6C8D8D00BA0773 /* ToloCamTests.swift */,
+				FFCBBDD91C6C8D8D00BA0773 /* Info.plist */,
+			);
+			path = ToloCamTests;
+			sourceTree = "<group>";
+		};
+		FFCBBDE11C6C8D8D00BA0773 /* ToloCamUITests */ = {
+			isa = PBXGroup;
+			children = (
+				FFCBBDE21C6C8D8D00BA0773 /* ToloCamUITests.swift */,
+				FFCBBDE41C6C8D8D00BA0773 /* Info.plist */,
+			);
+			path = ToloCamUITests;
+			sourceTree = "<group>";
+		};
+		FFCBBE0A1C6C8F2600BA0773 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FFCBBDF01C6C8E2800BA0773 /* AudioToolbox.framework */,
+				FFCBBDF21C6C8E3700BA0773 /* CFNetwork.framework */,
+				FFCBBDF41C6C8E3E00BA0773 /* CoreGraphics.framework */,
+				FFCBBDF61C6C8E4400BA0773 /* CoreLocation.framework */,
+				FFCBBDF81C6C8E4B00BA0773 /* MobileCoreServices.framework */,
+				FFCBBDFA1C6C8E5400BA0773 /* QuartzCore.framework */,
+				FFCBBDFC1C6C8E5E00BA0773 /* Security.framework */,
+				FFCBBDFE1C6C8E6600BA0773 /* StoreKit.framework */,
+				FFCBBE001C6C8E6F00BA0773 /* SystemConfiguration.framework */,
+				FFCBBE061C6C8F1600BA0773 /* Bolts.framework */,
+				FFCBBE071C6C8F1600BA0773 /* Parse.framework */,
+				FFD788531C6CB55D00ACDB65 /* ParseUI.framework */,
+				FFCBBE041C6C8EA600BA0773 /* libsqlite3.tbd */,
+				FFCBBE021C6C8E9200BA0773 /* libz.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FFCBBDBB1C6C8D8C00BA0773 /* ToloCam */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FFCBBDE71C6C8D8D00BA0773 /* Build configuration list for PBXNativeTarget "ToloCam" */;
+			buildPhases = (
+				FFCBBDB81C6C8D8C00BA0773 /* Sources */,
+				FFCBBDB91C6C8D8C00BA0773 /* Frameworks */,
+				FFCBBDBA1C6C8D8C00BA0773 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ToloCam;
+			productName = ToloCam;
+			productReference = FFCBBDBC1C6C8D8D00BA0773 /* ToloCam.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FFCBBDD21C6C8D8D00BA0773 /* ToloCamTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FFCBBDEA1C6C8D8D00BA0773 /* Build configuration list for PBXNativeTarget "ToloCamTests" */;
+			buildPhases = (
+				FFCBBDCF1C6C8D8D00BA0773 /* Sources */,
+				FFCBBDD01C6C8D8D00BA0773 /* Frameworks */,
+				FFCBBDD11C6C8D8D00BA0773 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FFCBBDD51C6C8D8D00BA0773 /* PBXTargetDependency */,
+			);
+			name = ToloCamTests;
+			productName = ToloCamTests;
+			productReference = FFCBBDD31C6C8D8D00BA0773 /* ToloCamTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FFCBBDDD1C6C8D8D00BA0773 /* ToloCamUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FFCBBDED1C6C8D8D00BA0773 /* Build configuration list for PBXNativeTarget "ToloCamUITests" */;
+			buildPhases = (
+				FFCBBDDA1C6C8D8D00BA0773 /* Sources */,
+				FFCBBDDB1C6C8D8D00BA0773 /* Frameworks */,
+				FFCBBDDC1C6C8D8D00BA0773 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FFCBBDE01C6C8D8D00BA0773 /* PBXTargetDependency */,
+			);
+			name = ToloCamUITests;
+			productName = ToloCamUITests;
+			productReference = FFCBBDDE1C6C8D8D00BA0773 /* ToloCamUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FFCBBDB41C6C8D8C00BA0773 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = "Federico Li";
+				TargetAttributes = {
+					FFCBBDBB1C6C8D8C00BA0773 = {
+						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 2NK2JDQHKG;
+					};
+					FFCBBDD21C6C8D8D00BA0773 = {
+						CreatedOnToolsVersion = 7.2;
+						TestTargetID = FFCBBDBB1C6C8D8C00BA0773;
+					};
+					FFCBBDDD1C6C8D8D00BA0773 = {
+						CreatedOnToolsVersion = 7.2;
+						TestTargetID = FFCBBDBB1C6C8D8C00BA0773;
+					};
+				};
+			};
+			buildConfigurationList = FFCBBDB71C6C8D8C00BA0773 /* Build configuration list for PBXProject "ToloCam" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FFCBBDB31C6C8D8C00BA0773;
+			productRefGroup = FFCBBDBD1C6C8D8D00BA0773 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FFCBBDBB1C6C8D8C00BA0773 /* ToloCam */,
+				FFCBBDD21C6C8D8D00BA0773 /* ToloCamTests */,
+				FFCBBDDD1C6C8D8D00BA0773 /* ToloCamUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FFCBBDBA1C6C8D8C00BA0773 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFCBBDCD1C6C8D8D00BA0773 /* LaunchScreen.storyboard in Resources */,
+				FFA914E01C7480E500121EE2 /* Setting302x.png in Resources */,
+				FFA914DF1C7480E500121EE2 /* Setting30.png in Resources */,
+				FFA914DB1C7480E500121EE2 /* Analytics30.png in Resources */,
+				FFCBBDCA1C6C8D8D00BA0773 /* Assets.xcassets in Resources */,
+				FFA914DE1C7480E500121EE2 /* Home302x.png in Resources */,
+				FFA914DC1C7480E500121EE2 /* Analytics302x.png in Resources */,
+				FFCBBDC51C6C8D8D00BA0773 /* Main.storyboard in Resources */,
+				FFA914DD1C7480E500121EE2 /* Home30.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFCBBDD11C6C8D8D00BA0773 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFCBBDDC1C6C8D8D00BA0773 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FFCBBDB81C6C8D8C00BA0773 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFD788521C6CB1BB00ACDB65 /* PostTableViewController.swift in Sources */,
+				FFCBBDC21C6C8D8D00BA0773 /* LoginViewController.swift in Sources */,
+				FF06E7A71C75C91F00920007 /* ExploreCollectionViewController.swift in Sources */,
+				FFD788581C731EBF00ACDB65 /* RegisterViewController.swift in Sources */,
+				FFCBBDC81C6C8D8D00BA0773 /* ToloCam.xcdatamodeld in Sources */,
+				FFD788561C6CB89A00ACDB65 /* ComposeViewController.swift in Sources */,
+				FFE37A641C775BAD00C1670F /* ProfileCollectionViewController.swift in Sources */,
+				B6B0B1721CC70262008448DD /* PostDetailViewController.swift in Sources */,
+				FFCBBDC01C6C8D8D00BA0773 /* AppDelegate.swift in Sources */,
+				FFD788501C6CB14300ACDB65 /* PostTableViewCell.swift in Sources */,
+				FF06E7A51C75C84000920007 /* ExploreCollectionViewCell.swift in Sources */,
+				FFE37A661C775BCE00C1670F /* ProfileCollectionViewCell.swift in Sources */,
+				FFA914E21C748F0900121EE2 /* SettingsViewController.swift in Sources */,
+				FFA914E41C74A68200121EE2 /* imageTableViewCell.swift in Sources */,
+				FF06E79B1C75BE8F00920007 /* TabBar.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFCBBDCF1C6C8D8D00BA0773 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFCBBDD81C6C8D8D00BA0773 /* ToloCamTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFCBBDDA1C6C8D8D00BA0773 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FFCBBDE31C6C8D8D00BA0773 /* ToloCamUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FFCBBDD51C6C8D8D00BA0773 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FFCBBDBB1C6C8D8C00BA0773 /* ToloCam */;
+			targetProxy = FFCBBDD41C6C8D8D00BA0773 /* PBXContainerItemProxy */;
+		};
+		FFCBBDE01C6C8D8D00BA0773 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FFCBBDBB1C6C8D8C00BA0773 /* ToloCam */;
+			targetProxy = FFCBBDDF1C6C8D8D00BA0773 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FFCBBDC31C6C8D8D00BA0773 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FFCBBDC41C6C8D8D00BA0773 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		FFCBBDCB1C6C8D8D00BA0773 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FFCBBDCC1C6C8D8D00BA0773 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FFCBBDE51C6C8D8D00BA0773 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FFCBBDE61C6C8D8D00BA0773 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FFCBBDE81C6C8D8D00BA0773 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = ToloCam/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = coco.federicoli.tolocam;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		FFCBBDE91C6C8D8D00BA0773 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = ToloCam/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = coco.federicoli.tolocam;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+		FFCBBDEB1C6C8D8D00BA0773 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = ToloCamTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = li.federico.ToloCamTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ToloCam.app/ToloCam";
+			};
+			name = Debug;
+		};
+		FFCBBDEC1C6C8D8D00BA0773 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = ToloCamTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = li.federico.ToloCamTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ToloCam.app/ToloCam";
+			};
+			name = Release;
+		};
+		FFCBBDEE1C6C8D8D00BA0773 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = ToloCamUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = li.federico.ToloCamUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = ToloCam;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		FFCBBDEF1C6C8D8D00BA0773 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = ToloCamUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = li.federico.ToloCamUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = ToloCam;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FFCBBDB71C6C8D8C00BA0773 /* Build configuration list for PBXProject "ToloCam" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FFCBBDE51C6C8D8D00BA0773 /* Debug */,
+				FFCBBDE61C6C8D8D00BA0773 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FFCBBDE71C6C8D8D00BA0773 /* Build configuration list for PBXNativeTarget "ToloCam" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FFCBBDE81C6C8D8D00BA0773 /* Debug */,
+				FFCBBDE91C6C8D8D00BA0773 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FFCBBDEA1C6C8D8D00BA0773 /* Build configuration list for PBXNativeTarget "ToloCamTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FFCBBDEB1C6C8D8D00BA0773 /* Debug */,
+				FFCBBDEC1C6C8D8D00BA0773 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FFCBBDED1C6C8D8D00BA0773 /* Build configuration list for PBXNativeTarget "ToloCamUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FFCBBDEE1C6C8D8D00BA0773 /* Debug */,
+				FFCBBDEF1C6C8D8D00BA0773 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FFCBBDC61C6C8D8D00BA0773 /* ToloCam.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FFCBBDC71C6C8D8D00BA0773 /* ToloCam.xcdatamodel */,
+			);
+			currentVersion = FFCBBDC71C6C8D8D00BA0773 /* ToloCam.xcdatamodel */;
+			path = ToloCam.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = FFCBBDB41C6C8D8C00BA0773 /* Project object */;
+}
