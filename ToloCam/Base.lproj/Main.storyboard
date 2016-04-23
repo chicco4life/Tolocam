@@ -913,13 +913,13 @@
                                 <exclude reference="Ia1-zQ-jXv"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="nJS-ko-mND"/>
                                 <exclude reference="VDy-1d-UMa"/>
                                 <exclude reference="mZn-qt-aP6"/>
                                 <exclude reference="vr7-pR-GFW"/>
                                 <exclude reference="3Xh-VB-z9X"/>
                                 <exclude reference="g8i-Io-7xg"/>
                                 <exclude reference="oVe-pG-rrk"/>
-                                <exclude reference="nJS-ko-mND"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -928,13 +928,13 @@
                                 <include reference="Ia1-zQ-jXv"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="nJS-ko-mND"/>
                                 <include reference="VDy-1d-UMa"/>
                                 <include reference="mZn-qt-aP6"/>
                                 <include reference="vr7-pR-GFW"/>
                                 <include reference="3Xh-VB-z9X"/>
                                 <include reference="g8i-Io-7xg"/>
                                 <include reference="oVe-pG-rrk"/>
-                                <include reference="nJS-ko-mND"/>
                             </mask>
                         </variation>
                     </view>
@@ -952,12 +952,15 @@
             <objects>
                 <tableViewController id="VdJ-vn-E2f" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="P81-Th-R7X">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="friendCell" id="JEO-Gu-ity" customClass="FriendsSearchTableviewCell" customModule="ToloCam" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JEO-Gu-ity" id="ZVB-WZ-Pdd">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Follow" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RUo-bL-4sN">
