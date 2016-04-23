@@ -23,7 +23,7 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        super.viewDidLoad()
+        //for auto resizing collection view cells
         let screenWidth = UIScreen.mainScreen().bounds.size.width
         let screenHeight = UIScreen.mainScreen().bounds.size.height
         

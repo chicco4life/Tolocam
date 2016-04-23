@@ -1010,7 +1010,7 @@
         <!--Profile-->
         <scene sceneID="Jh2-bE-yUb">
             <objects>
-                <viewController id="Na5-kE-Ms7" customClass="ProfileCollectionViewController" sceneMemberID="viewController">
+                <viewController id="Na5-kE-Ms7" customClass="ProfileCollectionViewController" customModule="ToloCam" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bPk-nl-RYH"/>
                         <viewControllerLayoutGuide type="bottom" id="6bw-93-Wzw"/>
@@ -1089,7 +1089,7 @@
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
-                                    <outlet property="dataSource" destination="Na5-kE-Ms7" id="4XE-VZ-etD"/>
+                                    <outlet property="dataSource" destination="Na5-kE-Ms7" id="cvd-gn-g2s"/>
                                     <outlet property="delegate" destination="Na5-kE-Ms7" id="W1N-IB-Fm5"/>
                                 </connections>
                             </collectionView>
@@ -1128,13 +1128,12 @@
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="kkd-R7-bcs"/>
                     <connections>
-                        <outlet property="collectionView" destination="e6N-7G-Bi5" id="fDX-Tt-p31"/>
-                        <outlet property="view" destination="ulf-mX-Dg8" id="CNl-Eb-Zac"/>
+                        <outlet property="collectionView" destination="ulf-mX-Dg8" id="2vY-wg-e4Z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cPy-iP-tWK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2509.5" y="106.5"/>
+            <point key="canvasLocation" x="2419.5" y="106.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="cGQ-SO-WBm">
@@ -1172,22 +1171,22 @@
             <point key="canvasLocation" x="3265.5" y="106.5"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="6Q2-zI-Hnu">
+        <scene sceneID="4U4-72-TzF">
             <objects>
-                <navigationController storyboardIdentifier="ProfileNavigationController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8HT-le-v4c" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ProfileNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="lnJ-mB-OfO" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2fm-jf-Gt1">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="NdN-SP-SzN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Na5-kE-Ms7" kind="relationship" relationship="rootViewController" id="S8X-Hb-so1"/>
+                        <segue destination="Na5-kE-Ms7" kind="relationship" relationship="rootViewController" id="pYF-4d-Bcs"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="o9G-l1-LQM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BK2-d8-hPk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2458.5" y="-607.5"/>
+            <point key="canvasLocation" x="2401.5" y="-607.5"/>
         </scene>
     </scenes>
     <resources>
