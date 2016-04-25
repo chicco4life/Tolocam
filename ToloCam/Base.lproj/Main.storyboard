@@ -448,9 +448,6 @@
                                             <exclude reference="Ikd-hY-pHO"/>
                                         </mask>
                                         <mask key="constraints">
-                                            <exclude reference="1bH-dw-rPe"/>
-                                            <exclude reference="s4y-kX-PI7"/>
-                                            <exclude reference="xLn-oo-lfe"/>
                                             <exclude reference="14Y-zy-vGx"/>
                                             <exclude reference="2xa-k2-2St"/>
                                             <exclude reference="9ej-N8-gqz"/>
@@ -464,16 +461,19 @@
                                             <exclude reference="AUp-dt-2zM"/>
                                             <exclude reference="ITD-TW-xai"/>
                                             <exclude reference="p3l-4y-QfK"/>
-                                            <exclude reference="vKp-Lc-gTF"/>
                                             <exclude reference="0ct-UF-1pw"/>
                                             <exclude reference="7vi-wj-9sN"/>
                                             <exclude reference="EmZ-hh-YXd"/>
                                             <exclude reference="Jwl-uv-vee"/>
                                             <exclude reference="Z9T-By-Pwz"/>
                                             <exclude reference="nuP-0u-10u"/>
+                                            <exclude reference="vKp-Lc-gTF"/>
                                             <exclude reference="dPT-jO-Voe"/>
                                             <exclude reference="sdo-cc-nyl"/>
                                             <exclude reference="xeR-6s-2yk"/>
+                                            <exclude reference="1bH-dw-rPe"/>
+                                            <exclude reference="s4y-kX-PI7"/>
+                                            <exclude reference="xLn-oo-lfe"/>
                                         </mask>
                                     </variation>
                                     <variation key="heightClass=regular-widthClass=compact">
@@ -486,9 +486,6 @@
                                             <include reference="Ikd-hY-pHO"/>
                                         </mask>
                                         <mask key="constraints">
-                                            <include reference="1bH-dw-rPe"/>
-                                            <include reference="s4y-kX-PI7"/>
-                                            <include reference="xLn-oo-lfe"/>
                                             <exclude reference="14Y-zy-vGx"/>
                                             <exclude reference="2xa-k2-2St"/>
                                             <exclude reference="9ej-N8-gqz"/>
@@ -502,16 +499,19 @@
                                             <include reference="AUp-dt-2zM"/>
                                             <include reference="ITD-TW-xai"/>
                                             <exclude reference="p3l-4y-QfK"/>
-                                            <include reference="vKp-Lc-gTF"/>
                                             <exclude reference="0ct-UF-1pw"/>
                                             <exclude reference="7vi-wj-9sN"/>
                                             <exclude reference="EmZ-hh-YXd"/>
                                             <include reference="Jwl-uv-vee"/>
                                             <include reference="Z9T-By-Pwz"/>
                                             <include reference="nuP-0u-10u"/>
+                                            <include reference="vKp-Lc-gTF"/>
                                             <include reference="dPT-jO-Voe"/>
                                             <include reference="sdo-cc-nyl"/>
                                             <include reference="xeR-6s-2yk"/>
+                                            <include reference="1bH-dw-rPe"/>
+                                            <include reference="s4y-kX-PI7"/>
+                                            <include reference="xLn-oo-lfe"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -817,7 +817,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="126" height="126"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uN7-I2-TTd">
@@ -1103,7 +1103,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="126" height="126"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mCv-Is-2FN">
