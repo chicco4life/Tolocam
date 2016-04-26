@@ -47,18 +47,17 @@ class PostTableViewController: PFQueryTableViewController {
          query for all users that are followed by you -> [PFUser]
          query.whereKey("postedBy", matchesQuery: userQuery)
  */
-        let userQuery = PFUser.query()
-        
-        userQuery!.whereKey("followedBy", equalTo: PFUser.currentUser()!)
+        let userQuery = PFQuery(className: "Follow")
+        userQuery.whereKey("followFrom", equalTo: PFUser.currentUser()!)
         let query = PFQuery(className: "Posts")
-        query.whereKey("postedBy", matchesQuery: userQuery!)
+        query.whereKey("postedBy", matchesKey: "followTo", inQuery: userQuery)
         query.orderByDescending("date")
         query.includeKey("Caption")
         query.includeKey("Image")
         query.includeKey("date")
         query.includeKey("addedBy")
         query.includeKey("Likes")
-        query.includeKey("LikedBy")
+        query.includeKey("likedBy")
         return query
     }
     
@@ -269,6 +268,8 @@ class PostTableViewController: PFQueryTableViewController {
         cell.dateLabel.text = imageDate
         cell.likesLabel.text = "Likes: \(imageLikes)"
         cell.yourLikesLabel.text = "your likes: \(yourLikes)"
+        
+        cell.postImageView.loadInBackground()
         
         print("cell for row is called")
         return cell
