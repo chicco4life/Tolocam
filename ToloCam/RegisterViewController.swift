@@ -50,8 +50,7 @@ class RegisterViewController: UIViewController {
             user.username = usernameTextField.text?.lowercaseString
             user.password = passwordTextField.text
             user.email = emailTextField.text
-            user["followingWho"] = ["admin","chicco", "leo", usernameTextField.text!.lowercaseString]
-        
+//            user["followingWho"] = ["admin","chicco", "leo", usernameTextField.text!.lowercaseString]
         
         user.signUpInBackgroundWithBlock({
             (succeeded: Bool, error: NSError?) -> Void in
@@ -63,6 +62,14 @@ class RegisterViewController: UIViewController {
                 
                 let vc = TabBarInitializer.getTabBarController()
                 self.presentViewController(vc, animated: true, completion: nil)
+                
+                //follow self
+                
+                let follow = PFObject(className: "Follow")
+                follow["followFrom"] = PFUser.currentUser()
+                follow["followingTo"] = PFUser.currentUser()
+                
+                follow.saveInBackground()
                 
             } else {
                 // There is an error while signing up

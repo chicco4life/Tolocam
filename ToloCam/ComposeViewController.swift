@@ -88,11 +88,13 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
             photoToUpload["Image"] = file
             photoToUpload["Caption"] = fileCaption
             photoToUpload["postedBy"] = PFUser.currentUser()!
+            photoToUpload["addedBy"] = PFUser.currentUser()!.username!
             photoToUpload["date"] = localDate
             photoToUpload["Likes"] = 0
             photoToUpload["likedBy"] = [:]
             
             do { try photoToUpload.save()} catch {}
+            photoToUpload.saveInBackground()
             
             let vc = TabBarInitializer.getTabBarController()
             self.presentViewController(vc, animated: true, completion: nil)

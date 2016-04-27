@@ -49,15 +49,11 @@ class PostTableViewController: PFQueryTableViewController {
  */
         let userQuery = PFQuery(className: "Follow")
         userQuery.whereKey("followFrom", equalTo: PFUser.currentUser()!)
+        print(PFUser.currentUser()!.objectId!)
         let query = PFQuery(className: "Posts")
-        query.whereKey("postedBy", matchesKey: "followTo", inQuery: userQuery)
+        query.whereKey("postedBy", matchesKey: "followingTo", inQuery: userQuery)
         query.orderByDescending("date")
-        query.includeKey("Caption")
-        query.includeKey("Image")
-        query.includeKey("date")
-        query.includeKey("addedBy")
-        query.includeKey("Likes")
-        query.includeKey("likedBy")
+        print(query)
         return query
     }
     
@@ -219,16 +215,23 @@ class PostTableViewController: PFQueryTableViewController {
     
     // MARK: - Table view data source
     
-    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, object: PFObject?) -> PFTableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("PostTableViewCell", forIndexPath: indexPath) as! PostTableViewCell
         
         // Configure the cell...
-        let imageToLoad = object!["Image"] as! PFFile
+        let imageWillUse = object!["Image"] as! PFFile
+        var imageToLoad = UIImage()
+        do {
+            try imageToLoad = UIImage(data:imageWillUse.getData())!
+            
+        } catch {
+            
+            print(error)
+        }
         let imageCaption = object!["Caption"] as! String
         let imageDate =  object!["date"] as! String
-        let imageUsers = object!["postedBy"] as! String
+        let imageUsers = object!["addedBy"] as! String
         let imageLikes = object!["Likes"] as! Int
         let dictionaryOfLikers:NSMutableDictionary = object!["likedBy"] as! NSMutableDictionary
         let yourLikes = dictionaryOfLikers[(PFUser.currentUser()?.username)!] as! Int
@@ -262,14 +265,12 @@ class PostTableViewController: PFQueryTableViewController {
         //once finished autolayout, change cell to cellCoded
         
         
-        cell.postImageView.file = imageToLoad
+        cell.postImageView.image = imageToLoad
         cell.postCaption.text = imageCaption
         cell.addedBy.text = imageUsers
         cell.dateLabel.text = imageDate
         cell.likesLabel.text = "Likes: \(imageLikes)"
         cell.yourLikesLabel.text = "your likes: \(yourLikes)"
-        
-        cell.postImageView.loadInBackground()
         
         print("cell for row is called")
         return cell
