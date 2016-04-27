@@ -234,7 +234,7 @@ class PostTableViewController: PFQueryTableViewController {
         let imageUsers = object!["addedBy"] as! String
         let imageLikes = object!["Likes"] as! Int
         let dictionaryOfLikers:NSMutableDictionary = object!["likedBy"] as! NSMutableDictionary
-        let yourLikes = dictionaryOfLikers[(PFUser.currentUser()?.username)!] as! Int
+        let yourLikes = dictionaryOfLikers[(PFUser.currentUser()?.username)!] as? Int
         
         
         
@@ -270,7 +270,11 @@ class PostTableViewController: PFQueryTableViewController {
         cell.addedBy.text = imageUsers
         cell.dateLabel.text = imageDate
         cell.likesLabel.text = "Likes: \(imageLikes)"
-        cell.yourLikesLabel.text = "your likes: \(yourLikes)"
+        if yourLikes == nil{
+            cell.yourLikesLabel.text = "your likes: 0"
+        }else{
+        cell.yourLikesLabel.text = "your likes: \(yourLikes!)"
+        }
         
         print("cell for row is called")
         return cell

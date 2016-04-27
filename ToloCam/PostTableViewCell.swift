@@ -34,7 +34,6 @@ class PostTableViewCell: PFTableViewCell {
     }
     
     func handleLike(sender:AnyObject){
-        var addedToDictionary = Bool()
         print("like button pressed")
         if (parseObject != nil){
             //1. Get total likes from Parse
@@ -51,24 +50,23 @@ class PostTableViewCell: PFTableViewCell {
                 
                 //Get dictionary from Parse, and look for the value associated to the key of current user's username.
                 let dictionaryOfLikers:NSMutableDictionary = (parseObject?.objectForKey("likedBy") as! NSMutableDictionary)
-                print("DoL.currentuser: \(dictionaryOfLikers[(PFUser.currentUser()?.username)!] as! Int)")
+//                print("DoL.currentuser: \(dictionaryOfLikers[(PFUser.currentUser()?.username)!] as! Int)")
 //                print(dictionaryOfLikers[(PFUser.currentUser()?.username)!])
-                var yourLikes = dictionaryOfLikers[PFUser.currentUser()!.username!] as! Int
+                var yourLikes = dictionaryOfLikers[PFUser.currentUser()!.username!]
                 
-                if yourLikes != 0{
-//                    print(yourLikes)
-                    yourLikes+=1
-                    let currentUser = PFUser.currentUser()?.username
-                    dictionaryOfLikers[currentUser!] = yourLikes
-                    parseObject?.setObject(dictionaryOfLikers, forKey: "likedBy")
-                    yourLikesLabel.text = "your likes: \(yourLikes)"
-                }
-                else{
-                    addedToDictionary = false
+                if yourLikes == nil{
                     let currentUser = PFUser.currentUser()?.username
                     dictionaryOfLikers[currentUser!] = 1
                     parseObject?.setObject(dictionaryOfLikers, forKey: "likedBy")
                     yourLikesLabel.text = "your likes: 1"
+                }
+                else{
+                    let currentUser = PFUser.currentUser()?.username
+                    var tempYourLikes = dictionaryOfLikers[currentUser!] as! Int
+                    tempYourLikes+=1
+                    dictionaryOfLikers[currentUser!] = tempYourLikes
+                    parseObject?.setObject(dictionaryOfLikers, forKey: "likedBy")
+                    yourLikesLabel.text = "your likes: \(tempYourLikes)"
                 }
                 
                 parseObject!.saveInBackground();
