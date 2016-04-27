@@ -20,7 +20,7 @@ class PostTableViewCell: PFTableViewCell {
     @IBOutlet weak var addedBy: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var likesLabel: UILabel!
-    var yourLikes = NSUserDefaults.standardUserDefaults().integerForKey("yourLikes")
+//    var yourLikes = Int()
     var parseObject: PFObject?
     @IBOutlet weak var yourLikesLabel: UILabel!
     
@@ -28,32 +28,49 @@ class PostTableViewCell: PFTableViewCell {
         super.awakeFromNib()
         // Initialization code
         let gesture = UITapGestureRecognizer(target: self, action:#selector(PostTableViewCell.handleLike(_:)))
-        gesture.numberOfTapsRequired = 1
+        gesture.numberOfTapsRequired = 2
         contentView.addGestureRecognizer(gesture)
-        if yourLikes == 1{
-            yourLikesLabel.text = "You liked 1 time"
-        }else{
-            yourLikesLabel.text = "You liked \(NSUserDefaults.standardUserDefaults().integerForKey("yourLikes"))times"
-        }
+        
     }
     
     func handleLike(sender:AnyObject){
+        var addedToDictionary = Bool()
         print("like button pressed")
         if (parseObject != nil){
+            //1. Get total likes from Parse
             if var likes:Int? = parseObject!.objectForKey("Likes") as? Int {
+                
+                //2. Set total likes to total likes+1, and upload.
                 likes! += 1
+                parseObject!.setObject(likes!, forKey: "Likes")
                 
-                parseObject!.setObject(likes!, forKey: "Likes");
+                //Reset the text of the total likes label.
+                likesLabel?.text = "\(likes!) likes"
                 
-                likesLabel?.text = "\(likes!) likes";
-                if yourLikes == 0 {
-                    //                    add currentuser username to fromUser array
-                    var username = PFUser.currentUser()?.username
-                    parseObject?.addObject(username!, forKey: "likedBy")
+                //if first time like, need to upload current user's username to parse
+                
+                //Get dictionary from Parse, and look for the value associated to the key of current user's username.
+                let dictionaryOfLikers:NSMutableDictionary = (parseObject?.objectForKey("likedBy") as! NSMutableDictionary)
+                print("DoL.currentuser: \(dictionaryOfLikers[(PFUser.currentUser()?.username)!] as! Int)")
+//                print(dictionaryOfLikers[(PFUser.currentUser()?.username)!])
+                var yourLikes = dictionaryOfLikers[PFUser.currentUser()!.username!] as! Int
+                
+                if yourLikes != 0{
+//                    print(yourLikes)
+                    yourLikes+=1
+                    let currentUser = PFUser.currentUser()?.username
+                    dictionaryOfLikers[currentUser!] = yourLikes
+                    parseObject?.setObject(dictionaryOfLikers, forKey: "likedBy")
+                    yourLikesLabel.text = "your likes: \(yourLikes)"
                 }
-                yourLikes+=1
-                yourLikesLabel.text = "You liked \(yourLikes) times"
-                NSUserDefaults.standardUserDefaults().setInteger(yourLikes, forKey: "yourLikes")
+                else{
+                    addedToDictionary = false
+                    let currentUser = PFUser.currentUser()?.username
+                    dictionaryOfLikers[currentUser!] = 1
+                    parseObject?.setObject(dictionaryOfLikers, forKey: "likedBy")
+                    yourLikesLabel.text = "your likes: 1"
+                }
+                
                 parseObject!.saveInBackground();
             }
         }

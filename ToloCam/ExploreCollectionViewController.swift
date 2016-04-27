@@ -51,7 +51,7 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
         
         guard let indexPath = collectionView.indexPathForItemAtPoint(location) else {return nil}
         guard let cell = collectionView.cellForItemAtIndexPath(indexPath) else {return nil}
-        guard let detailVC = storyboard?.instantiateViewControllerWithIdentifier("PostDetailVC") as? PostDetailViewController else {return nil}
+//        guard let detailVC = storyboard?.instantiateViewControllerWithIdentifier("PostDetailVC") as? PostDetailViewController else {return nil}
         
         
         return self

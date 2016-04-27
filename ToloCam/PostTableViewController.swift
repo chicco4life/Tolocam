@@ -18,11 +18,13 @@ import ParseUI
 
 class PostTableViewController: PFQueryTableViewController {
     
-    var images = [UIImage]()
-    var imageCaptions = [String]()
-    var imageDates = [String]()
-    var imageUsers = [String]()
-    var imageLikes = [Int]()
+//    var images = [UIImage]()
+//    var imageCaptions = [String]()
+//    var imageDates = [String]()
+//    var imageUsers = [String]()
+//    var imageLikes = [Int]()
+//    var yourLikes = [Int]()
+    var followingWho = [String]()
     
     override init(style: UITableViewStyle, className: String!) {
         super.init(style: style, className: className)
@@ -40,8 +42,18 @@ class PostTableViewController: PFQueryTableViewController {
     
     // Define the query that will provide the data for the table view
     override func queryForTable() -> PFQuery {
+        /*
+         make user query
+         query for all users that are followed by you -> [PFUser]
+         query.whereKey("postedBy", matchesQuery: userQuery)
+ */
+        let userQuery = PFQuery(className: "Follow")
+        userQuery.whereKey("followFrom", equalTo: PFUser.currentUser()!)
+        print(PFUser.currentUser()!.objectId!)
         let query = PFQuery(className: "Posts")
+        query.whereKey("postedBy", matchesKey: "followingTo", inQuery: userQuery)
         query.orderByDescending("date")
+        print(query)
         return query
     }
     
@@ -53,37 +65,31 @@ class PostTableViewController: PFQueryTableViewController {
         print("viewdidload is called")
         
         self.refreshControl = UIRefreshControl()
-        self.refreshControl!.addTarget(self, action: #selector(PostTableViewController.refreshPulled), forControlEvents: UIControlEvents.ValueChanged)
+        //self.refreshControl!.addTarget(self, action: #selector(PostTableViewController.refreshPulled), forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl!.userInteractionEnabled = true
         
-        let userQuery = PFUser.query()
-        userQuery?.whereKey("username", equalTo: PFUser.currentUser()!.username!)
-        userQuery?.findObjectsInBackgroundWithBlock({ (objects:[PFObject]?, error: NSError?) -> Void in
-            
-            if error == nil {
-                // no error
-                if let objects = objects {
-                    for object in objects {
-                        let followingWho = object["followingWho"] as! NSArray
-                        self.loadData(followingWho)
-                    }
-                    
-                }
-                
-                
-            }else {
-                //error
-                NSLog("Error")
-                
-            }
-            
-            
-        })
+//        let userQuery = PFUser.query()
+//        userQuery?.whereKey("username", equalTo: PFUser.currentUser()!.username!)
+//        userQuery?.findObjectsInBackgroundWithBlock({ (objects:[PFObject]?, error: NSError?) -> Void in
+//            
+//            if error == nil {
+//                // no error
+//                if let objects = objects {
+//                    for object in objects {
+//                        self.followingWho = object["followingWho"] as! [String]
+//                        self.tableView.reloadData()
+//                    }
+//                }
+//            }else {
+//                //error
+//                NSLog("Error")
+//                
+//            }
+//        })
         
         
         //Now only loading followingWho, hence loadData is commented out
         //loadData()
-        self.tableView.reloadData()
         
         
         // Uncomment the following line to preserve selection between presentations
@@ -92,7 +98,7 @@ class PostTableViewController: PFQueryTableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         //         self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
-    
+    /*
     func refreshPulled() {
         
         print("refresh method pulled")
@@ -126,69 +132,81 @@ class PostTableViewController: PFQueryTableViewController {
         
         refreshControl?.endRefreshing()
         
-    }
+    }*/
     
-    func loadData (followingWho: NSArray) {
-        
-        let query = PFQuery(className: "Posts")
-        query.whereKey("addedBy", containedIn: followingWho as [AnyObject])
-        query.orderByDescending("createdAt")
-        query.findObjectsInBackgroundWithBlock {
-            (posts: [PFObject]?, error: NSError?) -> Void in
-            
-            if (error == nil) {
-                // no error
-                
-                if let posts = posts as [PFObject]! {
-                    for post in posts {
-                        
-                        //print("------1\(post["Image"])-----")
-                        //print("------2\(posts.count)-----")
-                        
-                        
-                        if  post["Image"] == nil{
-                            print("    CHECK THIS LOL NIL )")
-                        }else{
-                            
-                            
-                            print("    CHECK THIS LOL \(post["Image"])")
-                            
-                            let imageToLoad = post["Image"]! as! PFFile
-                            
-                            var imageIWillUse = UIImage()
-                            
-                            do {
-                                try imageIWillUse = UIImage(data:imageToLoad.getData())!
-                                
-                            } catch {
-                                
-                                print(error)
-                            }
-                            
-                            
-                            
-                            self.images.append(imageIWillUse)
-                            self.imageCaptions.append(post["Caption"] as! String)
-                            self.imageDates.append(post["date"] as! String)
-                            self.imageUsers.append(post["addedBy"] as! String)
-                            self.imageLikes.append(post["Likes"] as! Int)
-                        }
-                        
-                        
-                        
-                    }
-                    
-                    self.tableView.reloadData()
-                }
-                
-            } else {
-                //Error
-                
-            }
-            
-        }
-        
-    }
+//    func loadData (followingWho: NSArray) {
+//        
+//        let query = PFQuery(className: "Posts")
+//        query.whereKey("addedBy", containedIn: followingWho as [AnyObject])
+//        query.orderByDescending("createdAt")
+//        query.findObjectsInBackgroundWithBlock {
+//            (posts: [PFObject]?, error: NSError?) -> Void in
+//            
+//            if (error == nil) {
+//                // no error
+//                
+//                if let posts = posts as [PFObject]! {
+//                    for post in posts {
+//                        
+//                        //print("------1\(post["Image"])-----")
+//                        //print("------2\(posts.count)-----")
+//                        
+//                        
+//                        if  post["Image"] == nil{
+//                            print("    CHECK THIS LOL NIL )")
+//                        }else{
+//                            
+//                            
+//                            print("    CHECK THIS LOL \(post["Image"])")
+//                            
+//                            let imageToLoad = post["Image"]! as! PFFile
+//                            
+//                            var imageIWillUse = UIImage()
+//                            
+//                            do {
+//                                try imageIWillUse = UIImage(data:imageToLoad.getData())!
+//                                
+//                            } catch {
+//                                
+//                                print(error)
+//                            }
+//                            
+//                            
+//                            
+//                            self.images.append(imageIWillUse)
+//                            self.imageCaptions.append(post["Caption"] as! String)
+//                            self.imageDates.append(post["date"] as! String)
+//                            self.imageUsers.append(post["addedBy"] as! String)
+//                            self.imageLikes.append(post["Likes"] as! Int)
+//                            
+//                            let dictionaryOfLikers:NSMutableDictionary = (post.objectForKey("likedBy") as! NSMutableDictionary)
+//                            print(dictionaryOfLikers)
+//                            if var yourLikes = dictionaryOfLikers[PFUser.currentUser()!.username!] as? Int{
+////                                print(PFUser.currentUser()?.username!)
+////                                print (dictionaryOfLikers[PFUser.currentUser()!.username!] as? String)
+//                                print(yourLikes)
+//                                self.yourLikes.append(yourLikes)
+//                            }else{
+//                                print(0)
+//                                self.yourLikes.append(0)
+//                            }
+//                        }
+//                        
+//                        
+//                        
+//                    }
+//                    
+//                    self.tableView.reloadData()
+//                }
+//                
+//            } else {
+//                //Error
+//                
+//            }
+//            
+//        }
+//        
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -197,31 +215,28 @@ class PostTableViewController: PFQueryTableViewController {
     
     // MARK: - Table view data source
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-    
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        if (self.images.count == 0){
-            return 0
-        }else{
-            return self.images.count
-        }
-    }
-    
-    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, object: PFObject?) -> PFTableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("PostTableViewCell", forIndexPath: indexPath) as! PostTableViewCell
         
         // Configure the cell...
-        let imageToLoad = self.images[indexPath.row]
-        let imageCaption = self.imageCaptions[indexPath.row] as String
-        let imageDate = self.imageDates[indexPath.row] as String
-        let imageUsers = self.imageUsers[indexPath.row] as String
-        let imageLikes = self.imageLikes[indexPath.row] as Int
+        let imageWillUse = object!["Image"] as! PFFile
+        var imageToLoad = UIImage()
+        do {
+            try imageToLoad = UIImage(data:imageWillUse.getData())!
+            
+        } catch {
+            
+            print(error)
+        }
+        let imageCaption = object!["Caption"] as! String
+        let imageDate =  object!["date"] as! String
+        let imageUsers = object!["addedBy"] as! String
+        let imageLikes = object!["Likes"] as! Int
+        let dictionaryOfLikers:NSMutableDictionary = object!["likedBy"] as! NSMutableDictionary
+        let yourLikes = dictionaryOfLikers[(PFUser.currentUser()?.username)!] as! Int
+        
+        
         
         cell.parseObject = object
         
@@ -255,6 +270,7 @@ class PostTableViewController: PFQueryTableViewController {
         cell.addedBy.text = imageUsers
         cell.dateLabel.text = imageDate
         cell.likesLabel.text = "Likes: \(imageLikes)"
+        cell.yourLikesLabel.text = "your likes: \(yourLikes)"
         
         print("cell for row is called")
         return cell
