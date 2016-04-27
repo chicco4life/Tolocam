@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B6B0B1721CC70262008448DD /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B0B1711CC70262008448DD /* PostDetailViewController.swift */; };
 		FF06E79B1C75BE8F00920007 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E79A1C75BE8F00920007 /* TabBar.swift */; };
 		FF06E7A51C75C84000920007 /* ExploreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */; };
 		FF06E7A71C75C91F00920007 /* ExploreCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */; };
@@ -68,7 +67,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B6B0B1711CC70262008448DD /* PostDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		FF06E79A1C75BE8F00920007 /* TabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExploreCollectionViewCell.swift; path = ../ExploreCollectionViewCell.swift; sourceTree = "<group>"; };
 		FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewController.swift; sourceTree = "<group>"; };
@@ -206,7 +204,6 @@
 				FFD788511C6CB1BB00ACDB65 /* PostTableViewController.swift */,
 				FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */,
 				FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */,
-				B6B0B1711CC70262008448DD /* PostDetailViewController.swift */,
 				FFE37A651C775BCE00C1670F /* ProfileCollectionViewCell.swift */,
 				FFE37A631C775BAD00C1670F /* ProfileCollectionViewController.swift */,
 				FFCBBDC91C6C8D8D00BA0773 /* Assets.xcassets */,
@@ -402,7 +399,6 @@
 				FFCBBDC81C6C8D8D00BA0773 /* ToloCam.xcdatamodeld in Sources */,
 				FFD788561C6CB89A00ACDB65 /* ComposeViewController.swift in Sources */,
 				FFE37A641C775BAD00C1670F /* ProfileCollectionViewController.swift in Sources */,
-				B6B0B1721CC70262008448DD /* PostDetailViewController.swift in Sources */,
 				FFB4C9F81CCB314A0074590C /* FriendsSearchTableViewCell.swift in Sources */,
 				FFCBBDC01C6C8D8D00BA0773 /* AppDelegate.swift in Sources */,
 				FFD788501C6CB14300ACDB65 /* PostTableViewCell.swift in Sources */,
