@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import Parse
+import ParseUI
+import Bolts
 
-class ExploreCollectionViewCell: UICollectionViewCell {
+class ExploreCollectionViewCell: PFCollectionViewCell {
     
-    @IBOutlet weak var imageToShow: UIImageView!
+    @IBOutlet weak var imageToShow: PFImageView!
     
     
 

@@ -11,7 +11,7 @@ import Parse
 import Bolts
 import ParseUI
 
-class ExploreCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UIViewControllerPreviewingDelegate {
+class ExploreCollectionViewController: PFQueryCollectionViewController,UIViewControllerPreviewingDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
 
@@ -117,7 +117,7 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
         // Dispose of any resources that can be recreated.
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
         
         if self.images.count > 0
@@ -129,7 +129,7 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
         }
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         
         print("collectionview cell not getting called")
@@ -146,7 +146,7 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
     }
     
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
+    override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
     {
         return CGSize(width: (UIScreen.mainScreen().bounds.size.width-4) / 3, height: (UIScreen.mainScreen().bounds.size.width-4) / 3)
     }
