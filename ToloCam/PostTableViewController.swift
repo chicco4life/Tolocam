@@ -236,14 +236,21 @@ class PostTableViewController: PFQueryTableViewController {
         let dictionaryOfLikers:NSMutableDictionary = object!["likedBy"] as! NSMutableDictionary
         let yourLikes = dictionaryOfLikers[(PFUser.currentUser()?.username)!] as? Int
         
-        
-        
         cell.parseObject = object
         
+        cell.postImageView.image = imageToLoad
+        cell.postCaption.text = imageCaption
+        cell.addedBy.text = imageUsers
+        cell.dateLabel.text = imageDate
+        cell.likesLabel.text = "Likes: \(imageLikes)"
+        if yourLikes == nil{
+            cell.yourLikesLabel.text = "your likes: 0"
+        }else{
+        cell.yourLikesLabel.text = "your likes: \(yourLikes!)"
+        }
         
-        
-        
-        
+        print("cell for row is called")
+
         //Create the object you want to get the data from. It will have to be a variable because you might recieve the image from the server or you might not.
         
         //Start your error catching by using this format do { try *func* } catch { *error handling* }
@@ -263,20 +270,6 @@ class PostTableViewController: PFQueryTableViewController {
         
         
         //once finished autolayout, change cell to cellCoded
-        
-        
-        cell.postImageView.image = imageToLoad
-        cell.postCaption.text = imageCaption
-        cell.addedBy.text = imageUsers
-        cell.dateLabel.text = imageDate
-        cell.likesLabel.text = "Likes: \(imageLikes)"
-        if yourLikes == nil{
-            cell.yourLikesLabel.text = "your likes: 0"
-        }else{
-        cell.yourLikesLabel.text = "your likes: \(yourLikes!)"
-        }
-        
-        print("cell for row is called")
         return cell
     }
     

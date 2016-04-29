@@ -1,24 +1,18 @@
-//
-//  ExploreCollectionViewController.swift
-//  ToloCam
-//
-//  Created by Federico Li on 2/18/16.
-//  Copyright © 2016 Federico Li. All rights reserved.
-//
 
 import UIKit
 import Parse
 import Bolts
 import ParseUI
 
-class ExploreCollectionViewController: PFQueryCollectionViewController,UIViewControllerPreviewingDelegate {
-
-    @IBOutlet weak var collectionView: UICollectionView!
-
+class ExploreCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UIViewControllerPreviewingDelegate {
     
-
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    @IBOutlet weak var friendSearchBar: UISearchBar!
+    
+    
     var images = [UIImage]()
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,8 +34,8 @@ class ExploreCollectionViewController: PFQueryCollectionViewController,UIViewCon
         }
         
         loadData()
-       
-    
+        
+        
     }
     
     func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
@@ -51,15 +45,15 @@ class ExploreCollectionViewController: PFQueryCollectionViewController,UIViewCon
         
         guard let indexPath = collectionView.indexPathForItemAtPoint(location) else {return nil}
         guard let cell = collectionView.cellForItemAtIndexPath(indexPath) else {return nil}
-//        guard let detailVC = storyboard?.instantiateViewControllerWithIdentifier("PostDetailVC") as? PostDetailViewController else {return nil}
+        //        guard let detailVC = storyboard?.instantiateViewControllerWithIdentifier("PostDetailVC") as? PostDetailViewController else {return nil}
         
         
         return self
     }
-
+    
     override func viewDidAppear(animated: Bool) {
         print("hey there")
-       
+        
     }
     func loadData(){
         
@@ -93,14 +87,14 @@ class ExploreCollectionViewController: PFQueryCollectionViewController,UIViewCon
                                 
                                 print(error)
                             }
-            
-                        
-                self.images.append(imageIWillUse )
+                            
+                            
+                            self.images.append(imageIWillUse )
+                        }
                     }
-            }
-                        
-                self.collectionView.reloadData()
-    
+                    
+                    self.collectionView.reloadData()
+                    
                     
                 }
             } else {
@@ -109,7 +103,7 @@ class ExploreCollectionViewController: PFQueryCollectionViewController,UIViewCon
             }
             
         }
-
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -117,50 +111,49 @@ class ExploreCollectionViewController: PFQueryCollectionViewController,UIViewCon
         // Dispose of any resources that can be recreated.
     }
     
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
         
         if self.images.count > 0
         {
-        return self.images.count
+            return self.images.count
         }else
         {
             return 0
         }
     }
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         
         print("collectionview cell not getting called")
         let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! ExploreCollectionViewCell
         
-     
+        
         cell.imageToShow.image = (self.images[indexPath.row] )
         cell.contentView.frame = cell.bounds
- 
+        
         
         return cell
-
+        
         
     }
     
     
-    override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
     {
         return CGSize(width: (UIScreen.mainScreen().bounds.size.width-4) / 3, height: (UIScreen.mainScreen().bounds.size.width-4) / 3)
     }
-
-
+    
+    
     
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B62A3EA01CD3D157006C1F74 /* FriendSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A3E9F1CD3D157006C1F74 /* FriendSearchTableViewController.swift */; };
+		B62A3EA21CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A3EA11CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift */; };
 		FF06E79B1C75BE8F00920007 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E79A1C75BE8F00920007 /* TabBar.swift */; };
 		FF06E7A51C75C84000920007 /* ExploreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */; };
 		FF06E7A71C75C91F00920007 /* ExploreCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */; };
@@ -18,7 +20,6 @@
 		FFA914E01C7480E500121EE2 /* Setting302x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFA914DA1C7480E500121EE2 /* Setting302x.png */; };
 		FFA914E21C748F0900121EE2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA914E11C748F0900121EE2 /* SettingsViewController.swift */; };
 		FFA914E41C74A68200121EE2 /* imageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA914E31C74A68200121EE2 /* imageTableViewCell.swift */; };
-		FFB4C9F81CCB314A0074590C /* FriendsSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB4C9F71CCB314A0074590C /* FriendsSearchTableViewCell.swift */; };
 		FFCBBDC01C6C8D8D00BA0773 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCBBDBF1C6C8D8D00BA0773 /* AppDelegate.swift */; };
 		FFCBBDC21C6C8D8D00BA0773 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCBBDC11C6C8D8D00BA0773 /* LoginViewController.swift */; };
 		FFCBBDC51C6C8D8D00BA0773 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFCBBDC31C6C8D8D00BA0773 /* Main.storyboard */; };
@@ -67,6 +68,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B62A3E9F1CD3D157006C1F74 /* FriendSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendSearchTableViewController.swift; sourceTree = "<group>"; };
+		B62A3EA11CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsSearchTableviewCell.swift; sourceTree = "<group>"; };
 		FF06E79A1C75BE8F00920007 /* TabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExploreCollectionViewCell.swift; path = ../ExploreCollectionViewCell.swift; sourceTree = "<group>"; };
 		FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewController.swift; sourceTree = "<group>"; };
@@ -78,7 +81,6 @@
 		FFA914DA1C7480E500121EE2 /* Setting302x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Setting302x.png; sourceTree = "<group>"; };
 		FFA914E11C748F0900121EE2 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		FFA914E31C74A68200121EE2 /* imageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = imageTableViewCell.swift; sourceTree = "<group>"; };
-		FFB4C9F71CCB314A0074590C /* FriendsSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsSearchTableViewCell.swift; sourceTree = "<group>"; };
 		FFCBBDBC1C6C8D8D00BA0773 /* ToloCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToloCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFCBBDBF1C6C8D8D00BA0773 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FFCBBDC11C6C8D8D00BA0773 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -193,7 +195,6 @@
 			children = (
 				FFCBBDBF1C6C8D8D00BA0773 /* AppDelegate.swift */,
 				FFCBBDC11C6C8D8D00BA0773 /* LoginViewController.swift */,
-				FFB4C9F71CCB314A0074590C /* FriendsSearchTableViewCell.swift */,
 				FFCBBDC31C6C8D8D00BA0773 /* Main.storyboard */,
 				FF06E79A1C75BE8F00920007 /* TabBar.swift */,
 				FFA914E31C74A68200121EE2 /* imageTableViewCell.swift */,
@@ -204,6 +205,8 @@
 				FFD788511C6CB1BB00ACDB65 /* PostTableViewController.swift */,
 				FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */,
 				FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */,
+				B62A3EA11CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift */,
+				B62A3E9F1CD3D157006C1F74 /* FriendSearchTableViewController.swift */,
 				FFE37A651C775BCE00C1670F /* ProfileCollectionViewCell.swift */,
 				FFE37A631C775BAD00C1670F /* ProfileCollectionViewController.swift */,
 				FFCBBDC91C6C8D8D00BA0773 /* Assets.xcassets */,
@@ -392,6 +395,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B62A3EA01CD3D157006C1F74 /* FriendSearchTableViewController.swift in Sources */,
 				FFD788521C6CB1BB00ACDB65 /* PostTableViewController.swift in Sources */,
 				FFCBBDC21C6C8D8D00BA0773 /* LoginViewController.swift in Sources */,
 				FF06E7A71C75C91F00920007 /* ExploreCollectionViewController.swift in Sources */,
@@ -399,13 +403,13 @@
 				FFCBBDC81C6C8D8D00BA0773 /* ToloCam.xcdatamodeld in Sources */,
 				FFD788561C6CB89A00ACDB65 /* ComposeViewController.swift in Sources */,
 				FFE37A641C775BAD00C1670F /* ProfileCollectionViewController.swift in Sources */,
-				FFB4C9F81CCB314A0074590C /* FriendsSearchTableViewCell.swift in Sources */,
 				FFCBBDC01C6C8D8D00BA0773 /* AppDelegate.swift in Sources */,
 				FFD788501C6CB14300ACDB65 /* PostTableViewCell.swift in Sources */,
 				FF06E7A51C75C84000920007 /* ExploreCollectionViewCell.swift in Sources */,
 				FFE37A661C775BCE00C1670F /* ProfileCollectionViewCell.swift in Sources */,
 				FFA914E21C748F0900121EE2 /* SettingsViewController.swift in Sources */,
 				FFA914E41C74A68200121EE2 /* imageTableViewCell.swift in Sources */,
+				B62A3EA21CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift in Sources */,
 				FF06E79B1C75BE8F00920007 /* TabBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

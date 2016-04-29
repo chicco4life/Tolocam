@@ -799,10 +799,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" placeholder="Search for your friends here" translatesAutoresizingMaskIntoConstraints="NO" id="6Em-FJ-FSE">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Ia1-zQ-jXv">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -877,6 +873,13 @@
                                     <outlet property="delegate" destination="MKX-st-i3E" id="WcS-j5-uCu"/>
                                 </connections>
                             </collectionView>
+                            <searchBar contentMode="redraw" placeholder="Search for your friends here" translatesAutoresizingMaskIntoConstraints="NO" id="6Em-FJ-FSE">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="MKX-st-i3E" id="cXS-Ol-oYf"/>
+                                </connections>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -892,8 +895,8 @@
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
-                                <exclude reference="6Em-FJ-FSE"/>
                                 <exclude reference="Ia1-zQ-jXv"/>
+                                <exclude reference="6Em-FJ-FSE"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="nJS-ko-mND"/>
@@ -907,8 +910,8 @@
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
-                                <include reference="6Em-FJ-FSE"/>
                                 <include reference="Ia1-zQ-jXv"/>
+                                <include reference="6Em-FJ-FSE"/>
                             </mask>
                             <mask key="constraints">
                                 <include reference="nJS-ko-mND"/>
@@ -923,17 +926,18 @@
                     </view>
                     <navigationItem key="navigationItem" title="Explore" id="P8J-OB-RJg"/>
                     <connections>
-                        <outlet property="collectionView" destination="Ia1-zQ-jXv" id="4Nh-Ep-g5w"/>
+                        <outlet property="collectionView" destination="Ia1-zQ-jXv" id="ATP-iT-xeu"/>
+                        <outlet property="friendSearchBar" destination="6Em-FJ-FSE" id="76Z-0n-rP9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UYG-de-sc1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-877.5" y="100.5"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Friend Search Table View Controller-->
         <scene sceneID="ISi-fh-dfO">
             <objects>
-                <tableViewController id="VdJ-vn-E2f" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="friendSearchTableView" id="VdJ-vn-E2f" customClass="FriendSearchTableViewController" customModule="ToloCam" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="P81-Th-R7X">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -946,12 +950,13 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Follow" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RUo-bL-4sN">
-                                            <rect key="frame" x="-42" y="-21" width="42" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="0.0" green="0.80000000000000004" blue="0.69795907970000004" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oyM-PV-Rbh">
+                                            <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                            <state key="normal" title="Follow"/>
+                                            <connections>
+                                                <action selector="followBtn:" destination="JEO-Gu-ity" eventType="touchUpInside" id="AAh-9d-d9a"/>
+                                            </connections>
+                                        </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friend username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QNZ-ZM-odU">
                                             <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -961,35 +966,39 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="QNZ-ZM-odU" firstAttribute="leading" secondItem="ZVB-WZ-Pdd" secondAttribute="leadingMargin" constant="5" id="1ZD-lu-5Nh"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="RUo-bL-4sN" secondAttribute="trailing" constant="5" id="HAd-NP-LT4"/>
                                         <constraint firstItem="QNZ-ZM-odU" firstAttribute="top" secondItem="ZVB-WZ-Pdd" secondAttribute="topMargin" id="WJJ-VD-ma6"/>
-                                        <constraint firstItem="RUo-bL-4sN" firstAttribute="top" secondItem="ZVB-WZ-Pdd" secondAttribute="topMargin" constant="1" id="f9I-BV-4Hb"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="oyM-PV-Rbh" secondAttribute="trailing" id="Xz5-6v-rgi"/>
+                                        <constraint firstItem="oyM-PV-Rbh" firstAttribute="top" secondItem="ZVB-WZ-Pdd" secondAttribute="topMargin" constant="-1" id="yS2-hr-OCO"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="subviews">
-                                            <exclude reference="RUo-bL-4sN"/>
+                                            <exclude reference="oyM-PV-Rbh"/>
                                             <exclude reference="QNZ-ZM-odU"/>
                                         </mask>
                                         <mask key="constraints">
                                             <exclude reference="1ZD-lu-5Nh"/>
                                             <exclude reference="WJJ-VD-ma6"/>
-                                            <exclude reference="HAd-NP-LT4"/>
-                                            <exclude reference="f9I-BV-4Hb"/>
+                                            <exclude reference="Xz5-6v-rgi"/>
+                                            <exclude reference="yS2-hr-OCO"/>
                                         </mask>
                                     </variation>
                                     <variation key="heightClass=regular-widthClass=compact">
                                         <mask key="subviews">
-                                            <include reference="RUo-bL-4sN"/>
+                                            <include reference="oyM-PV-Rbh"/>
                                             <include reference="QNZ-ZM-odU"/>
                                         </mask>
                                         <mask key="constraints">
                                             <include reference="1ZD-lu-5Nh"/>
                                             <include reference="WJJ-VD-ma6"/>
-                                            <include reference="HAd-NP-LT4"/>
-                                            <include reference="f9I-BV-4Hb"/>
+                                            <include reference="Xz5-6v-rgi"/>
+                                            <include reference="yS2-hr-OCO"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="followBtnOutlet" destination="oyM-PV-Rbh" id="Ex0-nD-LDe"/>
+                                    <outlet property="friendUsername" destination="QNZ-ZM-odU" id="gnc-vp-NWj"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -997,6 +1006,10 @@
                             <outlet property="delegate" destination="VdJ-vn-E2f" id="VZA-MO-dau"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="friendTableView" destination="P81-Th-R7X" id="svY-h6-Vu9"/>
+                        <outlet property="tableView" destination="P81-Th-R7X" id="Ppy-oT-48v"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NTA-7K-yxF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
