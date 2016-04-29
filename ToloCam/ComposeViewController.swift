@@ -10,6 +10,7 @@ import UIKit
 import Parse
 import ParseUI
 import Bolts
+import AVFoundation
 
 extension UIImage {
     var uncompressedPNGData: NSData      { return UIImagePNGRepresentation(self)!        }
@@ -20,11 +21,16 @@ extension UIImage {
     var lowestQualityJPEGNSData:NSData   { return UIImageJPEGRepresentation(self, 0.0)!  }
 }
 
+var captureSession : AVCaptureSession?
+var stillImageOutput : AVCaptureStillImageOutput?
+var previewLayer : AVCaptureVideoPreviewLayer?
+
 
 class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
 
     @IBOutlet weak var captionTextView: UITextView!
     @IBOutlet weak var previewImage: UIImageView!
+    @IBOutlet weak var cameraView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +38,8 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
         captionTextView.delegate = self
         
         // Do any additional setup after loading the view.
+        
+    
     }
     
 
@@ -40,7 +48,50 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func addImageTapped(sender: AnyObject) {
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        previewLayer?.frame = cameraView.bounds
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        captureSession = AVCaptureSession()
+        captureSession?.sessionPreset = AVCaptureSessionPreset1920x1080
+        
+        let backCamera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        
+        var error : NSError?
+        var input: AVCaptureDeviceInput!
+        do {
+            input = try AVCaptureDeviceInput(device: backCamera)
+        } catch let error1 as NSError {
+            error = error1
+            input = nil
+        }
+        
+        if (error == nil && captureSession?.canAddInput(input) != nil){
+            
+            captureSession?.addInput(input)
+            
+            stillImageOutput = AVCaptureStillImageOutput()
+            stillImageOutput?.outputSettings = [AVVideoCodecKey : AVVideoCodecJPEG]
+            
+            if (captureSession?.canAddOutput(stillImageOutput) != nil){
+                captureSession?.addOutput(stillImageOutput)
+                
+                previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+                previewLayer?.videoGravity = AVLayerVideoGravityResizeAspect
+                previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.Portrait
+                cameraView.layer.addSublayer(previewLayer!)
+                captureSession?.startRunning()
+                
+            }
+            
+            
+        }
+    
+    func addImageTapped(sender: AnyObject) {
         
         let imagePicker = UIImagePickerController()
         
@@ -65,11 +116,11 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
         return true;
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
     }
     
-    @IBAction func composeTapped(sender: AnyObject) {
+    func composeTapped(sender: AnyObject) {
         
         let date = NSDate()
         let dateFormatter = NSDateFormatter()
@@ -119,4 +170,5 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
     */
     }
 
+}
 }
