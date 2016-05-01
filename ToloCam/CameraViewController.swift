@@ -13,28 +13,19 @@ import Bolts
 import AVFoundation
 
 
-extension UIImage {
-    var uncompressedPNGData: NSData      { return UIImagePNGRepresentation(self)!        }
-    var highestQualityJPEGNSData: NSData { return UIImageJPEGRepresentation(self, 1.0)!  }
-    var highQualityJPEGNSData: NSData    { return UIImageJPEGRepresentation(self, 0.75)! }
-    var mediumQualityJPEGNSData: NSData  { return UIImageJPEGRepresentation(self, 0.5)!  }
-    var lowQualityJPEGNSData: NSData     { return UIImageJPEGRepresentation(self, 0.25)! }
-    var lowestQualityJPEGNSData:NSData   { return UIImageJPEGRepresentation(self, 0.0)!  }
-}
-
-
 class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
     
     var captureSession : AVCaptureSession?
     var stillImageOutput : AVCaptureStillImageOutput?
+    var imageCaptured : UIImage!
     var previewLayer : AVCaptureVideoPreviewLayer?
     
 
     @IBOutlet weak var cameraView: UIView!
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         
         // Do any additional setup after loading the view.
     }
@@ -48,6 +39,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         previewLayer?.frame = cameraView.bounds
+    
         
     }
     
@@ -56,13 +48,10 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         super.viewWillAppear(animated)
         
         
-        
         captureSession = AVCaptureSession()
         captureSession?.sessionPreset = AVCaptureSessionPreset1920x1080
         
         let backCamera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
-        
-        
         
         var error : NSError?
         var input: AVCaptureDeviceInput!
@@ -106,5 +95,78 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
 }
 
+    @IBOutlet weak var tempImageView: UIImageView!
+    
+    
+    @IBAction func takePicture(sender: AnyObject) {
+        
+        print("Capturing image")
+        
+        if let videoConnection = stillImageOutput!.connectionWithMediaType(AVMediaTypeVideo){
+            stillImageOutput!.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler: {
+                (sampleBuffer, error) in
+                let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
+                let dataProvider = CGDataProviderCreateWithCFData(imageData)
+                let cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, CGColorRenderingIntent.RenderingIntentDefault)
+                
+                
+                self.imageCaptured = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.Right)
+                
+                print("passing image view")
+                //self.tempImageView.image = imageCaptured
+                //self.tempImageView.frame = CGRect(x:0, y:0, width:self.view.frame.width, height:self.view.frame.width)
+                
+                //imageView.frame = CGRect(x:0, y:0, width:self.view.frame.width, height:self.view.frame.width)
+                
+                //Show the captured image to
+                //self.view.addSubview(imageView)
+                
+                //Save the captured preview to image
+                
+                UIImageWriteToSavedPhotosAlbum(self.imageCaptured, nil, nil, nil)
+                print("image saved")
+            })
+//            
+//            if self.imageCaptured != nil {
+//                performSegueWithIdentifier("toCompose", sender: nil)}
+            
+            print("segue performed toCompose")
+        }
+    
+        func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+            
+            if segue.identifier == "toCompose" {
+                
+                let itemToAdd = segue.destinationViewController as! Compose2ViewController
+                
+                itemToAdd.newImage = imageCaptured
+                print("segue prepared ")
+                
+            }
+            
+            
+        }
 
+
+        
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    
+
+    
+    
+//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//        
+//        if segue.identifier == "toCompose" {
+//            let dvc = segue.sourceViewController as! Compose2ViewController
+//            dvc.newImage = self.imageCaptured
+//        }
+//    }
+//    
+
+    
 }

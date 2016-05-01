@@ -10,6 +10,7 @@
 		FF06E79B1C75BE8F00920007 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E79A1C75BE8F00920007 /* TabBar.swift */; };
 		FF06E7A51C75C84000920007 /* ExploreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */; };
 		FF06E7A71C75C91F00920007 /* ExploreCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */; };
+		FF14571E1CD5EAD40044C7DE /* Compose2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF14571D1CD5EAD40044C7DE /* Compose2ViewController.swift */; };
 		FFA914DB1C7480E500121EE2 /* Analytics30.png in Resources */ = {isa = PBXBuildFile; fileRef = FFA914D51C7480E500121EE2 /* Analytics30.png */; };
 		FFA914DC1C7480E500121EE2 /* Analytics302x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFA914D61C7480E500121EE2 /* Analytics302x.png */; };
 		FFA914DD1C7480E500121EE2 /* Home30.png in Resources */ = {isa = PBXBuildFile; fileRef = FFA914D71C7480E500121EE2 /* Home30.png */; };
@@ -71,6 +72,7 @@
 		FF06E79A1C75BE8F00920007 /* TabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExploreCollectionViewCell.swift; path = ../ExploreCollectionViewCell.swift; sourceTree = "<group>"; };
 		FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewController.swift; sourceTree = "<group>"; };
+		FF14571D1CD5EAD40044C7DE /* Compose2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Compose2ViewController.swift; sourceTree = "<group>"; };
 		FFA914D51C7480E500121EE2 /* Analytics30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Analytics30.png; sourceTree = "<group>"; };
 		FFA914D61C7480E500121EE2 /* Analytics302x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Analytics302x.png; sourceTree = "<group>"; };
 		FFA914D71C7480E500121EE2 /* Home30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Home30.png; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				FFA914E11C748F0900121EE2 /* SettingsViewController.swift */,
 				FFD788571C731EBE00ACDB65 /* RegisterViewController.swift */,
 				FFD788551C6CB89A00ACDB65 /* ComposeViewController.swift */,
+				FF14571D1CD5EAD40044C7DE /* Compose2ViewController.swift */,
 				FFC2BF831CD59613008DF9DE /* CameraViewController.swift */,
 				FFD7884F1C6CB14300ACDB65 /* PostTableViewCell.swift */,
 				FFD788511C6CB1BB00ACDB65 /* PostTableViewController.swift */,
@@ -402,6 +405,7 @@
 				FFCBBDC81C6C8D8D00BA0773 /* ToloCam.xcdatamodeld in Sources */,
 				FFD788561C6CB89A00ACDB65 /* ComposeViewController.swift in Sources */,
 				FFE37A641C775BAD00C1670F /* ProfileCollectionViewController.swift in Sources */,
+				FF14571E1CD5EAD40044C7DE /* Compose2ViewController.swift in Sources */,
 				FFB4C9F81CCB314A0074590C /* FriendsSearchTableViewCell.swift in Sources */,
 				FFCBBDC01C6C8D8D00BA0773 /* AppDelegate.swift in Sources */,
 				FFD788501C6CB14300ACDB65 /* PostTableViewCell.swift in Sources */,
