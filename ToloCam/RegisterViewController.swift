@@ -38,13 +38,42 @@ class RegisterViewController: UIViewController {
     
     @IBAction func registerTapped(sender: AnyObject) {
         
-        if usernameTextField.text == nil {
+        
+        if usernameTextField.text == "" {
+            let alertController = UIAlertController(title:"Error", message:"Please input a username.", preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title:"OK", style: .Cancel, handler: nil))
+            self.presentViewController(alertController, animated: true, completion: nil)
             return
         }
         
-        if usernameTextField.text == "" {
+        if passwordTextField.text == "" {
+            let alertController = UIAlertController(title:"Error", message:"Please input a password.", preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title:"OK", style: .Cancel, handler: nil))
+            self.presentViewController(alertController, animated: true, completion: nil)
             return
         }
+        
+        if emailTextField.text == "" {
+            let alertController = UIAlertController(title:"Error", message:"Please input an email address.", preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title:"OK", style: .Cancel, handler: nil))
+            self.presentViewController(alertController, animated: true, completion: nil)
+            return
+        }
+
+        let regex = try! NSRegularExpression(pattern: ".*[^A-Za-z0-9].*", options: NSRegularExpressionOptions())
+        if regex.firstMatchInString(usernameTextField.text!, options: NSMatchingOptions(), range:NSMakeRange(0, usernameTextField.text!.characters.count)) != nil {
+            print("could not handle special characters")
+            let alertController = UIAlertController(title:"Error", message:"Please don't use any special characters.", preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title:"OK", style: .Cancel, handler: nil))
+            self.presentViewController(alertController, animated: true, completion: nil)
+
+            
+        }
+    
+        
+        //if usernameTextField.text == "" {
+           // return
+        //}
         
         let user = PFUser()
             user.username = usernameTextField.text?.lowercaseString
@@ -74,7 +103,7 @@ class RegisterViewController: UIViewController {
             } else {
                 // There is an error while signing up
                 
-                let alertController = UIAlertController(title:"Error", message:"There was one or more errors while signing up.", preferredStyle: UIAlertControllerStyle.Alert)
+                let alertController = UIAlertController(title:"Error", message:"This username/email is already registered!", preferredStyle: UIAlertControllerStyle.Alert)
                 alertController.addAction(UIAlertAction(title:"OK", style: .Cancel, handler: nil))
                 self.presentViewController(alertController, animated: true, completion: nil)
                 
