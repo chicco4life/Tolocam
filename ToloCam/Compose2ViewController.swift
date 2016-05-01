@@ -29,7 +29,7 @@ class Compose2ViewController: UIViewController, UIImagePickerControllerDelegate,
     
     @IBOutlet weak var captionTextView: UITextView!
     @IBOutlet weak var previewImage: UIImageView!
-    var newImage: UIImage!
+    var newImage = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()

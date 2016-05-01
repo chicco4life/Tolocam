@@ -124,16 +124,22 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                 //Save the captured preview to image
                 
                 UIImageWriteToSavedPhotosAlbum(self.imageCaptured, nil, nil, nil)
+                
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyboard.instantiateViewControllerWithIdentifier("Compose2ViewController") as! Compose2ViewController
+                vc.newImage = self.imageCaptured
+                self.navigationController!.pushViewController(vc, animated: true)
                 print("image saved")
+                
+                
+                
             })
-//            
-//            if self.imageCaptured != nil {
-//                performSegueWithIdentifier("toCompose", sender: nil)}
+
             
-            print("segue performed toCompose")
+            
         }
     
-
+    }
     
     
 

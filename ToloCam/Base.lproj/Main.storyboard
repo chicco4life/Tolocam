@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -332,7 +332,7 @@
                                 <rect key="frame" x="0.0" y="92" width="600" height="507"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4yi-Zd-2Km" id="FJn-Jd-C6B">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="506.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="506"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="HiF-Gj-zws">
@@ -601,7 +601,6 @@
                                 </state>
                                 <connections>
                                     <action selector="takePicture:" destination="C08-dF-LeB" eventType="touchUpInside" id="dT9-7A-sle"/>
-                                    <segue destination="TNL-RW-tls" kind="show" id="mKf-I4-tQU"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -774,7 +773,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="126" height="126"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uN7-I2-TTd">
@@ -900,7 +899,7 @@
                                 <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JEO-Gu-ity" id="ZVB-WZ-Pdd">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Follow" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RUo-bL-4sN">
@@ -1060,7 +1059,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="126" height="126"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mCv-Is-2FN">
@@ -1398,10 +1397,10 @@
             </objects>
             <point key="canvasLocation" x="435" y="1044"/>
         </scene>
-        <!--Compose2 View Controller-->
+        <!--Compose2ViewController-->
         <scene sceneID="soX-zJ-baf">
             <objects>
-                <viewController storyboardIdentifier="compose2Controller" id="TNL-RW-tls" customClass="Compose2ViewController" customModule="ToloCam" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Compose2ViewController" title="Compose2ViewController" id="TNL-RW-tls" customClass="Compose2ViewController" customModule="ToloCam" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="b7Q-JZ-nKX"/>
                         <viewControllerLayoutGuide type="bottom" id="dBG-Gc-Y9q"/>
@@ -1506,25 +1505,25 @@
                                 <exclude reference="SEk-mg-ewz"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="1jY-xW-Oyl"/>
-                                <exclude reference="REE-WN-rMz"/>
-                                <exclude reference="VfB-JE-1ne"/>
-                                <exclude reference="y6j-uw-2YS"/>
+                                <exclude reference="ZPt-Ih-byc"/>
+                                <exclude reference="sXY-M3-UDU"/>
                                 <exclude reference="Joa-3X-pTQ"/>
                                 <exclude reference="OKW-ae-ggQ"/>
                                 <exclude reference="XV8-hl-heD"/>
                                 <exclude reference="icF-Va-feZ"/>
                                 <exclude reference="sTd-MY-VAo"/>
+                                <exclude reference="FxK-F1-zLj"/>
+                                <exclude reference="qj1-UI-NYh"/>
                                 <exclude reference="Ez1-jJ-RmY"/>
                                 <exclude reference="Fxd-oi-lhE"/>
                                 <exclude reference="HQx-qy-2fN"/>
                                 <exclude reference="LZ2-1f-zxb"/>
                                 <exclude reference="isU-bg-N3j"/>
                                 <exclude reference="wT7-dT-xOh"/>
-                                <exclude reference="FxK-F1-zLj"/>
-                                <exclude reference="qj1-UI-NYh"/>
-                                <exclude reference="ZPt-Ih-byc"/>
-                                <exclude reference="sXY-M3-UDU"/>
+                                <exclude reference="1jY-xW-Oyl"/>
+                                <exclude reference="REE-WN-rMz"/>
+                                <exclude reference="VfB-JE-1ne"/>
+                                <exclude reference="y6j-uw-2YS"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -1535,25 +1534,25 @@
                                 <include reference="SEk-mg-ewz"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="1jY-xW-Oyl"/>
-                                <include reference="REE-WN-rMz"/>
-                                <exclude reference="VfB-JE-1ne"/>
-                                <include reference="y6j-uw-2YS"/>
+                                <include reference="ZPt-Ih-byc"/>
+                                <exclude reference="sXY-M3-UDU"/>
                                 <exclude reference="Joa-3X-pTQ"/>
                                 <include reference="OKW-ae-ggQ"/>
                                 <exclude reference="XV8-hl-heD"/>
                                 <include reference="icF-Va-feZ"/>
                                 <exclude reference="sTd-MY-VAo"/>
+                                <include reference="FxK-F1-zLj"/>
+                                <include reference="qj1-UI-NYh"/>
                                 <include reference="Ez1-jJ-RmY"/>
                                 <exclude reference="Fxd-oi-lhE"/>
                                 <include reference="HQx-qy-2fN"/>
                                 <include reference="LZ2-1f-zxb"/>
                                 <exclude reference="isU-bg-N3j"/>
                                 <exclude reference="wT7-dT-xOh"/>
-                                <include reference="FxK-F1-zLj"/>
-                                <include reference="qj1-UI-NYh"/>
-                                <include reference="ZPt-Ih-byc"/>
-                                <exclude reference="sXY-M3-UDU"/>
+                                <include reference="1jY-xW-Oyl"/>
+                                <include reference="REE-WN-rMz"/>
+                                <exclude reference="VfB-JE-1ne"/>
+                                <include reference="y6j-uw-2YS"/>
                             </mask>
                         </variation>
                     </view>
