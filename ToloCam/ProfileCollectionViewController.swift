@@ -13,7 +13,6 @@ import ParseUI
 
 class ProfileCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    
 
     @IBOutlet weak var collectionView: UICollectionView!
 
@@ -121,7 +120,7 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         
-        print("collectionview cell not getting called")
+//        print("collectionview cell not getting called")
         let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! ProfileCollectionViewCell
         
         

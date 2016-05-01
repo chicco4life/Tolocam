@@ -37,6 +37,7 @@ class PostTableViewController: PFQueryTableViewController {
         self.parseClassName = "Posts"
         
         self.pullToRefreshEnabled = true
+        
         self.paginationEnabled = false
     }
     
@@ -60,12 +61,12 @@ class PostTableViewController: PFQueryTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshPulled", name: "refresh", object: nil)
         
         print("viewdidload is called")
         
         self.refreshControl = UIRefreshControl()
-        //self.refreshControl!.addTarget(self, action: #selector(PostTableViewController.refreshPulled), forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl!.addTarget(self, action: #selector(PostTableViewController.refreshPulled), forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl!.userInteractionEnabled = true
         
 //        let userQuery = PFUser.query()
@@ -98,41 +99,15 @@ class PostTableViewController: PFQueryTableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         //         self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
-    /*
+
     func refreshPulled() {
+        self.loadObjects()
+//        self.tableView.performSelectorInBackground(#selector(self.loadObjects), withObject: nil)
+//        self.performSelectorInBackground(#selector(self.loadObjects), withObject: nil)
         
-        print("refresh method pulled")
+        self.refreshControl?.endRefreshing()
         
-        //loadData() Commented out since loading followingWho only
-        let userQuery = PFUser.query()
-        userQuery?.whereKey("username", equalTo: PFUser.currentUser()!.username!)
-        userQuery?.findObjectsInBackgroundWithBlock({ (objects:[PFObject]?, error: NSError?) -> Void in
-            
-            if error == nil {
-                // no error
-                if let objects = objects {
-                    for object in objects {
-                        let followingWho = object["followingWho"] as! NSArray
-                        self.loadData(followingWho)
-                    }
-                    
-                }
-                
-                
-            }else {
-                //error
-                NSLog("Error")
-                
-            }
-            
-            
-        })
-        
-        self.tableView.reloadData()
-        
-        refreshControl?.endRefreshing()
-        
-    }*/
+    }
     
 //    func loadData (followingWho: NSArray) {
 //        
@@ -214,6 +189,7 @@ class PostTableViewController: PFQueryTableViewController {
     }
     
     // MARK: - Table view data source
+
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, object: PFObject?) -> PFTableViewCell {
         
@@ -236,14 +212,21 @@ class PostTableViewController: PFQueryTableViewController {
         let dictionaryOfLikers:NSMutableDictionary = object!["likedBy"] as! NSMutableDictionary
         let yourLikes = dictionaryOfLikers[(PFUser.currentUser()?.username)!] as? Int
         
-        
-        
         cell.parseObject = object
         
+        cell.postImageView.image = imageToLoad
+        cell.postCaption.text = imageCaption
+        cell.addedBy.text = imageUsers
+        cell.dateLabel.text = imageDate
+        cell.likesLabel.text = "Likes: \(imageLikes)"
+        if yourLikes == nil{
+            cell.yourLikesLabel.text = "your likes: 0"
+        }else{
+        cell.yourLikesLabel.text = "your likes: \(yourLikes!)"
+        }
         
-        
-        
-        
+        print("cell for row is called")
+
         //Create the object you want to get the data from. It will have to be a variable because you might recieve the image from the server or you might not.
         
         //Start your error catching by using this format do { try *func* } catch { *error handling* }
@@ -263,20 +246,6 @@ class PostTableViewController: PFQueryTableViewController {
         
         
         //once finished autolayout, change cell to cellCoded
-        
-        
-        cell.postImageView.image = imageToLoad
-        cell.postCaption.text = imageCaption
-        cell.addedBy.text = imageUsers
-        cell.dateLabel.text = imageDate
-        cell.likesLabel.text = "Likes: \(imageLikes)"
-        if yourLikes == nil{
-            cell.yourLikesLabel.text = "your likes: 0"
-        }else{
-        cell.yourLikesLabel.text = "your likes: \(yourLikes!)"
-        }
-        
-        print("cell for row is called")
         return cell
     }
     
