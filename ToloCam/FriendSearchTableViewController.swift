@@ -78,17 +78,23 @@ class FriendSearchTableViewController: PFQueryTableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
 //        let cell = tableView.dequeueReusableCellWithIdentifier("friendCell", forIndexPath: indexPath) as! FriendsSearchTableviewCell
-        
-        var othersVC = OthersCollectionViewController()
-        
-        var cell = self.tableView.cellForRowAtIndexPath(indexPath) as! FriendsSearchTableviewCell
-        
-        othersVC.userUsername = cell.friendUsername.text!
     
-        print("username pass to othervc\(othersVC.userUsername)")
+        let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! FriendsSearchTableviewCell
         
-//        self.presentViewController(othersVC, animated: true, completion: nil)
-        self.navigationController?.pushViewController(othersVC, animated: true)
+
+    
+      
+        
+        let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("OthersCollectionViewController") as! OthersCollectionViewController
+        vc.userUsername = cell.friendUsername.text!
+        
+          print("username pass to othervc\(vc.userUsername)")
+        
+        self.navigationController!.pushViewController(vc, animated: true)
+        
+        
+
 //        self.navigationController?.presentViewController(othersVC, animated: true, completion: nil)
 
     }

@@ -36,6 +36,7 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
         
         print("username in othervc \(self.userUsername)")
         
+        othersCollectionView.backgroundColor = UIColor.redColor()
         loadData()
         
         
@@ -124,7 +125,6 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
         print("collectionview cell not getting called")
         //        let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier("othersCell", forIndexPath: indexPath) as! OthersCollectionViewCell
         let cell = self.othersCollectionView.dequeueReusableCellWithReuseIdentifier("othersCell", forIndexPath: indexPath) as! OthersCollectionViewCell
-        
         
         cell.imageToShow.image = (self.images[indexPath.row] )
         cell.contentView.frame = cell.bounds
