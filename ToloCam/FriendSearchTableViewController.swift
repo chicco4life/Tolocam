@@ -60,7 +60,7 @@ class FriendSearchTableViewController: PFQueryTableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("friendCell", forIndexPath: indexPath) as! FriendsSearchTableviewCell
         
         let username = object!["username"] as! String
-        
+    }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
