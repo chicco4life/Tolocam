@@ -2,7 +2,7 @@
 //  ComposeViewController.swift
 //  ToloCam
 //
-//  Created by Federico Li on 2/11/16.
+//  Created by Federico Li on 4/30/16.
 //  Copyright © 2016 Federico Li. All rights reserved.
 //
 
@@ -10,29 +10,47 @@ import UIKit
 import Parse
 import ParseUI
 import Bolts
+import AVFoundation
 
-extension UIImage {
-    var uncompressedPNGData: NSData      { return UIImagePNGRepresentation(self)!        }
-    var highestQualityJPEGNSData: NSData { return UIImageJPEGRepresentation(self, 1.0)!  }
-    var highQualityJPEGNSData: NSData    { return UIImageJPEGRepresentation(self, 0.75)! }
-    var mediumQualityJPEGNSData: NSData  { return UIImageJPEGRepresentation(self, 0.5)!  }
-    var lowQualityJPEGNSData: NSData     { return UIImageJPEGRepresentation(self, 0.25)! }
-    var lowestQualityJPEGNSData:NSData   { return UIImageJPEGRepresentation(self, 0.0)!  }
-}
+//extension UIImage {
+//    var uncompressedPNGData: NSData      { return UIImagePNGRepresentation(self)!        }
+//    var highestQualityJPEGNSData: NSData { return UIImageJPEGRepresentation(self, 1.0)!  }
+//    var highQualityJPEGNSData: NSData    { return UIImageJPEGRepresentation(self, 0.75)! }
+//    var mediumQualityJPEGNSData: NSData  { return UIImageJPEGRepresentation(self, 0.5)!  }
+//    var lowQualityJPEGNSData: NSData     { return UIImageJPEGRepresentation(self, 0.25)! }
+//    var lowestQualityJPEGNSData:NSData   { return UIImageJPEGRepresentation(self, 0.0)!  }
+//}
 
 
-class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
 
+class Compose2ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
+    
+
+    
     @IBOutlet weak var captionTextView: UITextView!
     @IBOutlet weak var previewImage: UIImageView!
+    var newImage = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         captionTextView.delegate = self
         
+        print("loading compose2 preview image")
+        previewImage.image = newImage
+        print("compose2 preview image loaded")
+
+
+        
         // Do any additional setup after loading the view.
     }
+    
+//    override func viewDidAppear(animated: Bool) {
+//        super.viewDidAppear(animated)
+//        previewImage.image = newImage
+//        
+//        // Do any additional setup after loading the view.
+//    }
     
     
     override func didReceiveMemoryWarning() {
@@ -40,34 +58,17 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func addImageTapped(sender: AnyObject) {
-        
-        let imagePicker = UIImagePickerController()
-        
-        imagePicker.delegate = self
-        imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-        imagePicker.mediaTypes = UIImagePickerController.availableMediaTypesForSourceType(.PhotoLibrary)!
-        imagePicker.allowsEditing = false
-        
-        self.presentViewController(imagePicker, animated: true, completion: nil)
-    }
-    
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
-        
-        self.previewImage.image = image
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
-        
-    }
     
     func textViewShouldEndEditing(textView: UITextView) -> Bool {
         captionTextView.resignFirstResponder()
         return true;
     }
     
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
     }
+    
     
     @IBAction func composeTapped(sender: AnyObject) {
         
