@@ -13,7 +13,6 @@ import ParseUI
 
 class ProfileCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    
 
     @IBOutlet weak var collectionView: UICollectionView!
 

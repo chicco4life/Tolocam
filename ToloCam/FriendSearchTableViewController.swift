@@ -11,55 +11,94 @@ import Parse
 import Bolts
 import ParseUI
 
-class FriendSearchTableViewController: UITableViewController {
+class FriendSearchTableViewController: PFQueryTableViewController {
     
     @IBOutlet weak var friendTableView: UITableView!
+
+    
+    let searchController = UISearchController(searchResultsController: nil)
+    var usernames = [String]()
+    var filteredUsernames = [String]()
+    var username = String()
+    
+    override init(style: UITableViewStyle, className: String!) {
+        super.init(style: style, className: className)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)!
+        
+        // Configure the PFQueryTableView
+        self.parseClassName = String(PFUser.object())
+        
+        self.pullToRefreshEnabled = false
+        self.paginationEnabled = false
+    }
+    
+    // Define the query that will provide the data for the table view
+    override func queryForTable() -> PFQuery {
+        let query = PFUser.query()
+        query!.whereKey("username",
+                        notEqualTo: PFUser.currentUser()!.username!)
+        query!.orderByAscending("username")
+        return query!
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        tableView.tableHeaderView = searchController.searchBar
+        
     }
     
-    func getFollowingUsersForUser(user: PFUser, completionBlock: PFQueryArrayResultBlock?) {
-        let query = PFQuery(className: "Follow")
-        query.whereKey("followFrom", equalTo:user)
-        query.findObjectsInBackgroundWithBlock(completionBlock)
-    }
+//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//        if segue.identifier == "showOthersProfile"{
+//            var svc = segue.destinationViewController as! OthersCollectionViewController;
+//            
+//            svc.userUsername = self.username
+//        }
+//    }
     
-    func addFollowRelationshipFromUser(user: PFUser, toUser: PFUser) {
-        let followObject = PFObject(className: "Follow")
-        followObject.setObject(user, forKey: "followFrom")
-        followObject.setObject(toUser, forKey: "followingTo")
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, object: PFObject?) -> PFTableViewCell {
         
-        followObject.saveInBackgroundWithBlock(nil)
-    }
-    
-    func removeFollowRelationshipFromUser(user: PFUser, toUser: PFUser) {
-        let query = PFQuery(className: "Follow")
-        query.whereKey("followFrom", equalTo:user)
-        query.whereKey("follwingTo", equalTo: toUser)
+        let cell = tableView.dequeueReusableCellWithIdentifier("friendCell", forIndexPath: indexPath) as! FriendsSearchTableviewCell
         
-        query.findObjectsInBackgroundWithBlock {
-            (results: [PFObject]?, error: NSError?) -> Void in
-            
-            let results = results ?? []
-            
-            for follow in results {
-                follow.deleteInBackgroundWithBlock(nil)
-            }
-        }
-    }
-    
-    func allUsers(completionBlock: PFQueryArrayResultBlock?) -> PFQuery {
-        let query = PFUser.query()!
-        // exclude the current user
-        query.whereKey("username",
-                       notEqualTo: PFUser.currentUser()!.username!)
-        query.orderByAscending("username")
-        query.limit = 20
+        let username = object!["username"] as! String
         
-        query.findObjectsInBackgroundWithBlock(completionBlock)
+        cell.friendUsername.text = username
         
-        return query
-    }
 
+        
+        return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+//        let cell = tableView.dequeueReusableCellWithIdentifier("friendCell", forIndexPath: indexPath) as! FriendsSearchTableviewCell
+        
+        var othersVC = OthersCollectionViewController()
+        
+        var cell = self.tableView.cellForRowAtIndexPath(indexPath) as! FriendsSearchTableviewCell
+        
+        othersVC.userUsername = cell.friendUsername.text!
+    
+        print("username pass to othervc\(othersVC.userUsername)")
+        
+//        self.presentViewController(othersVC, animated: true, completion: nil)
+        self.navigationController?.pushViewController(othersVC, animated: true)
+//        self.navigationController?.presentViewController(othersVC, animated: true, completion: nil)
+
+    }
+    
+//    func filterContentForSearchText(searchText: String, scope: String = "All") {
+//        filteredUsernames = usernames.filter { username in
+//            return username.name.lowercaseString.containsString(searchText.lowercaseString)
+//        }
+        
+//        tableView.reloadData()
+//    }
+    
 }

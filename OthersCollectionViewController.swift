@@ -1,25 +1,32 @@
+//
+//  OthersCollectionViewController.swift
+//  ToloCam
+//
+//  Created by Federico Li on 2/19/16.
+//  Copyright © 2016 Federico Li. All rights reserved.
+//
 
 import UIKit
 import Parse
 import Bolts
 import ParseUI
 
-class ExploreCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UIViewControllerPreviewingDelegate {
+class OthersCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    @IBOutlet weak var collectionView: UICollectionView!
-
+    
+    //    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var othersCollectionView: UICollectionView!
+    
+    var userUsername = String()
     
     var images = [UIImage]()
-    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //for auto resizing collection view cells
         let screenWidth = UIScreen.mainScreen().bounds.size.width
         let screenHeight = UIScreen.mainScreen().bounds.size.height
-        
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
@@ -27,41 +34,30 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
         
         _ = UICollectionView(frame: CGRectMake(0, 0, screenWidth, screenHeight), collectionViewLayout: layout)
         
-        print("collectionviewdidload is called")
-        if (traitCollection.forceTouchCapability == .Available){
-            registerForPreviewingWithDelegate(self, sourceView: view)
-        }
+        print("username in othervc \(self.userUsername)")
         
         loadData()
         
         
     }
     
-    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
-    }
-    
-    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        
-        guard let indexPath = collectionView.indexPathForItemAtPoint(location) else {return nil}
-        guard let cell = collectionView.cellForItemAtIndexPath(indexPath) else {return nil}
-        //        guard let detailVC = storyboard?.instantiateViewControllerWithIdentifier("PostDetailVC") as? PostDetailViewController else {return nil}
-        
-        
-        return self
-    }
-    
     override func viewDidAppear(animated: Bool) {
-        print("hey there")
+        //        self.collectionView.registerClass(OthersCollectionViewCell.self, forCellWithReuseIdentifier: "othersCell")
         
     }
+    
+    
     func loadData(){
         
         print("load data is called")
+        print("username is", self.userUsername)
         
         let query = PFQuery(className: "Posts")
         query.orderByDescending("createdAt")
+        query.whereKey("addedBy", equalTo: self.userUsername)
         query.findObjectsInBackgroundWithBlock{
             (posts:[PFObject]?, error: NSError?) -> Void in
+            
             
             if (error == nil) {
                 if let posts = posts as [PFObject]! {
@@ -88,11 +84,11 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
                             }
                             
                             
-                            self.images.append(imageIWillUse )
+                            self.images.append(imageIWillUse)
                         }
                     }
                     
-                    self.collectionView.reloadData()
+                    self.othersCollectionView.reloadData()
                     
                     
                 }
@@ -125,8 +121,9 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         
-//        print("collectionview cell not getting called")
-        let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! ExploreCollectionViewCell
+        print("collectionview cell not getting called")
+        //        let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier("othersCell", forIndexPath: indexPath) as! OthersCollectionViewCell
+        let cell = self.othersCollectionView.dequeueReusableCellWithReuseIdentifier("othersCell", forIndexPath: indexPath) as! OthersCollectionViewCell
         
         
         cell.imageToShow.image = (self.images[indexPath.row] )
@@ -138,7 +135,6 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
         
     }
     
-    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
     {
         return CGSize(width: (UIScreen.mainScreen().bounds.size.width-4) / 3, height: (UIScreen.mainScreen().bounds.size.width-4) / 3)
@@ -148,6 +144,7 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
     
     /*
      // MARK: - Navigation
+     
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
      // Get the new view controller using segue.destinationViewController.

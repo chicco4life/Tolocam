@@ -11,11 +11,14 @@ import Parse
 import Bolts
 import ParseUI
 
-class FriendsSearchTableviewCell: UITableViewCell {
+class FriendsSearchTableviewCell: PFTableViewCell {
+    
+    var cellUsername = String()
 
     @IBOutlet weak var friendUsername: UILabel!
-    @IBOutlet weak var followBtnOutlet: UIButton!
     
-    @IBAction func followBtn(sender: AnyObject) {
+    func getUsername(){
+        self.cellUsername = friendUsername.text!
     }
+    
 }

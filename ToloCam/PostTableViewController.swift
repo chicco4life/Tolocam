@@ -37,6 +37,7 @@ class PostTableViewController: PFQueryTableViewController {
         self.parseClassName = "Posts"
         
         self.pullToRefreshEnabled = true
+        
         self.paginationEnabled = false
     }
     
@@ -65,7 +66,7 @@ class PostTableViewController: PFQueryTableViewController {
         print("viewdidload is called")
         
         self.refreshControl = UIRefreshControl()
-        //self.refreshControl!.addTarget(self, action: #selector(PostTableViewController.refreshPulled), forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl!.addTarget(self, action: #selector(PostTableViewController.refreshPulled), forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl!.userInteractionEnabled = true
         
 //        let userQuery = PFUser.query()
@@ -98,41 +99,15 @@ class PostTableViewController: PFQueryTableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         //         self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
-    /*
+
     func refreshPulled() {
+        self.loadObjects()
+//        self.tableView.performSelectorInBackground(#selector(self.loadObjects), withObject: nil)
+//        self.performSelectorInBackground(#selector(self.loadObjects), withObject: nil)
         
-        print("refresh method pulled")
+        self.refreshControl?.endRefreshing()
         
-        //loadData() Commented out since loading followingWho only
-        let userQuery = PFUser.query()
-        userQuery?.whereKey("username", equalTo: PFUser.currentUser()!.username!)
-        userQuery?.findObjectsInBackgroundWithBlock({ (objects:[PFObject]?, error: NSError?) -> Void in
-            
-            if error == nil {
-                // no error
-                if let objects = objects {
-                    for object in objects {
-                        let followingWho = object["followingWho"] as! NSArray
-                        self.loadData(followingWho)
-                    }
-                    
-                }
-                
-                
-            }else {
-                //error
-                NSLog("Error")
-                
-            }
-            
-            
-        })
-        
-        self.tableView.reloadData()
-        
-        refreshControl?.endRefreshing()
-        
-    }*/
+    }
     
 //    func loadData (followingWho: NSArray) {
 //        
@@ -214,6 +189,7 @@ class PostTableViewController: PFQueryTableViewController {
     }
     
     // MARK: - Table view data source
+
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, object: PFObject?) -> PFTableViewCell {
         

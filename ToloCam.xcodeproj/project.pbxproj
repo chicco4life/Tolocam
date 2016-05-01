@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		B62A3EA01CD3D157006C1F74 /* FriendSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A3E9F1CD3D157006C1F74 /* FriendSearchTableViewController.swift */; };
 		B62A3EA21CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A3EA11CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift */; };
+		B6C4FF381CD52B4D008548A2 /* OthersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C4FF371CD52B4D008548A2 /* OthersCollectionViewCell.swift */; };
+		B6C4FF3A1CD5F4C9008548A2 /* OthersCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C4FF391CD5F4C9008548A2 /* OthersCollectionViewController.swift */; };
 		FF06E79B1C75BE8F00920007 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E79A1C75BE8F00920007 /* TabBar.swift */; };
 		FF06E7A51C75C84000920007 /* ExploreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */; };
 		FF06E7A71C75C91F00920007 /* ExploreCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */; };
@@ -70,6 +72,8 @@
 /* Begin PBXFileReference section */
 		B62A3E9F1CD3D157006C1F74 /* FriendSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendSearchTableViewController.swift; sourceTree = "<group>"; };
 		B62A3EA11CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsSearchTableviewCell.swift; sourceTree = "<group>"; };
+		B6C4FF371CD52B4D008548A2 /* OthersCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OthersCollectionViewCell.swift; sourceTree = "<group>"; };
+		B6C4FF391CD5F4C9008548A2 /* OthersCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OthersCollectionViewController.swift; path = ../OthersCollectionViewController.swift; sourceTree = "<group>"; };
 		FF06E79A1C75BE8F00920007 /* TabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExploreCollectionViewCell.swift; path = ../ExploreCollectionViewCell.swift; sourceTree = "<group>"; };
 		FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewController.swift; sourceTree = "<group>"; };
@@ -205,6 +209,8 @@
 				FFD788511C6CB1BB00ACDB65 /* PostTableViewController.swift */,
 				FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */,
 				FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */,
+				B6C4FF371CD52B4D008548A2 /* OthersCollectionViewCell.swift */,
+				B6C4FF391CD5F4C9008548A2 /* OthersCollectionViewController.swift */,
 				B62A3EA11CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift */,
 				B62A3E9F1CD3D157006C1F74 /* FriendSearchTableViewController.swift */,
 				FFE37A651C775BCE00C1670F /* ProfileCollectionViewCell.swift */,
@@ -398,11 +404,13 @@
 				B62A3EA01CD3D157006C1F74 /* FriendSearchTableViewController.swift in Sources */,
 				FFD788521C6CB1BB00ACDB65 /* PostTableViewController.swift in Sources */,
 				FFCBBDC21C6C8D8D00BA0773 /* LoginViewController.swift in Sources */,
+				B6C4FF3A1CD5F4C9008548A2 /* OthersCollectionViewController.swift in Sources */,
 				FF06E7A71C75C91F00920007 /* ExploreCollectionViewController.swift in Sources */,
 				FFD788581C731EBF00ACDB65 /* RegisterViewController.swift in Sources */,
 				FFCBBDC81C6C8D8D00BA0773 /* ToloCam.xcdatamodeld in Sources */,
 				FFD788561C6CB89A00ACDB65 /* ComposeViewController.swift in Sources */,
 				FFE37A641C775BAD00C1670F /* ProfileCollectionViewController.swift in Sources */,
+				B6C4FF381CD52B4D008548A2 /* OthersCollectionViewCell.swift in Sources */,
 				FFCBBDC01C6C8D8D00BA0773 /* AppDelegate.swift in Sources */,
 				FFD788501C6CB14300ACDB65 /* PostTableViewCell.swift in Sources */,
 				FF06E7A51C75C84000920007 /* ExploreCollectionViewCell.swift in Sources */,
