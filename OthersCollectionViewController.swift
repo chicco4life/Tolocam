@@ -22,6 +22,8 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
     @IBOutlet var followButtonTitle: UIButton!
     @IBOutlet weak var usernameLabel: UILabel!
     var images = [UIImage]()
+    var currentProfilePageUser = PFUser()
+    var canFollow = Bool()
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,27 +34,11 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
 //        print("userUsername: \(userUsername)")
         
         print(PFUser.currentUser()!)
-
-        var currentProfilePageUser = PFUser()
         
         userQuery!.findObjectsInBackgroundWithBlock({ (result:[PFObject]?, error:NSError?) in
-            currentProfilePageUser = result![0] as! PFUser
+            self.currentProfilePageUser = result![0] as! PFUser
          })
-        
-        let query = PFQuery(className: "Follow")
-        query.whereKey("followFrom", equalTo: PFUser.currentUser()!.objectId!)
-        query.whereKey("followingTo", equalTo: currentProfilePageUser)
-        print(currentProfilePageUser)
-        query.findObjectsInBackgroundWithBlock { (result:[PFObject]?, error:NSError?) in
-            if result == nil{
-                print("currentuser is not following this user")
-                self.followButtonTitle.setTitle("Follow", forState: .Normal)
-            }else{
-                print("currentuser is follwing this user")
-                self.followButtonTitle.setTitle("Unfollow", forState: .Normal)
-            }
-        }
-        
+
         
         let screenWidth = UIScreen.mainScreen().bounds.size.width
         let screenHeight = UIScreen.mainScreen().bounds.size.height
@@ -73,10 +59,56 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
     }
     
     override func viewDidAppear(animated: Bool) {
-        
+        let query = PFQuery(className: "Follow")
+        query.whereKey("followFrom", equalTo: PFUser.currentUser()!)
+//        print(currentProfilePageUser)
+        query.whereKey("followingTo", equalTo: self.currentProfilePageUser)
+        print(currentProfilePageUser)
+        query.findObjectsInBackgroundWithBlock { (result:[PFObject]?, error:NSError?) in
+            if(error == nil){
+                if result?.count>0{
+                    print("\(PFUser.currentUser()!) is follwing this user \(result)")
+                    self.followButtonTitle.setTitle("Unfollow", forState: .Normal)
+                    self.canFollow = false
+                }else{
+                    print("currentuser is not following this user \(result)")
+                    self.followButtonTitle.setTitle("Follow", forState: .Normal)
+                    self.canFollow = true
+                }
+            } else {
+                print("Failed with error \(error)")
+            }
+        }
     }
     
     @IBAction func followPressed(sender: AnyObject) {
+        if canFollow == true{
+            let follow = PFObject(className: "Follow")
+            follow["followFrom"] = PFUser.currentUser()
+            follow["followingTo"] = self.currentProfilePageUser
+            follow.saveInBackground()
+            self.followButtonTitle.setTitle("Unfollow", forState: .Normal)
+            self.canFollow = false
+            NSNotificationCenter.defaultCenter().postNotificationName("refresh", object: nil)
+            
+        }else{
+            let query = PFQuery(className: "Follow")
+            query.whereKey("followFrom", equalTo:PFUser.currentUser()!)
+            query.whereKey("followingTo", equalTo: self.currentProfilePageUser)
+            
+            query.findObjectsInBackgroundWithBlock {
+                (results: [PFObject]?, error: NSError?) -> Void in
+                
+                let results = results ?? []
+                
+                for follow in results {
+                    follow.deleteInBackgroundWithBlock(nil)
+                }
+            }
+            self.followButtonTitle.setTitle("Follow", forState: .Normal)
+            self.canFollow = true
+            NSNotificationCenter.defaultCenter().postNotificationName("refresh", object: nil)
+        }
     }
     
     func loadData(){

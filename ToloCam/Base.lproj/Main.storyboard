@@ -962,6 +962,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search for your friends" showsCancelButton="YES" id="KNI-Nq-U3l">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="friendCell" id="JEO-Gu-ity" customClass="FriendsSearchTableviewCell" customModule="ToloCam" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
@@ -1013,6 +1018,7 @@
                     <navigationItem key="navigationItem" title="Search" id="r5z-Vu-l0q"/>
                     <connections>
                         <outlet property="friendTableView" destination="P81-Th-R7X" id="svY-h6-Vu9"/>
+                        <outlet property="searchBar" destination="KNI-Nq-U3l" id="xwJ-Pn-Kc5"/>
                         <outlet property="tableView" destination="P81-Th-R7X" id="Ppy-oT-48v"/>
                     </connections>
                 </tableViewController>

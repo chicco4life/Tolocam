@@ -61,7 +61,7 @@ class PostTableViewController: PFQueryTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshPulled", name: "refresh", object: nil)
         
         print("viewdidload is called")
         

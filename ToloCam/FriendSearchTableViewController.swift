@@ -11,12 +11,16 @@ import Parse
 import Bolts
 import ParseUI
 
-class FriendSearchTableViewController: PFQueryTableViewController {
+class FriendSearchTableViewController: PFQueryTableViewController, UISearchBarDelegate {
     
     @IBOutlet weak var friendTableView: UITableView!
-
     
-    let searchController = UISearchController(searchResultsController: nil)
+    var searchActive = false
+    var data:[PFObject]!
+    var filtered:[PFObject]!
+
+    @IBOutlet var searchBar: UISearchBar!
+    
     var usernames = [String]()
     var filteredUsernames = [String]()
     var username = String()
@@ -38,8 +42,10 @@ class FriendSearchTableViewController: PFQueryTableViewController {
     // Define the query that will provide the data for the table view
     override func queryForTable() -> PFQuery {
         let query = PFUser.query()
-        query!.whereKey("username",
-                        notEqualTo: PFUser.currentUser()!.username!)
+        if searchBar.text != "" {
+            query!.whereKey("username", containsString: searchBar.text!.lowercaseString)
+        }
+        query!.whereKey("username", notEqualTo: PFUser.currentUser()!.username!)
         query!.orderByAscending("username")
         return query!
     }
@@ -47,11 +53,29 @@ class FriendSearchTableViewController: PFQueryTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
-        definesPresentationContext = true
-        tableView.tableHeaderView = searchController.searchBar
-
+        searchBar.delegate = self
+//        search()
+        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        // Refresh the table to ensure any data changes are displayed
+        tableView.reloadData()
+        
+        // Delegate the search bar to this table view class
+        searchBar.delegate = self
+    }
+    
+    func search(searchText: String? = nil){
+        let query = PFUser.query()
+        if(searchText != nil){
+            query!.whereKey("username", containsString: searchText)
+        }
+        query!.findObjectsInBackgroundWithBlock { (results, error) -> Void in
+            self.data = results as [PFObject]!
+            self.tableView.reloadData()
+        }
         
     }
     
@@ -60,18 +84,18 @@ class FriendSearchTableViewController: PFQueryTableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("friendCell", forIndexPath: indexPath) as! FriendsSearchTableviewCell
         
         let username = object!["username"] as! String
+
+        cell.friendUsername.text = username
+        
         return cell
     }
+    
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
 //        let cell = tableView.dequeueReusableCellWithIdentifier("friendCell", forIndexPath: indexPath) as! FriendsSearchTableviewCell
     
         let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! FriendsSearchTableviewCell
-        
-
-    
-      
         
         let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("OthersCollectionViewController") as! OthersCollectionViewController
@@ -83,6 +107,72 @@ class FriendSearchTableViewController: PFQueryTableViewController {
 
 
     }
+    
+    
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        
+        // Dismiss the keyboard
+        searchBar.resignFirstResponder()
+        
+        // Force reload of table data
+        self.loadObjects()
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        
+        // Dismiss the keyboard
+        searchBar.resignFirstResponder()
+        
+        // Force reload of table data
+        self.loadObjects()
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        
+        // Clear any search criteria
+        searchBar.text = ""
+        
+        // Dismiss the keyboard
+        searchBar.resignFirstResponder()
+        
+        // Force reload of table data
+        self.loadObjects()
+    }
+    
+    func allUsers(completionBlock: PFQueryArrayResultBlock?) -> PFQuery {
+        let query = PFUser.query()!
+        // exclude the current user
+        query.whereKey("username",
+                       notEqualTo: PFUser.currentUser()!.username!)
+        query.orderByAscending("username")
+        query.limit = 20
+        
+        query.findObjectsInBackgroundWithBlock(completionBlock)
+        
+        return query
+    }
+    
+    func searchUsers(searchText: String, completionBlock: PFQueryArrayResultBlock?)
+        -> PFQuery {
+            /*
+             NOTE: We are using a Regex to allow for a case insensitive compare of usernames.
+             Regex can be slow on large datasets. For large amount of data it's better to store
+             lowercased username in a separate column and perform a regular string compare.
+             */
+            let query = PFUser.query()!.whereKey("username",
+                                                 matchesRegex: searchText, modifiers: "i")
+            
+            query.whereKey("username",
+                           notEqualTo: PFUser.currentUser()!.username!)
+            
+            query.orderByAscending("username")
+            query.limit = 20
+            
+            query.findObjectsInBackgroundWithBlock(completionBlock)
+            
+            return query
+    }
+    
     
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         self.filteredUsernames = self.usernames.filter({( newUsername : String) -> Bool in
