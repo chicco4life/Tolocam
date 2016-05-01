@@ -87,8 +87,8 @@ class FriendSearchTableViewController: PFQueryTableViewController {
     
         print("username pass to othervc\(othersVC.userUsername)")
         
-//        self.presentViewController(othersVC, animated: true, completion: nil)
-        self.navigationController?.pushViewController(othersVC, animated: true)
+        self.presentViewController(othersVC, animated: true, completion: nil)
+//        self.navigationController?.pushViewController(othersVC, animated: true)
 //        self.navigationController?.presentViewController(othersVC, animated: true, completion: nil)
 
     }

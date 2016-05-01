@@ -42,7 +42,6 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
     }
     
     override func viewDidAppear(animated: Bool) {
-        //        self.collectionView.registerClass(OthersCollectionViewCell.self, forCellWithReuseIdentifier: "othersCell")
         
     }
     

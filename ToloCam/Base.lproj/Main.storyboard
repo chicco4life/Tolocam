@@ -974,7 +974,6 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="friendUsername" destination="QNZ-ZM-odU" id="gnc-vp-NWj"/>
-                                    <segue destination="CZo-uE-SFK" kind="show" identifier="showOthersProfile" id="3zd-OF-e3x"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
