@@ -95,16 +95,8 @@ class FriendSearchTableViewController: PFQueryTableViewController {
         
         
 
-//        self.navigationController?.presentViewController(othersVC, animated: true, completion: nil)
 
     }
-    
-//    func filterContentForSearchText(searchText: String, scope: String = "All") {
-//        filteredUsernames = usernames.filter { username in
-//            return username.name.lowercaseString.containsString(searchText.lowercaseString)
-//        }
-        
-//        tableView.reloadData()
-//    }
+
     
 }
