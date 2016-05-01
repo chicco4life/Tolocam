@@ -1,5 +1,5 @@
 //
-//  FriendsSearchTableViewCell.swift
+//  FriendsSearchTableviewCell.swift
 //  ToloCam
 //
 //  Created by Federico Li on 4/22/16.
@@ -7,18 +7,18 @@
 //
 
 import UIKit
+import Parse
+import Bolts
+import ParseUI
 
-class FriendsSearchTableViewCell: UITableViewCell {
+class FriendsSearchTableviewCell: PFTableViewCell {
+    
+    var cellUsername = String()
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    @IBOutlet weak var friendUsername: UILabel!
+    
+    func getUsername(){
+        self.cellUsername = friendUsername.text!
     }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
+    
 }
