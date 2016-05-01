@@ -540,7 +540,7 @@
             </objects>
             <point key="canvasLocation" x="0.0" y="314"/>
         </scene>
-        <!--Camera View Controller-->
+        <!--Compose-->
         <scene sceneID="O4b-W0-LXB">
             <objects>
                 <viewController storyboardIdentifier="cameraController" id="C08-dF-LeB" customClass="CameraViewController" customModule="ToloCam" customModuleProvider="target" sceneMemberID="viewController">
@@ -552,32 +552,42 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BVv-qQ-NAC">
+                            <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="BVv-qQ-NAC">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W9V-JI-EQd">
                                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                        <state key="normal" title="Add Image"/>
-                                        <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                            <rect key="frame" x="25" y="680" width="74" height="30"/>
-                                        </variation>
+                                        <state key="normal" title="Add Image">
+                                            <color key="titleColor" red="1" green="0.96557523649999999" blue="0.96734302240000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
                                         <connections>
                                             <action selector="addImageTapped:" destination="C08-dF-LeB" eventType="touchUpInside" id="oPM-4a-6S0"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vSz-t1-hk3">
                                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                        <state key="normal" title="Capture"/>
-                                        <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                            <rect key="frame" x="173" y="680" width="55" height="30"/>
-                                        </variation>
+                                        <state key="normal" title="Capture">
+                                            <color key="titleColor" red="1" green="0.96557523649999999" blue="0.96734302240000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.1176470588" green="0.1176470588" blue="0.1176470588" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="W9V-JI-EQd" secondAttribute="bottom" constant="22" id="RTJ-ho-BeQ"/>
+                                    <constraint firstItem="vSz-t1-hk3" firstAttribute="leading" secondItem="W9V-JI-EQd" secondAttribute="trailing" constant="79" id="XUr-zK-3PW"/>
+                                    <constraint firstItem="vSz-t1-hk3" firstAttribute="centerX" secondItem="BVv-qQ-NAC" secondAttribute="centerX" id="cAt-cf-dth"/>
+                                    <constraint firstItem="W9V-JI-EQd" firstAttribute="baseline" secondItem="vSz-t1-hk3" secondAttribute="baseline" id="fgz-4C-55B"/>
+                                </constraints>
                                 <variation key="default">
                                     <mask key="subviews">
                                         <exclude reference="W9V-JI-EQd"/>
                                         <exclude reference="vSz-t1-hk3"/>
+                                    </mask>
+                                    <mask key="constraints">
+                                        <exclude reference="RTJ-ho-BeQ"/>
+                                        <exclude reference="fgz-4C-55B"/>
+                                        <exclude reference="XUr-zK-3PW"/>
+                                        <exclude reference="cAt-cf-dth"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
@@ -585,13 +595,21 @@
                                         <include reference="W9V-JI-EQd"/>
                                         <include reference="vSz-t1-hk3"/>
                                     </mask>
+                                    <mask key="constraints">
+                                        <include reference="RTJ-ho-BeQ"/>
+                                        <include reference="fgz-4C-55B"/>
+                                        <include reference="XUr-zK-3PW"/>
+                                        <include reference="cAt-cf-dth"/>
+                                    </mask>
                                 </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="BVv-qQ-NAC" secondAttribute="trailing" id="I8Y-94-pg9"/>
-                            <constraint firstItem="BVv-qQ-NAC" firstAttribute="top" secondItem="Thv-uc-eyh" secondAttribute="bottom" id="QiH-wR-Zc0"/>
+                            <constraint firstItem="BVv-qQ-NAC" firstAttribute="top" secondItem="Thv-uc-eyh" secondAttribute="bottom" id="QiH-wR-Zc0">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
                             <constraint firstItem="7jb-sw-f3W" firstAttribute="top" secondItem="BVv-qQ-NAC" secondAttribute="bottom" id="Xsx-aw-oyJ"/>
                             <constraint firstItem="BVv-qQ-NAC" firstAttribute="leading" secondItem="4uA-h8-tIr" secondAttribute="leading" id="gvH-f0-ScV"/>
                         </constraints>
@@ -618,9 +636,9 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" id="IPK-ac-Jaa"/>
+                    <navigationItem key="navigationItem" title="Compose" id="IPK-ac-Jaa"/>
                     <connections>
-                        <outlet property="cameraView" destination="BVv-qQ-NAC" id="pVq-sS-qQ8"/>
+                        <outlet property="cameraView" destination="BVv-qQ-NAC" id="hcs-5d-0sH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3N6-Fe-Y4s" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -928,7 +946,7 @@
         <!--Compose-->
         <scene sceneID="4Rj-xX-K15">
             <objects>
-                <navigationController storyboardIdentifier="ComposeNavigationController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="B3R-tE-2MI" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="CameraNavigationController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="B3R-tE-2MI" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Compose" image="Analytics30.png" selectedImage="Analytics30.png" id="3HM-vY-Vaf"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="PQY-PC-R04">

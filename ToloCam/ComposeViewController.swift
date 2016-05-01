@@ -34,20 +34,18 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
+        captionTextView.delegate = self
         
-    
+        // Do any additional setup after loading the view.
     }
     
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-        }
-    
-    func addImageTapped(sender: AnyObject) {
+    @IBAction func addImageTapped(sender: AnyObject) {
         
         let imagePicker = UIImagePickerController()
         
@@ -60,7 +58,7 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
-    
+        
         self.previewImage.image = image
         
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -72,11 +70,11 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
         return true;
     }
     
-    func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
     }
     
-    func composeTapped(sender: AnyObject) {
+    @IBAction func composeTapped(sender: AnyObject) {
         
         let date = NSDate()
         let dateFormatter = NSDateFormatter()
@@ -111,19 +109,19 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
             let alertController = UIAlertController(title: "Error", message: "Please upload an image first!", preferredStyle: UIAlertControllerStyle.Alert)
             alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: nil))
             self.presentViewController(alertController, animated: true, completion: nil)
-
+            
         }
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
+        
+        /*
+         // MARK: - Navigation
+         
+         // In a storyboard-based application, you will often want to do a little preparation before navigation
+         override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+         // Get the new view controller using segue.destinationViewController.
+         // Pass the selected object to the new view controller.
+         }
+         */
     }
-    */
-    }
-
+    
 }
