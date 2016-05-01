@@ -133,27 +133,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             print("segue performed toCompose")
         }
     
-        func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-            
-            if segue.identifier == "toCompose" {
-                
-                let itemToAdd = segue.destinationViewController as! Compose2ViewController
-                
-                itemToAdd.newImage = imageCaptured
-                print("segue prepared ")
-                
-            }
-            
-            
-        }
 
-
-        
-    }
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        self.view.endEditing(true)
-    }
     
     
 
