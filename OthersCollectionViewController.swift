@@ -19,11 +19,40 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
     
     var userUsername = String()
     
+    @IBOutlet var followButtonTitle: UIButton!
+    @IBOutlet weak var usernameLabel: UILabel!
     var images = [UIImage]()
-    
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let userQuery = PFUser.query()
+        userQuery!.whereKey("username", equalTo: userUsername)
+        
+//        print("userUsername: \(userUsername)")
+        
+        print(PFUser.currentUser()!)
+
+        var currentProfilePageUser = PFUser()
+        
+        userQuery!.findObjectsInBackgroundWithBlock({ (result:[PFObject]?, error:NSError?) in
+            currentProfilePageUser = result![0] as! PFUser
+         })
+        
+        let query = PFQuery(className: "Follow")
+        query.whereKey("followFrom", equalTo: PFUser.currentUser()!.objectId!)
+        query.whereKey("followingTo", equalTo: currentProfilePageUser)
+        print(currentProfilePageUser)
+        query.findObjectsInBackgroundWithBlock { (result:[PFObject]?, error:NSError?) in
+            if result == nil{
+                print("currentuser is not following this user")
+                self.followButtonTitle.setTitle("Follow", forState: .Normal)
+            }else{
+                print("currentuser is follwing this user")
+                self.followButtonTitle.setTitle("Unfollow", forState: .Normal)
+            }
+        }
+        
         
         let screenWidth = UIScreen.mainScreen().bounds.size.width
         let screenHeight = UIScreen.mainScreen().bounds.size.height
@@ -35,8 +64,9 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
         _ = UICollectionView(frame: CGRectMake(0, 0, screenWidth, screenHeight), collectionViewLayout: layout)
         
         print("username in othervc \(self.userUsername)")
+        self.usernameLabel.text = self.userUsername
         
-        othersCollectionView.backgroundColor = UIColor.redColor()
+//        othersCollectionView.backgroundColor = UIColor.redColor()
         loadData()
         
         
@@ -46,6 +76,8 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
         
     }
     
+    @IBAction func followPressed(sender: AnyObject) {
+    }
     
     func loadData(){
         
@@ -121,7 +153,7 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         
-        print("collectionview cell not getting called")
+//        print("collectionview cell not getting called")
         //        let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier("othersCell", forIndexPath: indexPath) as! OthersCollectionViewCell
         let cell = self.othersCollectionView.dequeueReusableCellWithReuseIdentifier("othersCell", forIndexPath: indexPath) as! OthersCollectionViewCell
         

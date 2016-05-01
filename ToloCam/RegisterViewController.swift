@@ -46,6 +46,10 @@ class RegisterViewController: UIViewController {
             return
         }
         
+        if ((usernameTextField.text?.containsString(" ")) != nil){
+            return
+        }
+        
         let user = PFUser()
             user.username = usernameTextField.text?.lowercaseString
             user.password = passwordTextField.text

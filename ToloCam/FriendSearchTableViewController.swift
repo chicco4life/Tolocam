@@ -51,16 +51,9 @@ class FriendSearchTableViewController: PFQueryTableViewController {
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
+
         
     }
-    
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        if segue.identifier == "showOthersProfile"{
-//            var svc = segue.destinationViewController as! OthersCollectionViewController;
-//            
-//            svc.userUsername = self.username
-//        }
-//    }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, object: PFObject?) -> PFTableViewCell {
         
@@ -68,12 +61,6 @@ class FriendSearchTableViewController: PFQueryTableViewController {
         
         let username = object!["username"] as! String
         
-        cell.friendUsername.text = username
-        
-
-        
-        return cell
-    }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
@@ -92,11 +79,22 @@ class FriendSearchTableViewController: PFQueryTableViewController {
           print("username pass to othervc\(vc.userUsername)")
         
         self.navigationController!.pushViewController(vc, animated: true)
-        
-        
 
 
     }
-
     
+    func filterContentForSearchText(searchText: String, scope: String = "All") {
+        self.filteredUsernames = self.usernames.filter({( newUsername : String) -> Bool in
+            let categoryMatch = (scope == "All") || (newUsername == scope)
+            return categoryMatch && newUsername.lowercaseString.containsString(searchText.lowercaseString)
+        })
+        
+        tableView.reloadData()
+    }
+}
+
+extension FriendSearchTableViewController: UISearchResultsUpdating {
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
 }
