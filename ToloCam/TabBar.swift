@@ -17,9 +17,9 @@ class TabBarInitializer {
         let postsVC = storyboard.instantiateViewControllerWithIdentifier("PostsNavigationController") as! UINavigationController
         postsVC.tabBarItem.title = "Posts"
         postsVC.tabBarItem.image = UIImage(named: "Home30")
-        let composeVC = storyboard.instantiateViewControllerWithIdentifier("ComposeNavigationController") as! UINavigationController
-        composeVC.tabBarItem.title = "Compose"
-        composeVC.tabBarItem.image = UIImage(named: "Analytics30")
+        let cameraVC = storyboard.instantiateViewControllerWithIdentifier("CameraNavigationController") as! UINavigationController
+        cameraVC.tabBarItem.title = "Camera"
+        cameraVC.tabBarItem.image = UIImage(named: "Analytics30")
         let settingsVC = storyboard.instantiateViewControllerWithIdentifier("SettingsNavigationController") as! UINavigationController
         settingsVC.tabBarItem.title = "Setting"
         settingsVC.tabBarItem.image = UIImage(named: "Setting30")
@@ -33,7 +33,7 @@ class TabBarInitializer {
         let controllers = [
             postsVC,
             exploreVC,
-            composeVC,
+            cameraVC,
             settingsVC,
             profileVC,
 

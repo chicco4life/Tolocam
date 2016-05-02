@@ -14,6 +14,8 @@
 		FF06E79B1C75BE8F00920007 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E79A1C75BE8F00920007 /* TabBar.swift */; };
 		FF06E7A51C75C84000920007 /* ExploreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */; };
 		FF06E7A71C75C91F00920007 /* ExploreCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */; };
+		FF7CFC211CD76DAC0091E11E /* Compose2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7CFC201CD76DAC0091E11E /* Compose2ViewController.swift */; };
+		FF7CFC231CD76F1F0091E11E /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7CFC221CD76F1F0091E11E /* CameraViewController.swift */; };
 		FFA914DB1C7480E500121EE2 /* Analytics30.png in Resources */ = {isa = PBXBuildFile; fileRef = FFA914D51C7480E500121EE2 /* Analytics30.png */; };
 		FFA914DC1C7480E500121EE2 /* Analytics302x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFA914D61C7480E500121EE2 /* Analytics302x.png */; };
 		FFA914DD1C7480E500121EE2 /* Home30.png in Resources */ = {isa = PBXBuildFile; fileRef = FFA914D71C7480E500121EE2 /* Home30.png */; };
@@ -77,6 +79,8 @@
 		FF06E79A1C75BE8F00920007 /* TabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExploreCollectionViewCell.swift; path = ../ExploreCollectionViewCell.swift; sourceTree = "<group>"; };
 		FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewController.swift; sourceTree = "<group>"; };
+		FF7CFC201CD76DAC0091E11E /* Compose2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Compose2ViewController.swift; sourceTree = "<group>"; };
+		FF7CFC221CD76F1F0091E11E /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		FFA914D51C7480E500121EE2 /* Analytics30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Analytics30.png; sourceTree = "<group>"; };
 		FFA914D61C7480E500121EE2 /* Analytics302x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Analytics302x.png; sourceTree = "<group>"; };
 		FFA914D71C7480E500121EE2 /* Home30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Home30.png; sourceTree = "<group>"; };
@@ -204,6 +208,8 @@
 				FFA914E31C74A68200121EE2 /* imageTableViewCell.swift */,
 				FFA914E11C748F0900121EE2 /* SettingsViewController.swift */,
 				FFD788571C731EBE00ACDB65 /* RegisterViewController.swift */,
+				FF7CFC221CD76F1F0091E11E /* CameraViewController.swift */,
+				FF7CFC201CD76DAC0091E11E /* Compose2ViewController.swift */,
 				FFD788551C6CB89A00ACDB65 /* ComposeViewController.swift */,
 				FFD7884F1C6CB14300ACDB65 /* PostTableViewCell.swift */,
 				FFD788511C6CB1BB00ACDB65 /* PostTableViewController.swift */,
@@ -331,7 +337,7 @@
 				TargetAttributes = {
 					FFCBBDBB1C6C8D8C00BA0773 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 7LRA4FJCX8;
+						DevelopmentTeam = 2NK2JDQHKG;
 					};
 					FFCBBDD21C6C8D8D00BA0773 = {
 						CreatedOnToolsVersion = 7.2;
@@ -401,6 +407,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF7CFC211CD76DAC0091E11E /* Compose2ViewController.swift in Sources */,
+				FF7CFC231CD76F1F0091E11E /* CameraViewController.swift in Sources */,
 				B62A3EA01CD3D157006C1F74 /* FriendSearchTableViewController.swift in Sources */,
 				FFD788521C6CB1BB00ACDB65 /* PostTableViewController.swift in Sources */,
 				FFCBBDC21C6C8D8D00BA0773 /* LoginViewController.swift in Sources */,
