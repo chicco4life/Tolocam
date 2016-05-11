@@ -34,6 +34,8 @@ class Compose2ViewController: UIViewController, UIImagePickerControllerDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.hideKeyboardWhenTappedAround()
+        
         captionTextView.delegate = self
         
         print("loading compose2 preview image")
@@ -95,7 +97,7 @@ class Compose2ViewController: UIViewController, UIImagePickerControllerDelegate,
             photoToUpload["likedBy"] = [:]
             
             do { try photoToUpload.save()} catch {}
-            photoToUpload.saveInBackground()
+//            photoToUpload.saveInBackground()
             
             let vc = TabBarInitializer.getTabBarController()
             self.presentViewController(vc, animated: true, completion: nil)

@@ -18,7 +18,7 @@ class FriendSearchTableViewController: PFQueryTableViewController, UISearchBarDe
     var searchActive = false
     var data:[PFObject]!
     var filtered:[PFObject]!
-
+    
     @IBOutlet var searchBar: UISearchBar!
     
     var usernames = [String]()
@@ -49,12 +49,12 @@ class FriendSearchTableViewController: PFQueryTableViewController, UISearchBarDe
         query!.orderByAscending("username")
         return query!
     }
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self
-//        search()
+        //        search()
         
     }
     
@@ -84,7 +84,7 @@ class FriendSearchTableViewController: PFQueryTableViewController, UISearchBarDe
         let cell = tableView.dequeueReusableCellWithIdentifier("friendCell", forIndexPath: indexPath) as! FriendsSearchTableviewCell
         
         let username = object!["username"] as! String
-
+        
         cell.friendUsername.text = username
         
         return cell
@@ -93,19 +93,19 @@ class FriendSearchTableViewController: PFQueryTableViewController, UISearchBarDe
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-//        let cell = tableView.dequeueReusableCellWithIdentifier("friendCell", forIndexPath: indexPath) as! FriendsSearchTableviewCell
-    
+        //        let cell = tableView.dequeueReusableCellWithIdentifier("friendCell", forIndexPath: indexPath) as! FriendsSearchTableviewCell
+        
         let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! FriendsSearchTableviewCell
         
         let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("OthersCollectionViewController") as! OthersCollectionViewController
         vc.userUsername = cell.friendUsername.text!
         
-          print("username pass to othervc\(vc.userUsername)")
+        print("username pass to othervc\(vc.userUsername)")
         
         self.navigationController!.pushViewController(vc, animated: true)
-
-
+        
+        
     }
     
     

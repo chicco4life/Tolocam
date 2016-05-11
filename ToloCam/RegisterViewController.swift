@@ -70,11 +70,6 @@ class RegisterViewController: UIViewController {
             
         }
         
-        
-        //if usernameTextField.text == "" {
-        // return
-        //}
-        
         let user = PFUser()
         user.username = usernameTextField.text?.lowercaseString
         user.password = passwordTextField.text

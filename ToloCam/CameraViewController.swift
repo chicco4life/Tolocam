@@ -19,6 +19,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     var stillImageOutput : AVCaptureStillImageOutput?
     var imageCaptured : UIImage!
     var previewLayer : AVCaptureVideoPreviewLayer?
+    var audioPlayer:AVAudioPlayer!
     
     
     @IBOutlet weak var cameraView: UIView!
@@ -101,6 +102,17 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     @IBAction func takePicture(sender: AnyObject) {
         
         print("Capturing image")
+        
+//        let path = NSBundle.mainBundle().pathForResource("meow.mp3", ofType:nil)!
+//        let url = NSURL(fileURLWithPath: path)
+//        
+//        do {
+//            let sound = try AVAudioPlayer(contentsOfURL: url)
+//            audioPlayer = sound
+//            sound.play()
+//        } catch {
+//            // couldn't load file :(
+//        }
         
         if let videoConnection = stillImageOutput!.connectionWithMediaType(AVMediaTypeVideo){
             stillImageOutput!.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler: {

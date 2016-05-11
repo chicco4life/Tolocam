@@ -20,6 +20,19 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        let attributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName : UIFont(name: "Avenir-Book", size: 22)! // Note the !
+        ]
+        //Customizing placeholder text style
+        self.usernameField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: attributes)
+        self.passwordField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: attributes)
+        //disabling username field autocorrect
+        self.usernameField.autocorrectionType = UITextAutocorrectionType.No
+        self.usernameField.autocapitalizationType = UITextAutocapitalizationType.None
+        //setting input text style
+        self.usernameField.font = UIFont(name: "Avenir-Book", size: 22)
+        self.passwordField.font = UIFont(name: "Avenir-Book", size: 22)
     }
     
     func textViewShouldEndEditing(textView: UITextView) -> Bool {
@@ -38,7 +51,7 @@ class LoginViewController: UIViewController {
     }
     @IBAction func logInTapped(sender: AnyObject) {
         let username = usernameField.text?.lowercaseString
-         let password = passwordField.text
+        let password = passwordField.text
         print("password \(password)")
         
         

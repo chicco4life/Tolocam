@@ -17,8 +17,4 @@ class FriendsSearchTableviewCell: PFTableViewCell {
 
     @IBOutlet weak var friendUsername: UILabel!
     
-    func getUsername(){
-        self.cellUsername = friendUsername.text!
-    }
-    
 }
