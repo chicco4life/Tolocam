@@ -52,7 +52,7 @@ class PostTableViewCell: PFTableViewCell {
                 let dictionaryOfLikers:NSMutableDictionary = (parseObject?.objectForKey("likedBy") as! NSMutableDictionary)
 //                print("DoL.currentuser: \(dictionaryOfLikers[(PFUser.currentUser()?.username)!] as! Int)")
 //                print(dictionaryOfLikers[(PFUser.currentUser()?.username)!])
-                var yourLikes = dictionaryOfLikers[PFUser.currentUser()!.username!]
+                let yourLikes = dictionaryOfLikers[PFUser.currentUser()!.username!]
                 
                 if yourLikes == nil{
                     let currentUser = PFUser.currentUser()?.username

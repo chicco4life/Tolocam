@@ -30,7 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window!.rootViewController = vc
         } else {
             // home page
-            //let vc = tabB.instantiateViewControllerWithIdentifier("tabController") as! UITabBarController
             let vc = TabBarInitializer.getTabBarController()
             self.window!.rootViewController = vc
         }

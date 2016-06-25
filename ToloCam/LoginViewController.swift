@@ -11,7 +11,7 @@ import Parse
 import Bolts
 import Foundation
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UINavigationControllerDelegate {
 
 
     @IBOutlet var usernameField: UITextField!
@@ -20,6 +20,9 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        self.modalTransitionStyle = .CrossDissolve
+        
         let attributes = [
             NSForegroundColorAttributeName: UIColor.whiteColor(),
             NSFontAttributeName : UIFont(name: "Avenir-Book", size: 22)! // Note the !
@@ -40,7 +43,20 @@ class LoginViewController: UIViewController {
         passwordField.resignFirstResponder()
         return true;
     }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
+    }
 
+    @IBAction func registerBtn(sender: AnyObject) {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+    let vc = storyboard.instantiateViewControllerWithIdentifier("registerVC") as! RegisterViewController
+        
+        self.presentViewController(vc, animated: true, completion: nil)
+    }
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
     }

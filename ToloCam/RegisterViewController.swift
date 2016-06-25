@@ -19,8 +19,41 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        
+        self.modalTransitionStyle = .CrossDissolve
+        
+        let attributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName : UIFont(name: "Avenir-Book", size: 22)! // Note the !
+        ]
+        
+        //Customizing placeholder text style
+        self.usernameTextField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: attributes)
+        self.passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: attributes)
+        self.emailTextField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: attributes)
+        //disabling username field & emailfield autocorrect
+        self.usernameTextField.autocorrectionType = UITextAutocorrectionType.No
+        self.usernameTextField.autocapitalizationType = UITextAutocapitalizationType.None
+        
+        self.emailTextField.autocorrectionType = UITextAutocorrectionType.No
+        self.emailTextField.autocapitalizationType = UITextAutocapitalizationType.None
+        
+        //setting input text style
+        self.usernameTextField.font = UIFont(name: "Avenir-Book", size: 22)
+        self.passwordTextField.font = UIFont(name: "Avenir-Book", size: 22)
+        self.emailTextField.font = UIFont(name: "Avenir-Book", size: 22)
+        
     }
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
+    }
+    
+    @IBAction func popVC(sender: AnyObject) {
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
+        
+    }
     func textViewShouldEndEditing(textView: UITextView) -> Bool {
         usernameTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
@@ -74,7 +107,6 @@ class RegisterViewController: UIViewController {
         user.username = usernameTextField.text?.lowercaseString
         user.password = passwordTextField.text
         user.email = emailTextField.text
-        //            user["followingWho"] = ["admin","chicco", "leo", usernameTextField.text!.lowercaseString]
         
         user.signUpInBackgroundWithBlock({
             (succeeded: Bool, error: NSError?) -> Void in

@@ -18,12 +18,6 @@ import ParseUI
 
 class PostTableViewController: PFQueryTableViewController {
     
-//    var images = [UIImage]()
-//    var imageCaptions = [String]()
-//    var imageDates = [String]()
-//    var imageUsers = [String]()
-//    var imageLikes = [Int]()
-//    var yourLikes = [Int]()
     var followingWho = [String]()
     
     override init(style: UITableViewStyle, className: String!) {
@@ -61,9 +55,20 @@ class PostTableViewController: PFQueryTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshPulled", name: "refresh", object: nil)
+        self.navigationController?.navigationBar.translucent = true
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PostTableViewController.refreshPulled), name: "refresh", object: nil)
         
         print("viewdidload is called")
+        
+        /* **************** ******* ******* ******* ******* ******* ******* ******* *******  FIX ***************** ******* *** ******* ******* ******* ******* ******* */
+        //        let attributes = [
+        //            NSForegroundColorAttributeName: UIColor.init(red: 93/255, green: 215/255, blue: 217/255, alpha: 1),
+        //            NSFontAttributeName : UIFont(name: "Bauhaus 93", size: 26)! // Note the !
+        //        ]
+        
+//        self.navigationController?.navigationBar.titleTextAttributes = attributes
+        /* **************** ******* ******* ******* ******* ******* ******* ******* *******  FIX ***************** ******* *** ******* ******* ******* ******* ******* */
         
         self.refreshControl = UIRefreshControl()
         self.refreshControl!.addTarget(self, action: #selector(PostTableViewController.refreshPulled), forControlEvents: UIControlEvents.ValueChanged)

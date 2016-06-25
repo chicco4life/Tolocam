@@ -23,14 +23,18 @@ extension UIImage {
 
 class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
 
-    @IBOutlet weak var captionTextView: UITextView!
+//    @IBOutlet weak var captionTextView: UITextView!
+    
+    @IBOutlet var captionTextView: UITextField!
     @IBOutlet weak var previewImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.navigationBar.translucent = true
+        
         self.hideKeyboardWhenTappedAround()
-        captionTextView.delegate = self
+//        captionTextView.delegate = self
         
         // Do any additional setup after loading the view.
     }
@@ -83,7 +87,7 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
             
             
             let file: PFFile = PFFile(data:imagedata2) as PFFile!
-            let fileCaption: String = self.captionTextView.text
+            let fileCaption: String = self.captionTextView.text!
             
             let photoToUpload = PFObject(className: "Posts")
             photoToUpload["Image"] = file

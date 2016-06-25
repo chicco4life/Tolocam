@@ -16,6 +16,8 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.navigationBar.translucent = true
+        
         //for auto resizing collection view cells
         let screenWidth = UIScreen.mainScreen().bounds.size.width
         let screenHeight = UIScreen.mainScreen().bounds.size.height

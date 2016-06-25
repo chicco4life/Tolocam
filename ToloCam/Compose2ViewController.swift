@@ -33,6 +33,7 @@ class Compose2ViewController: UIViewController, UIImagePickerControllerDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.translucent = true
         
         self.hideKeyboardWhenTappedAround()
         

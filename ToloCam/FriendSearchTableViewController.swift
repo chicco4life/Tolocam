@@ -53,9 +53,10 @@ class FriendSearchTableViewController: PFQueryTableViewController, UISearchBarDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchBar.delegate = self
-        //        search()
         
+        self.navigationController?.navigationBar.translucent = true
+        
+        searchBar.delegate = self
     }
     
     override func viewDidAppear(animated: Bool) {

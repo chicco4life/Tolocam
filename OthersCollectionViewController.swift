@@ -28,6 +28,8 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.navigationBar.translucent = true
+        
         let userQuery = PFUser.query()
         userQuery!.whereKey("username", equalTo: userUsername)
         
