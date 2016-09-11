@@ -20,6 +20,15 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+//        let familyNames = UIFont.familyNames()
+//        
+//        for name in familyNames {
+//            for fo in UIFont.fontNamesForFamilyName(name) {
+//                print(fo)
+//            }
+//        }
+        
         let attributes = [
             NSForegroundColorAttributeName: UIColor.whiteColor(),
             NSFontAttributeName : UIFont(name: "Avenir-Book", size: 22)! // Note the !

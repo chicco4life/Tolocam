@@ -44,7 +44,7 @@ class PostTableViewCell: PFTableViewCell {
                 parseObject!.setObject(likes!, forKey: "Likes")
                 
                 //Reset the text of the total likes label.
-                likesLabel?.text = "\(likes!) likes"
+                likesLabel?.text = "\(likes!)"
                 
                 //if first time like, need to upload current user's username to parse
                 
@@ -58,7 +58,7 @@ class PostTableViewCell: PFTableViewCell {
                     let currentUser = PFUser.currentUser()?.username
                     dictionaryOfLikers[currentUser!] = 1
                     parseObject?.setObject(dictionaryOfLikers, forKey: "likedBy")
-                    yourLikesLabel.text = "your likes: 1"
+                    yourLikesLabel.text = "1"
                 }
                 else{
                     let currentUser = PFUser.currentUser()?.username
@@ -66,7 +66,7 @@ class PostTableViewCell: PFTableViewCell {
                     tempYourLikes+=1
                     dictionaryOfLikers[currentUser!] = tempYourLikes
                     parseObject?.setObject(dictionaryOfLikers, forKey: "likedBy")
-                    yourLikesLabel.text = "your likes: \(tempYourLikes)"
+                    yourLikesLabel.text = "\(tempYourLikes)"
                 }
                 
                 parseObject!.saveInBackground();

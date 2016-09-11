@@ -13,7 +13,11 @@ import ParseUI
 
 class ProfileCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-
+    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var followersCount: UILabel!
+    @IBOutlet weak var followingCount: UILabel!
+    @IBOutlet weak var profileName: UILabel!
+    
     @IBOutlet weak var collectionView: UICollectionView!
 
     
@@ -23,15 +27,53 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let attributes = [
+            NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
+            NSFontAttributeName : UIFont(name: "Coves-Bold", size: 30)! // Note the !
+        ]
+        
+        self.navigationController?.navigationBar.titleTextAttributes = attributes
+        
         let screenWidth = UIScreen.mainScreen().bounds.size.width
         let screenHeight = UIScreen.mainScreen().bounds.size.height
         
+        profileName.text = PFUser.currentUser()?.username
+        
+        self.profileImage.backgroundColor = UIColor.blackColor()
+        self.profileImage.layer.masksToBounds = true
+        self.profileImage.clipsToBounds = true
+        self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width/5
+        self.profileImage.layer.borderWidth = 3
+        self.profileImage.layer.borderColor = UIColor(red: 93/255, green: 215/255, blue: 217/255, alpha: 1).CGColor
+        self.profileImage.contentMode = .ScaleAspectFill
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
         layout.itemSize = CGSize(width: (screenWidth - 4)/3, height: (screenWidth - 4)/3)
         
-        _ = UICollectionView(frame: CGRectMake(0, 0, screenWidth, screenHeight), collectionViewLayout: layout)
+        
+        //query for follow
+        
+        let followerQuery = PFQuery(className: "Follow")
+        followerQuery.whereKey("followingTo", equalTo:PFUser.currentUser()!)
+        var followerCount = Int()
+        followerQuery.findObjectsInBackgroundWithBlock { (followers:[PFObject]?, error:NSError?) in
+            followerCount = (followers?.count)!
+            self.followersCount.text = String(followerCount)
+        }
+
+        
+        
+        //following
+        
+        let followingQuery = PFQuery(className: "Follow")
+        followingQuery.whereKey("followFrom", equalTo:PFUser.currentUser()!)
+        var followingsCount = Int()
+        followingQuery.findObjectsInBackgroundWithBlock { (following:[PFObject]?, error:NSError?) in
+            followingsCount = (following?.count)!
+            self.followingCount.text = String(followingsCount)
+        }
+        
         
         print("collectionviewdidload is called")
 
@@ -150,4 +192,5 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
     }
     */
 
+    
 }

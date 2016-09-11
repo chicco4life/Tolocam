@@ -51,10 +51,10 @@ class TabBarInitializer {
         
         tabBarController.viewControllers = controllers
         tabBarController.restorationIdentifier = "tabBarController"
-        tabBarController.tabBar.translucent = true
-        tabBarController.tabBar.barTintColor = UIColor.clearColor()
-        tabBarController.tabBar.backgroundImage = UIImage.imageWithColor(UIColor.clearColor())
-        tabBarController.tabBar.backgroundColor = UIColor.clearColor()
+//        tabBarController.tabBar.translucent = true
+        tabBarController.tabBar.barTintColor = UIColor.whiteColor()
+        tabBarController.tabBar.backgroundImage = UIImage.imageWithColor(UIColor.whiteColor())
+        tabBarController.tabBar.backgroundColor = UIColor.whiteColor()
         let frost = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
         frost.frame = tabBarController.tabBar.bounds
         tabBarController.tabBar.insertSubview(frost, atIndex: 0)

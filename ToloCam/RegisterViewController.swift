@@ -18,7 +18,31 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.modalTransitionStyle = .CrossDissolve
+        
+        let attributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName : UIFont(name: "Avenir-Book", size: 22)! // Note the !
+        ]
+        //Customizing placeholder text style
+        self.usernameTextField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: attributes)
+        self.passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: attributes)
+        self.emailTextField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: attributes)
+        //disabling username field autocorrect
+        self.usernameTextField.autocorrectionType = UITextAutocorrectionType.No
+        self.usernameTextField.autocapitalizationType = UITextAutocapitalizationType.None
+        self.emailTextField.autocorrectionType = .No
+        self.emailTextField.autocapitalizationType = .None
+        //setting input text style
+        self.usernameTextField.font = UIFont(name: "Avenir-Book", size: 22)
+        self.passwordTextField.font = UIFont(name: "Avenir-Book", size: 22)
+        self.emailTextField.font = UIFont(name: "Avenir-Book", size: 22)
+        
         // Do any additional setup after loading the view.
+    }
+    
+    @IBAction func dismissVC(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func textViewShouldEndEditing(textView: UITextView) -> Bool {

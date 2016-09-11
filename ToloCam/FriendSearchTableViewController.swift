@@ -53,6 +53,13 @@ class FriendSearchTableViewController: PFQueryTableViewController, UISearchBarDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let attributes = [
+            NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
+            NSFontAttributeName : UIFont(name: "Coves-Bold", size: 30)! // Note the !
+        ]
+        
+        self.navigationController?.navigationBar.titleTextAttributes = attributes
         searchBar.delegate = self
         //        search()
         

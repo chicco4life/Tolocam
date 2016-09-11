@@ -16,6 +16,13 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let attributes = [
+            NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
+            NSFontAttributeName : UIFont(name: "Coves-Bold", size: 30)! // Note the !
+        ]
+        
+        self.navigationController?.navigationBar.titleTextAttributes = attributes
+        
         //for auto resizing collection view cells
         let screenWidth = UIScreen.mainScreen().bounds.size.width
         let screenHeight = UIScreen.mainScreen().bounds.size.height

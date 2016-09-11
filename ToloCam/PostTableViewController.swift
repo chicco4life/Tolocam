@@ -69,6 +69,13 @@ class PostTableViewController: PFQueryTableViewController {
         self.refreshControl!.addTarget(self, action: #selector(PostTableViewController.refreshPulled), forControlEvents: UIControlEvents.ValueChanged)
         self.refreshControl!.userInteractionEnabled = true
         
+        let attributes = [
+            NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
+            NSFontAttributeName : UIFont(name: "Coves-Bold", size: 30)! // Note the !
+        ]
+        
+        self.navigationController?.navigationBar.titleTextAttributes = attributes
+        
 //        let userQuery = PFUser.query()
 //        userQuery?.whereKey("username", equalTo: PFUser.currentUser()!.username!)
 //        userQuery?.findObjectsInBackgroundWithBlock({ (objects:[PFObject]?, error: NSError?) -> Void in
@@ -218,11 +225,11 @@ class PostTableViewController: PFQueryTableViewController {
         cell.postCaption.text = imageCaption
         cell.addedBy.text = imageUsers
         cell.dateLabel.text = imageDate
-        cell.likesLabel.text = "Likes: \(imageLikes)"
+        cell.likesLabel.text = "\(imageLikes)"
         if yourLikes == nil{
-            cell.yourLikesLabel.text = "your likes: 0"
+            cell.yourLikesLabel.text = "0"
         }else{
-        cell.yourLikesLabel.text = "your likes: \(yourLikes!)"
+        cell.yourLikesLabel.text = "\(yourLikes!)"
         }
         
         print("cell for row is called")
