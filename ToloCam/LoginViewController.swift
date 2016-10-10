@@ -14,6 +14,8 @@ import Foundation
 class LoginViewController: UIViewController {
 
 
+    @IBOutlet weak var registerBtn: UIButton!
+    
     @IBOutlet var usernameField: UITextField!
     
     @IBOutlet var passwordField: UITextField!
@@ -21,36 +23,31 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-//        let familyNames = UIFont.familyNames()
-//        
-//        for name in familyNames {
-//            for fo in UIFont.fontNamesForFamilyName(name) {
-//                print(fo)
-//            }
-//        }
-        
         let attributes = [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSForegroundColorAttributeName: UIColor.white,
             NSFontAttributeName : UIFont(name: "Avenir-Book", size: 22)! // Note the !
         ]
+        
+        registerBtn.titleLabel?.adjustsFontSizeToFitWidth = true
+        
         //Customizing placeholder text style
         self.usernameField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: attributes)
         self.passwordField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: attributes)
         //disabling username field autocorrect
-        self.usernameField.autocorrectionType = UITextAutocorrectionType.No
-        self.usernameField.autocapitalizationType = UITextAutocapitalizationType.None
+        self.usernameField.autocorrectionType = UITextAutocorrectionType.no
+        self.usernameField.autocapitalizationType = UITextAutocapitalizationType.none
         //setting input text style
         self.usernameField.font = UIFont(name: "Avenir-Book", size: 22)
         self.passwordField.font = UIFont(name: "Avenir-Book", size: 22)
     }
     
-    func textViewShouldEndEditing(textView: UITextView) -> Bool {
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         usernameField.resignFirstResponder()
         passwordField.resignFirstResponder()
         return true;
     }
 
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
 
@@ -58,14 +55,13 @@ class LoginViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    @IBAction func logInTapped(sender: AnyObject) {
-        let username = usernameField.text?.lowercaseString
+    @IBAction func logInTapped(_ sender: AnyObject) {
+        let username = usernameField.text?.lowercased()
         let password = passwordField.text
         print("password \(password)")
         
         
-        PFUser.logInWithUsernameInBackground(username!, password: password!) {
-            (user:PFUser?, error:NSError?) -> Void in
+        PFUser.logInWithUsername(inBackground: username!, password: password!) {(user:PFUser?, error:Error?) -> Void in
             
             if (error) == nil {
                 //successfully logged in
@@ -73,14 +69,14 @@ class LoginViewController: UIViewController {
                 print("Successfully Logged In.")
                 
                 let vc = TabBarInitializer.getTabBarController()
-                self.presentViewController(vc, animated: true, completion: nil)
+                self.present(vc, animated: true, completion: nil)
                 
             } else {
                 //Error while logging in
                 
-                let alertController = UIAlertController(title: "Error", message: "Incorrect Username/Password", preferredStyle: UIAlertControllerStyle.Alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: nil))
-                self.presentViewController(alertController, animated: true, completion: nil)
+                let alertController = UIAlertController(title: "Error", message: "Incorrect Username/Password", preferredStyle: UIAlertControllerStyle.alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
             }
             
         }

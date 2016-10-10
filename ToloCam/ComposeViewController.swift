@@ -12,12 +12,12 @@ import ParseUI
 import Bolts
 
 extension UIImage {
-    var uncompressedPNGData: NSData      { return UIImagePNGRepresentation(self)!        }
-    var highestQualityJPEGNSData: NSData { return UIImageJPEGRepresentation(self, 1.0)!  }
-    var highQualityJPEGNSData: NSData    { return UIImageJPEGRepresentation(self, 0.75)! }
-    var mediumQualityJPEGNSData: NSData  { return UIImageJPEGRepresentation(self, 0.5)!  }
-    var lowQualityJPEGNSData: NSData     { return UIImageJPEGRepresentation(self, 0.25)! }
-    var lowestQualityJPEGNSData:NSData   { return UIImageJPEGRepresentation(self, 0.0)!  }
+    var uncompressedPNGData: Data      { return UIImagePNGRepresentation(self)!        }
+    var highestQualityJPEGNSData: Data { return UIImageJPEGRepresentation(self, 1.0)!  }
+    var highQualityJPEGNSData: Data    { return UIImageJPEGRepresentation(self, 0.75)! }
+    var mediumQualityJPEGNSData: Data  { return UIImageJPEGRepresentation(self, 0.5)!  }
+    var lowQualityJPEGNSData: Data     { return UIImageJPEGRepresentation(self, 0.25)! }
+    var lowestQualityJPEGNSData:Data   { return UIImageJPEGRepresentation(self, 0.0)!  }
 }
 
 
@@ -48,42 +48,44 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func addImageTapped(sender: AnyObject) {
+    @IBAction func addImageTapped(_ sender: AnyObject) {
         
+        #if TARGET_OS_IPHONE
         let imagePicker = UIImagePickerController()
         
         imagePicker.delegate = self
-        imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-        imagePicker.mediaTypes = UIImagePickerController.availableMediaTypesForSourceType(.PhotoLibrary)!
+        imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        imagePicker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
         imagePicker.allowsEditing = false
         
-        self.presentViewController(imagePicker, animated: true, completion: nil)
+        self.present(imagePicker, animated: true, completion: nil)
+        #endif
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
     
         self.previewImage.image = image
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         
     }
     
-    func textViewShouldEndEditing(textView: UITextView) -> Bool {
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         captionTextView.resignFirstResponder()
         return true;
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
-    @IBAction func composeTapped(sender: AnyObject) {
+    @IBAction func composeTapped(_ sender: AnyObject) {
         
-        let date = NSDate()
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        let localDate = dateFormatter.stringFromDate(date)
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = DateFormatter.Style.short
+        dateFormatter.dateStyle = DateFormatter.Style.short
+        let localDate = dateFormatter.string(from: date)
         
         if let imageToBeUploaded = self.previewImage.image {
             let imagedata2 = imageToBeUploaded.lowQualityJPEGNSData
@@ -95,23 +97,25 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
             let photoToUpload = PFObject(className: "Posts")
             photoToUpload["Image"] = file
             photoToUpload["Caption"] = fileCaption
-            photoToUpload["postedBy"] = PFUser.currentUser()!
-            photoToUpload["addedBy"] = PFUser.currentUser()!.username!
+            photoToUpload["postedBy"] = PFUser.current()!
+            photoToUpload["addedBy"] = PFUser.current()!.username!
             photoToUpload["date"] = localDate
             photoToUpload["Likes"] = 0
             photoToUpload["likedBy"] = [:]
             
+            for _ in 0...10{
             do { try photoToUpload.save()} catch {}
+            }
 //            photoToUpload.saveInBackground()
             
             let vc = TabBarInitializer.getTabBarController()
-            self.presentViewController(vc, animated: true, completion: nil)
+            self.present(vc, animated: true, completion: nil)
             
         } else {
             print("wauw it was nil")
-            let alertController = UIAlertController(title: "Error", message: "Please upload an image first!", preferredStyle: UIAlertControllerStyle.Alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: nil))
-            self.presentViewController(alertController, animated: true, completion: nil)
+            let alertController = UIAlertController(title: "Error", message: "Please upload an image first!", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
 
         }
     

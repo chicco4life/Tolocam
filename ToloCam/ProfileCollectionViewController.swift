@@ -34,32 +34,21 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         
         self.navigationController?.navigationBar.titleTextAttributes = attributes
         
-        let screenWidth = UIScreen.mainScreen().bounds.size.width
-        let screenHeight = UIScreen.mainScreen().bounds.size.height
+        profileName.text = PFUser.current()?.username
         
-        profileName.text = PFUser.currentUser()?.username
-        
-        self.profileImage.backgroundColor = UIColor.blackColor()
-        self.profileImage.layer.masksToBounds = true
-        self.profileImage.clipsToBounds = true
-        self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width/5
-        self.profileImage.layer.borderWidth = 3
-        self.profileImage.layer.borderColor = UIColor(red: 93/255, green: 215/255, blue: 217/255, alpha: 1).CGColor
-        self.profileImage.contentMode = .ScaleAspectFill
-        
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
-        layout.itemSize = CGSize(width: (screenWidth - 4)/3, height: (screenWidth - 4)/3)
+//        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+//        layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+//        layout.itemSize = CGSize(width: (screenWidth - 4)/3, height: (screenWidth - 4)/3)
         
         
         //query for follow
         
         let followerQuery = PFQuery(className: "Follow")
-        followerQuery.whereKey("followingTo", equalTo:PFUser.currentUser()!)
+        followerQuery.whereKey("followingTo", equalTo:PFUser.current()!)
         var followerCount = Int()
-        followerQuery.findObjectsInBackgroundWithBlock { (followers:[PFObject]?, error:NSError?) in
+        followerQuery.findObjectsInBackground { (followers:[PFObject]?, error:Error?) in
             followerCount = (followers?.count)!
-            self.followersCount.text = String(followerCount)
+            self.followersCount.text = String(followerCount-1)
         }
 
         
@@ -67,11 +56,11 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         //following
         
         let followingQuery = PFQuery(className: "Follow")
-        followingQuery.whereKey("followFrom", equalTo:PFUser.currentUser()!)
+        followingQuery.whereKey("followFrom", equalTo:PFUser.current()!)
         var followingsCount = Int()
-        followingQuery.findObjectsInBackgroundWithBlock { (following:[PFObject]?, error:NSError?) in
+        followingQuery.findObjectsInBackground { (following:[PFObject]?, error:Error?) in
             followingsCount = (following?.count)!
-            self.followingCount.text = String(followingsCount)
+            self.followingCount.text = String(followingsCount-1)
         }
         
         
@@ -82,7 +71,19 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidLayoutSubviews() {
+            self.profileImage.backgroundColor = UIColor.black
+            self.profileImage.layer.masksToBounds = true
+        //        self.profileImage.clipsToBounds = true
+            self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width/2
+            print("size.width is ",self.profileImage.frame.size.width)
+            print("width is",self.profileImage.frame.width)
+            self.profileImage.layer.borderWidth = 3
+            self.profileImage.layer.borderColor = UIColor(red: 93/255, green: 215/255, blue: 217/255, alpha: 1).cgColor
+            self.profileImage.contentMode = .scaleAspectFill
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         print("hey there")
         
     }
@@ -91,13 +92,12 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
     func loadData(){
         
         print("load data is called")
-        print("username is", PFUser.currentUser()?.username)
+        print("username is", PFUser.current()?.username)
         
         let query = PFQuery(className: "Posts")
-        query.orderByDescending("createdAt")
-        query.whereKey("addedBy", equalTo: (PFUser.currentUser()?.username)!)
-        query.findObjectsInBackgroundWithBlock{
-            (posts:[PFObject]?, error: NSError?) -> Void in
+        query.order(byDescending: "createdAt")
+        query.whereKey("addedBy", equalTo: (PFUser.current()?.username)!)
+        query.findObjectsInBackground{(posts:[PFObject]?, error: Error?) -> Void in
             
             
             if (error == nil) {
@@ -147,7 +147,7 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         // Dispose of any resources that can be recreated.
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
         
         if self.images.count > 0
@@ -159,14 +159,14 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         }
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         
 //        print("collectionview cell not getting called")
-        let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! ProfileCollectionViewCell
+        let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ProfileCollectionViewCell
         
         
-        cell.imageToShow.image = (self.images[indexPath.row] )
+        cell.imageToShow.image = (self.images[(indexPath as NSIndexPath).row] )
         cell.contentView.frame = cell.bounds
         
         
@@ -175,9 +175,9 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize
     {
-        return CGSize(width: (UIScreen.mainScreen().bounds.size.width-4) / 3, height: (UIScreen.mainScreen().bounds.size.width-4) / 3)
+        return CGSize(width: (UIScreen.main.bounds.size.width-4) / 3, height: (UIScreen.main.bounds.size.width-4) / 3)
     }
     
 

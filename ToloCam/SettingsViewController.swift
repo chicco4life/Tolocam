@@ -29,14 +29,14 @@ class SettingsViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    @IBAction func logOutTapped(sender: AnyObject) {
+    @IBAction func logOutTapped(_ sender: AnyObject) {
         
         PFUser.logOut()
         
         print("Successfully logged out")
         
-        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("loginVC")
-        self.presentViewController(vc!, animated: true, completion: nil)
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "loginVC")
+        self.present(vc!, animated: true, completion: nil)
         
     }
     

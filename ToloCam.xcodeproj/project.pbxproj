@@ -15,6 +15,7 @@
 		B6C4FF3A1CD5F4C9008548A2 /* OthersCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C4FF391CD5F4C9008548A2 /* OthersCollectionViewController.swift */; };
 		B6C4FF911CD6BE94008548A2 /* meow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B6C4FF901CD6BE94008548A2 /* meow.mp3 */; };
 		B6D48DDE1D617AF200BDEDB3 /* brice.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B6D48DDD1D617AD000BDEDB3 /* brice.ttf */; };
+		B6DC542D1DABF12600E50276 /* gray.png in Resources */ = {isa = PBXBuildFile; fileRef = B6DC542C1DABF12600E50276 /* gray.png */; };
 		FF06E79B1C75BE8F00920007 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E79A1C75BE8F00920007 /* TabBar.swift */; };
 		FF06E7A51C75C84000920007 /* ExploreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */; };
 		FF06E7A71C75C91F00920007 /* ExploreCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */; };
@@ -78,6 +79,7 @@
 		B6C4FF391CD5F4C9008548A2 /* OthersCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OthersCollectionViewController.swift; path = ../OthersCollectionViewController.swift; sourceTree = "<group>"; };
 		B6C4FF901CD6BE94008548A2 /* meow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = meow.mp3; sourceTree = "<group>"; };
 		B6D48DDD1D617AD000BDEDB3 /* brice.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = brice.ttf; path = ../brice.ttf; sourceTree = "<group>"; };
+		B6DC542C1DABF12600E50276 /* gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gray.png; path = ../gray.png; sourceTree = "<group>"; };
 		FF06E79A1C75BE8F00920007 /* TabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExploreCollectionViewCell.swift; path = ../ExploreCollectionViewCell.swift; sourceTree = "<group>"; };
 		FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewController.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 		FFA914D41C7480E500121EE2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B6DC542C1DABF12600E50276 /* gray.png */,
 				B691DA321D7016A700AF1EF6 /* Coves Bold.otf */,
 				B691DA331D7016A700AF1EF6 /* Coves Light.otf */,
 				B6D48DDD1D617AD000BDEDB3 /* brice.ttf */,
@@ -367,19 +370,23 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Federico Li";
 				TargetAttributes = {
 					FFCBBDBB1C6C8D8C00BA0773 = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = 2NK2JDQHKG;
+						LastSwiftMigration = 0800;
 					};
 					FFCBBDD21C6C8D8D00BA0773 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 2NK2JDQHKG;
+						LastSwiftMigration = 0800;
 						TestTargetID = FFCBBDBB1C6C8D8C00BA0773;
 					};
 					FFCBBDDD1C6C8D8D00BA0773 = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 0800;
 						TestTargetID = FFCBBDBB1C6C8D8C00BA0773;
 					};
 				};
@@ -415,6 +422,7 @@
 				B6C4FF911CD6BE94008548A2 /* meow.mp3 in Resources */,
 				FFCBBDCD1C6C8D8D00BA0773 /* LaunchScreen.storyboard in Resources */,
 				FFCBBDCA1C6C8D8D00BA0773 /* Assets.xcassets in Resources */,
+				B6DC542D1DABF12600E50276 /* gray.png in Resources */,
 				FFCBBDC51C6C8D8D00BA0773 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -527,8 +535,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -571,8 +581,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -591,6 +603,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -601,6 +614,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 2NK2JDQHKG;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -610,6 +624,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = coco.federicoli.tolocam;
 				PRODUCT_NAME = "Zezheng Li";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -619,6 +634,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 2NK2JDQHKG;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -628,30 +644,33 @@
 				PRODUCT_BUNDLE_IDENTIFIER = coco.federicoli.tolocam;
 				PRODUCT_NAME = "Zezheng Li";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 		FFCBBDEB1C6C8D8D00BA0773 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 2NK2JDQHKG;
 				INFOPLIST_FILE = ToloCamTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = li.federico.ToloCamTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ToloCam.app/ToloCam";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Zezheng Li.app/Zezheng Li";
 			};
 			name = Debug;
 		};
 		FFCBBDEC1C6C8D8D00BA0773 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 2NK2JDQHKG;
 				INFOPLIST_FILE = ToloCamTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = li.federico.ToloCamTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ToloCam.app/ToloCam";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Zezheng Li.app/Zezheng Li";
 			};
 			name = Release;
 		};
@@ -662,6 +681,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = li.federico.ToloCamUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = ToloCam;
 				USES_XCTRUNNER = YES;
 			};
@@ -674,6 +694,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = li.federico.ToloCamUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = ToloCam;
 				USES_XCTRUNNER = YES;
 			};

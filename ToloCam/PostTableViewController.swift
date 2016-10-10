@@ -18,12 +18,6 @@ import ParseUI
 
 class PostTableViewController: PFQueryTableViewController {
     
-//    var images = [UIImage]()
-//    var imageCaptions = [String]()
-//    var imageDates = [String]()
-//    var imageUsers = [String]()
-//    var imageLikes = [Int]()
-//    var yourLikes = [Int]()
     var followingWho = [String]()
     
     override init(style: UITableViewStyle, className: String!) {
@@ -42,18 +36,18 @@ class PostTableViewController: PFQueryTableViewController {
     }
     
     // Define the query that will provide the data for the table view
-    override func queryForTable() -> PFQuery {
+    override func queryForTable() -> PFQuery<PFObject> {
         /*
          make user query
          query for all users that are followed by you -> [PFUser]
          query.whereKey("postedBy", matchesQuery: userQuery)
  */
         let userQuery = PFQuery(className: "Follow")
-        userQuery.whereKey("followFrom", equalTo: PFUser.currentUser()!)
-        print(PFUser.currentUser()!.objectId!)
+        userQuery.whereKey("followFrom", equalTo: PFUser.current()!)
+        print(PFUser.current()!.objectId!)
         let query = PFQuery(className: "Posts")
-        query.whereKey("postedBy", matchesKey: "followingTo", inQuery: userQuery)
-        query.orderByDescending("date")
+        query.whereKey("postedBy", matchesKey: "followingTo", in: userQuery)
+        query.order(byDescending: "createdAt")
         print(query)
         return query
     }
@@ -61,13 +55,13 @@ class PostTableViewController: PFQueryTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshPulled", name: "refresh", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PostTableViewController.refreshPulled), name: NSNotification.Name(rawValue: "refresh"), object: nil)
         
         print("viewdidload is called")
         
         self.refreshControl = UIRefreshControl()
-        self.refreshControl!.addTarget(self, action: #selector(PostTableViewController.refreshPulled), forControlEvents: UIControlEvents.ValueChanged)
-        self.refreshControl!.userInteractionEnabled = true
+        self.refreshControl!.addTarget(self, action: #selector(PostTableViewController.refreshPulled), for: UIControlEvents.valueChanged)
+        self.refreshControl!.isUserInteractionEnabled = true
         
         let attributes = [
             NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
@@ -116,80 +110,6 @@ class PostTableViewController: PFQueryTableViewController {
         
     }
     
-//    func loadData (followingWho: NSArray) {
-//        
-//        let query = PFQuery(className: "Posts")
-//        query.whereKey("addedBy", containedIn: followingWho as [AnyObject])
-//        query.orderByDescending("createdAt")
-//        query.findObjectsInBackgroundWithBlock {
-//            (posts: [PFObject]?, error: NSError?) -> Void in
-//            
-//            if (error == nil) {
-//                // no error
-//                
-//                if let posts = posts as [PFObject]! {
-//                    for post in posts {
-//                        
-//                        //print("------1\(post["Image"])-----")
-//                        //print("------2\(posts.count)-----")
-//                        
-//                        
-//                        if  post["Image"] == nil{
-//                            print("    CHECK THIS LOL NIL )")
-//                        }else{
-//                            
-//                            
-//                            print("    CHECK THIS LOL \(post["Image"])")
-//                            
-//                            let imageToLoad = post["Image"]! as! PFFile
-//                            
-//                            var imageIWillUse = UIImage()
-//                            
-//                            do {
-//                                try imageIWillUse = UIImage(data:imageToLoad.getData())!
-//                                
-//                            } catch {
-//                                
-//                                print(error)
-//                            }
-//                            
-//                            
-//                            
-//                            self.images.append(imageIWillUse)
-//                            self.imageCaptions.append(post["Caption"] as! String)
-//                            self.imageDates.append(post["date"] as! String)
-//                            self.imageUsers.append(post["addedBy"] as! String)
-//                            self.imageLikes.append(post["Likes"] as! Int)
-//                            
-//                            let dictionaryOfLikers:NSMutableDictionary = (post.objectForKey("likedBy") as! NSMutableDictionary)
-//                            print(dictionaryOfLikers)
-//                            if var yourLikes = dictionaryOfLikers[PFUser.currentUser()!.username!] as? Int{
-////                                print(PFUser.currentUser()?.username!)
-////                                print (dictionaryOfLikers[PFUser.currentUser()!.username!] as? String)
-//                                print(yourLikes)
-//                                self.yourLikes.append(yourLikes)
-//                            }else{
-//                                print(0)
-//                                self.yourLikes.append(0)
-//                            }
-//                        }
-//                        
-//                        
-//                        
-//                    }
-//                    
-//                    self.tableView.reloadData()
-//                }
-//                
-//            } else {
-//                //Error
-//                
-//            }
-//            
-//        }
-//        
-//    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -198,30 +118,37 @@ class PostTableViewController: PFQueryTableViewController {
     // MARK: - Table view data source
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, object: PFObject?) -> PFTableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, object: PFObject?) -> PFTableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("PostTableViewCell", forIndexPath: indexPath) as! PostTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath) as! PostTableViewCell
         
         // Configure the cell...
-        let imageWillUse = object!["Image"] as! PFFile
-        var imageToLoad = UIImage()
-        do {
-            try imageToLoad = UIImage(data:imageWillUse.getData())!
-            
-        } catch {
-            
-            print(error)
-        }
+//        let imageWillUse = object!["Image"] as! PFFile
+//        var imageToLoad = UIImage()
+//        do {
+//            try imageToLoad = UIImage(data:imageWillUse.getData())!
+//            
+//        } catch {
+//            
+//            print(error)
+//        }
+        
+        let image: PFFile = object!["Image"] as! PFFile
+//        let image = object?.object(forKey: "Image") as! PFFile
+        
+        
         let imageCaption = object!["Caption"] as! String
         let imageDate =  object!["date"] as! String
         let imageUsers = object!["addedBy"] as! String
         let imageLikes = object!["Likes"] as! Int
         let dictionaryOfLikers:NSMutableDictionary = object!["likedBy"] as! NSMutableDictionary
-        let yourLikes = dictionaryOfLikers[(PFUser.currentUser()?.username)!] as? Int
+        let yourLikes = dictionaryOfLikers[(PFUser.current()?.username)!] as? Int
         
         cell.parseObject = object
         
-        cell.postImageView.image = imageToLoad
+        cell.postImageView.image = UIImage(named: "gray")
+        cell.postImageView.file = image
+        cell.postImageView.loadInBackground()
         cell.postCaption.text = imageCaption
         cell.addedBy.text = imageUsers
         cell.dateLabel.text = imageDate

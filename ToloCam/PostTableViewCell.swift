@@ -33,11 +33,11 @@ class PostTableViewCell: PFTableViewCell {
         
     }
     
-    func handleLike(sender:AnyObject){
+    func handleLike(_ sender:AnyObject){
         print("like button pressed")
         if (parseObject != nil){
             //1. Get total likes from Parse
-            if var likes:Int? = parseObject!.objectForKey("Likes") as? Int {
+            if var likes:Int? = parseObject!.object(forKey: "Likes") as? Int {
                 
                 //2. Set total likes to total likes+1, and upload.
                 likes! += 1
@@ -49,19 +49,19 @@ class PostTableViewCell: PFTableViewCell {
                 //if first time like, need to upload current user's username to parse
                 
                 //Get dictionary from Parse, and look for the value associated to the key of current user's username.
-                let dictionaryOfLikers:NSMutableDictionary = (parseObject?.objectForKey("likedBy") as! NSMutableDictionary)
+                let dictionaryOfLikers:NSMutableDictionary = (parseObject?.object(forKey: "likedBy") as! NSMutableDictionary)
 //                print("DoL.currentuser: \(dictionaryOfLikers[(PFUser.currentUser()?.username)!] as! Int)")
 //                print(dictionaryOfLikers[(PFUser.currentUser()?.username)!])
-                var yourLikes = dictionaryOfLikers[PFUser.currentUser()!.username!]
+                let yourLikes = dictionaryOfLikers[PFUser.current()!.username!]
                 
                 if yourLikes == nil{
-                    let currentUser = PFUser.currentUser()?.username
+                    let currentUser = PFUser.current()?.username
                     dictionaryOfLikers[currentUser!] = 1
                     parseObject?.setObject(dictionaryOfLikers, forKey: "likedBy")
                     yourLikesLabel.text = "1"
                 }
                 else{
-                    let currentUser = PFUser.currentUser()?.username
+                    let currentUser = PFUser.current()?.username
                     var tempYourLikes = dictionaryOfLikers[currentUser!] as! Int
                     tempYourLikes+=1
                     dictionaryOfLikers[currentUser!] = tempYourLikes
@@ -74,7 +74,7 @@ class PostTableViewCell: PFTableViewCell {
         }
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
         // Configure the view for the selected state

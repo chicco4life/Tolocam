@@ -61,52 +61,57 @@ class Compose2ViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     
-    func textViewShouldEndEditing(textView: UITextView) -> Bool {
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         captionTextView.resignFirstResponder()
         return true;
     }
     
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
     
-    @IBAction func composeTapped(sender: AnyObject) {
+    @IBAction func composeTapped(_ sender: AnyObject) {
         
-        let date = NSDate()
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        let localDate = dateFormatter.stringFromDate(date)
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = DateFormatter.Style.short
+        dateFormatter.dateStyle = DateFormatter.Style.short
+        let localDate = dateFormatter.string(from: date)
         
         if let imageToBeUploaded = self.previewImage.image {
             let imagedata2 = imageToBeUploaded.lowQualityJPEGNSData
             
             
-            let file: PFFile = PFFile(data:imagedata2) as PFFile!
+            let file: PFFile = PFFile(data:imagedata2 as Data) as PFFile!
             let fileCaption: String = self.captionTextView.text
             
             let photoToUpload = PFObject(className: "Posts")
             photoToUpload["Image"] = file
             photoToUpload["Caption"] = fileCaption
-            photoToUpload["postedBy"] = PFUser.currentUser()!
-            photoToUpload["addedBy"] = PFUser.currentUser()!.username!
+            photoToUpload["postedBy"] = PFUser.current()!
+            photoToUpload["addedBy"] = PFUser.current()!.username!
             photoToUpload["date"] = localDate
             photoToUpload["Likes"] = 0
             photoToUpload["likedBy"] = [:]
             
+            
+            // foreground save
+            
             do { try photoToUpload.save()} catch {}
+            
+            //background save
 //            photoToUpload.saveInBackground()
             
             let vc = TabBarInitializer.getTabBarController()
-            self.presentViewController(vc, animated: true, completion: nil)
+            self.present(vc, animated: true, completion: nil)
             
         } else {
             print("wauw it was nil")
-            let alertController = UIAlertController(title: "Error", message: "Please upload an image first!", preferredStyle: UIAlertControllerStyle.Alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: nil))
-            self.presentViewController(alertController, animated: true, completion: nil)
+            let alertController = UIAlertController(title: "Error", message: "Please upload an image first!", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
             
         }
         

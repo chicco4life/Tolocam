@@ -31,8 +31,8 @@ class imageTableViewCell: UITableViewCell {
         cellData.translatesAutoresizingMaskIntoConstraints = false
         
         
-        postImageView.backgroundColor = UIColor.redColor()
-        cellData.backgroundColor = UIColor.blueColor()
+        postImageView.backgroundColor = UIColor.red
+        cellData.backgroundColor = UIColor.blue
         
         contentView.addSubview(postImageView)
         contentView.addSubview(cellData)
@@ -56,17 +56,17 @@ class imageTableViewCell: UITableViewCell {
             "imageheight": height.height
         ]
         
-        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[postImageView]|", options: [], metrics: metrics, views: viewdic))
-        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[postImageView(imageheight)][cellData(celldataheight)]|", options: [], metrics: metrics, views: viewdic))
-        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[cellData]|", options: [], metrics: metrics, views: viewdic))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[postImageView]|", options: [], metrics: metrics, views: viewdic))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[postImageView(imageheight)][cellData(celldataheight)]|", options: [], metrics: metrics, views: viewdic))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[cellData]|", options: [], metrics: metrics, views: viewdic))
         
-        cellData.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[addedBy][dateLabel(==addedBy)]|", options: [], metrics: metrics, views: viewdic))
+        cellData.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[addedBy][dateLabel(==addedBy)]|", options: [], metrics: metrics, views: viewdic))
         
-        cellData.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[addedBy][postCaption]|", options: [], metrics: metrics, views: viewdic))
+        cellData.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[addedBy][postCaption]|", options: [], metrics: metrics, views: viewdic))
         
-        cellData.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[dateLabel][postCaption]|", options: [], metrics: metrics, views: viewdic))
+        cellData.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[dateLabel][postCaption]|", options: [], metrics: metrics, views: viewdic))
         
-        cellData.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[postCaption]|", options: [], metrics: metrics, views: viewdic))
+        cellData.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[postCaption]|", options: [], metrics: metrics, views: viewdic))
         
     }
     
@@ -76,7 +76,7 @@ class imageTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

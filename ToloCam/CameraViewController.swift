@@ -44,7 +44,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         previewLayer?.frame = cameraView.bounds
         
@@ -52,14 +52,22 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         
         captureSession = AVCaptureSession()
-        captureSession?.sessionPreset = AVCaptureSessionPreset1920x1080
+        print("starts from here\n\n")
         
-        let backCamera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        
+        //avcapture framework bug -- conditionalized code
+//        #if TARGET_IPHONE_SIMULATOR
+//        #else
+        #if TARGET_OS_IPHONE
+        self.captureSession?.sessionPreset = AVCaptureSessionPreset1920x1080
+        #endif
+        
+        let backCamera = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
         
         var error : NSError?
         var input: AVCaptureDeviceInput!
@@ -89,7 +97,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                 previewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
                 
                 
-                previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.Portrait
+                previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.portrait
                 cameraView.layer.addSublayer(previewLayer!)
                 captureSession?.startRunning()
                 
@@ -106,7 +114,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     @IBOutlet weak var tempImageView: UIImageView!
     
     
-    @IBAction func takePicture(sender: AnyObject) {
+    @IBAction func takePicture(_ sender: AnyObject) {
         
         print("Capturing image")
         
@@ -121,15 +129,15 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
 //            // couldn't load file :(
 //        }
         
-        if let videoConnection = stillImageOutput!.connectionWithMediaType(AVMediaTypeVideo){
-            stillImageOutput!.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler: {
+        if let videoConnection = stillImageOutput!.connection(withMediaType: AVMediaTypeVideo){
+            stillImageOutput!.captureStillImageAsynchronously(from: videoConnection, completionHandler: {
                 (sampleBuffer, error) in
                 let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
-                let dataProvider = CGDataProviderCreateWithCFData(imageData)
-                let cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, CGColorRenderingIntent.RenderingIntentDefault)
+                let dataProvider = CGDataProvider(data: imageData as! CFData)
+                let cgImageRef = CGImage(jpegDataProviderSource: dataProvider!, decode: nil, shouldInterpolate: true, intent: CGColorRenderingIntent.defaultIntent)
                 
                 
-                self.imageCaptured = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.Right)
+                self.imageCaptured = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.right)
                 
                 print("passing image view")
                 //self.tempImageView.image = imageCaptured
@@ -145,7 +153,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                 UIImageWriteToSavedPhotosAlbum(self.imageCaptured, nil, nil, nil)
                 
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyboard.instantiateViewControllerWithIdentifier("Compose2ViewController") as! Compose2ViewController
+                let vc = storyboard.instantiateViewController(withIdentifier: "Compose2ViewController") as! Compose2ViewController
                 vc.newImage = self.imageCaptured
                 self.navigationController!.pushViewController(vc, animated: true)
                 print("image saved")

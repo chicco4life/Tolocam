@@ -24,19 +24,19 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
         self.navigationController?.navigationBar.titleTextAttributes = attributes
         
         //for auto resizing collection view cells
-        let screenWidth = UIScreen.mainScreen().bounds.size.width
-        let screenHeight = UIScreen.mainScreen().bounds.size.height
+        let screenWidth = UIScreen.main.bounds.size.width
+//        let screenHeight = UIScreen.main.bounds.size.height
         
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
         layout.itemSize = CGSize(width: (screenWidth - 4)/3, height: (screenWidth - 4)/3)
         
-        _ = UICollectionView(frame: CGRectMake(0, 0, screenWidth, screenHeight), collectionViewLayout: layout)
+//        _ = UICollectionView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight), collectionViewLayout: layout)
         
         print("collectionviewdidload is called")
-        if (traitCollection.forceTouchCapability == .Available){
-            registerForPreviewingWithDelegate(self, sourceView: view)
+        if (traitCollection.forceTouchCapability == .available){
+            registerForPreviewing(with: self, sourceView: view)
         }
         
         loadData()
@@ -44,20 +44,20 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
         
     }
     
-    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
     }
     
-    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         
-        guard let indexPath = collectionView.indexPathForItemAtPoint(location) else {return nil}
-        guard let cell = collectionView.cellForItemAtIndexPath(indexPath) else {return nil}
+        guard let indexPath = collectionView.indexPathForItem(at: location) else {return nil}
+        guard let cell = collectionView.cellForItem(at: indexPath) else {return nil}
         //        guard let detailVC = storyboard?.instantiateViewControllerWithIdentifier("PostDetailVC") as? PostDetailViewController else {return nil}
         
         
         return self
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         print("hey there")
         
     }
@@ -66,9 +66,8 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
         print("load data is called")
         
         let query = PFQuery(className: "Posts")
-        query.orderByDescending("createdAt")
-        query.findObjectsInBackgroundWithBlock{
-            (posts:[PFObject]?, error: NSError?) -> Void in
+        query.order(byDescending: "createdAt")
+        query.findObjectsInBackground{(posts:[PFObject]?, error: Error?) -> Void in
             
             if (error == nil) {
                 if let posts = posts as [PFObject]! {
@@ -83,7 +82,6 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
                             print("    CHECK THIS LOL \(post["Image"])")
                             
                             let imageToLoad = post["Image"]! as! PFFile
-                            
                             var imageIWillUse = UIImage()
                             
                             do {
@@ -95,7 +93,8 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
                             }
                             
                             
-                            self.images.append(imageIWillUse )
+                            
+                            self.images.append(imageIWillUse)
                         }
                     }
                     
@@ -117,7 +116,7 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
         // Dispose of any resources that can be recreated.
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
         
         if self.images.count > 0
@@ -129,14 +128,16 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
         }
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         
 //        print("collectionview cell not getting called")
-        let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! ExploreCollectionViewCell
+        let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ExploreCollectionViewCell
         
         
-        cell.imageToShow.image = (self.images[indexPath.row] )
+        cell.imageToShow.image = (self.images[(indexPath as NSIndexPath).row] )
+//        cell.imageToShow.ima = (self.images[(indexPath as NSIndexPath).row])
+        
         cell.contentView.frame = cell.bounds
         
         
@@ -146,9 +147,9 @@ class ExploreCollectionViewController: UIViewController, UICollectionViewDelegat
     }
     
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize
     {
-        return CGSize(width: (UIScreen.mainScreen().bounds.size.width-4) / 3, height: (UIScreen.mainScreen().bounds.size.width-4) / 3)
+        return CGSize(width: (UIScreen.main.bounds.size.width-4) / 3, height: (UIScreen.main.bounds.size.width-4) / 3)
     }
     
     
