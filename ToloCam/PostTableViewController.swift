@@ -70,25 +70,6 @@ class PostTableViewController: PFQueryTableViewController {
         
         self.navigationController?.navigationBar.titleTextAttributes = attributes
         
-//        let userQuery = PFUser.query()
-//        userQuery?.whereKey("username", equalTo: PFUser.currentUser()!.username!)
-//        userQuery?.findObjectsInBackgroundWithBlock({ (objects:[PFObject]?, error: NSError?) -> Void in
-//            
-//            if error == nil {
-//                // no error
-//                if let objects = objects {
-//                    for object in objects {
-//                        self.followingWho = object["followingWho"] as! [String]
-//                        self.tableView.reloadData()
-//                    }
-//                }
-//            }else {
-//                //error
-//                NSLog("Error")
-//                
-//            }
-//        })
-        
         
         //Now only loading followingWho, hence loadData is commented out
         //loadData()
@@ -103,9 +84,6 @@ class PostTableViewController: PFQueryTableViewController {
 
     func refreshPulled() {
         self.loadObjects()
-//        self.tableView.performSelectorInBackground(#selector(self.loadObjects), withObject: nil)
-//        self.performSelectorInBackground(#selector(self.loadObjects), withObject: nil)
-        
         self.refreshControl?.endRefreshing()
         
     }
@@ -123,19 +101,9 @@ class PostTableViewController: PFQueryTableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath) as! PostTableViewCell
         
         // Configure the cell...
-//        let imageWillUse = object!["Image"] as! PFFile
-//        var imageToLoad = UIImage()
-//        do {
-//            try imageToLoad = UIImage(data:imageWillUse.getData())!
-//            
-//        } catch {
-//            
-//            print(error)
-//        }
+
         
         let image: PFFile = object!["Image"] as! PFFile
-//        let image = object?.object(forKey: "Image") as! PFFile
-        
         
         let imageCaption = object!["Caption"] as! String
         let imageDate =  object!["date"] as! String
@@ -166,17 +134,6 @@ class PostTableViewController: PFQueryTableViewController {
         //Start your error catching by using this format do { try *func* } catch { *error handling* }
         
         //var imageData = NSData()
-        
-        //do
-        //    {
-        //    imageData = try imageToLoad.getData()
-        //    }
-        //    catch
-        //    {
-        //        print("Error: \(error)")
-        //Handle the error instead of print probably
-        //    }
-        //let finalizedImage = UIImage(data:imageData)
         
         
         //once finished autolayout, change cell to cellCoded

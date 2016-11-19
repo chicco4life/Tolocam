@@ -21,7 +21,7 @@ extension UIImage {
 }
 
 
-class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
+class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, ImageCropViewControllerDelegate{
 
     @IBOutlet weak var captionTextView: UITextView!
     @IBOutlet weak var previewImage: UIImageView!
@@ -50,7 +50,7 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     @IBAction func addImageTapped(_ sender: AnyObject) {
         
-        #if TARGET_OS_IPHONE
+        //#if TARGET_OS_IPHONE
         let imagePicker = UIImagePickerController()
         
         imagePicker.delegate = self
@@ -59,12 +59,15 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
         imagePicker.allowsEditing = false
         
         self.present(imagePicker, animated: true, completion: nil)
-        #endif
+        //#endif
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
-    
-        self.previewImage.image = image
+        
+        let controller = ImageCropViewController.init(image: image)
+        controller?.delegate = self
+        controller?.blurredBackground = true
+        self.navigationController?.pushViewController(controller!, animated: true)
         
         self.dismiss(animated: true, completion: nil)
         
@@ -80,7 +83,6 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     @IBAction func composeTapped(_ sender: AnyObject) {
-        
         let date = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = DateFormatter.Style.short
@@ -118,17 +120,19 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
             self.present(alertController, animated: true, completion: nil)
 
         }
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
     }
-    */
+    
+    func imageCropViewControllerSuccess(_ controller: UIViewController!, didFinishCroppingImage croppedImage: UIImage!) {
+        
+        UIImageWriteToSavedPhotosAlbum(croppedImage, nil, nil, nil)
+        
+        self.previewImage.image = croppedImage
+        self.navigationController!.popViewController(animated: true)
     }
+    
+    func imageCropViewControllerDidCancel(_ controller: UIViewController!) {
+        self.navigationController!.popViewController(animated: true)
+    }
+    
 
 }

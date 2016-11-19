@@ -11,9 +11,12 @@
 		B62A3EA21CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A3EA11CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift */; };
 		B691DA341D7016E700AF1EF6 /* Coves Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B691DA321D7016A700AF1EF6 /* Coves Bold.otf */; };
 		B691DA351D7016E700AF1EF6 /* Coves Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B691DA331D7016A700AF1EF6 /* Coves Light.otf */; };
+		B6B4942A1DBF210400E3D60A /* ImageCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6B494291DBF210400E3D60A /* ImageCropView.m */; };
+		B6B4942F1DBF24CA00E3D60A /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6B4942E1DBF24C900E3D60A /* Accelerate.framework */; };
 		B6C4FF381CD52B4D008548A2 /* OthersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C4FF371CD52B4D008548A2 /* OthersCollectionViewCell.swift */; };
 		B6C4FF3A1CD5F4C9008548A2 /* OthersCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C4FF391CD5F4C9008548A2 /* OthersCollectionViewController.swift */; };
 		B6C4FF911CD6BE94008548A2 /* meow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B6C4FF901CD6BE94008548A2 /* meow.mp3 */; };
+		B6C50B161DCACF88004E200D /* FXBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C50B151DCACF88004E200D /* FXBlurView.m */; };
 		B6D48DDE1D617AF200BDEDB3 /* brice.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B6D48DDD1D617AD000BDEDB3 /* brice.ttf */; };
 		B6DC542D1DABF12600E50276 /* gray.png in Resources */ = {isa = PBXBuildFile; fileRef = B6DC542C1DABF12600E50276 /* gray.png */; };
 		FF06E79B1C75BE8F00920007 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E79A1C75BE8F00920007 /* TabBar.swift */; };
@@ -75,9 +78,15 @@
 		B62A3EA11CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsSearchTableviewCell.swift; sourceTree = "<group>"; };
 		B691DA321D7016A700AF1EF6 /* Coves Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Coves Bold.otf"; sourceTree = "<group>"; };
 		B691DA331D7016A700AF1EF6 /* Coves Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Coves Light.otf"; sourceTree = "<group>"; };
+		B6B494271DBF210300E3D60A /* ToloCam-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ToloCam-Bridging-Header.h"; sourceTree = "<group>"; };
+		B6B494281DBF210400E3D60A /* ImageCropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCropView.h; sourceTree = "<group>"; };
+		B6B494291DBF210400E3D60A /* ImageCropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCropView.m; sourceTree = "<group>"; };
+		B6B4942E1DBF24C900E3D60A /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		B6C4FF371CD52B4D008548A2 /* OthersCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OthersCollectionViewCell.swift; sourceTree = "<group>"; };
 		B6C4FF391CD5F4C9008548A2 /* OthersCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OthersCollectionViewController.swift; path = ../OthersCollectionViewController.swift; sourceTree = "<group>"; };
 		B6C4FF901CD6BE94008548A2 /* meow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = meow.mp3; sourceTree = "<group>"; };
+		B6C50B141DCACF88004E200D /* FXBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXBlurView.h; sourceTree = "<group>"; };
+		B6C50B151DCACF88004E200D /* FXBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXBlurView.m; sourceTree = "<group>"; };
 		B6D48DDD1D617AD000BDEDB3 /* brice.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = brice.ttf; path = ../brice.ttf; sourceTree = "<group>"; };
 		B6DC542C1DABF12600E50276 /* gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gray.png; path = ../gray.png; sourceTree = "<group>"; };
 		FF06E79A1C75BE8F00920007 /* TabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
@@ -128,6 +137,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6B4942F1DBF24CA00E3D60A /* Accelerate.framework in Frameworks */,
 				FFCBBE051C6C8EA600BA0773 /* libsqlite3.tbd in Frameworks */,
 				FFCBBE031C6C8E9200BA0773 /* libz.tbd in Frameworks */,
 				FFD788541C6CB55D00ACDB65 /* ParseUI.framework in Frameworks */,
@@ -162,6 +172,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B6C50B171DCACF8F004E200D /* libraries */ = {
+			isa = PBXGroup;
+			children = (
+				B6B494281DBF210400E3D60A /* ImageCropView.h */,
+				B6B494291DBF210400E3D60A /* ImageCropView.m */,
+				B6C50B141DCACF88004E200D /* FXBlurView.h */,
+				B6C50B151DCACF88004E200D /* FXBlurView.m */,
+			);
+			name = libraries;
+			sourceTree = "<group>";
+		};
 		B6D48DE31D617F8800BDEDB3 /* Login&Register */ = {
 			isa = PBXGroup;
 			children = (
@@ -201,8 +222,8 @@
 		B6D48DE81D617FF200BDEDB3 /* Compose */ = {
 			isa = PBXGroup;
 			children = (
-				FF7CFC201CD76DAC0091E11E /* Compose2ViewController.swift */,
 				FFD788551C6CB89A00ACDB65 /* ComposeViewController.swift */,
+				FF7CFC201CD76DAC0091E11E /* Compose2ViewController.swift */,
 			);
 			name = Compose;
 			sourceTree = "<group>";
@@ -259,6 +280,8 @@
 				B62A3EA11CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift */,
 				B62A3E9F1CD3D157006C1F74 /* FriendSearchTableViewController.swift */,
 				FFA914E31C74A68200121EE2 /* imageTableViewCell.swift */,
+				B6C50B171DCACF8F004E200D /* libraries */,
+				B6B494271DBF210300E3D60A /* ToloCam-Bridging-Header.h */,
 				FFCBBDC91C6C8D8D00BA0773 /* Assets.xcassets */,
 				FFA914D41C7480E500121EE2 /* Supporting Files */,
 				FFCBBDCB1C6C8D8D00BA0773 /* LaunchScreen.storyboard */,
@@ -289,6 +312,7 @@
 		FFCBBE0A1C6C8F2600BA0773 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B6B4942E1DBF24C900E3D60A /* Accelerate.framework */,
 				FFCBBDF01C6C8E2800BA0773 /* AudioToolbox.framework */,
 				FFCBBDF21C6C8E3700BA0773 /* CFNetwork.framework */,
 				FFCBBDF41C6C8E3E00BA0773 /* CoreGraphics.framework */,
@@ -448,10 +472,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6B4942A1DBF210400E3D60A /* ImageCropView.m in Sources */,
 				FF7CFC211CD76DAC0091E11E /* Compose2ViewController.swift in Sources */,
 				FF7CFC231CD76F1F0091E11E /* CameraViewController.swift in Sources */,
 				B62A3EA01CD3D157006C1F74 /* FriendSearchTableViewController.swift in Sources */,
 				FFD788521C6CB1BB00ACDB65 /* PostTableViewController.swift in Sources */,
+				B6C50B161DCACF88004E200D /* FXBlurView.m in Sources */,
 				FFCBBDC21C6C8D8D00BA0773 /* LoginViewController.swift in Sources */,
 				B6C4FF3A1CD5F4C9008548A2 /* OthersCollectionViewController.swift in Sources */,
 				FF06E7A71C75C91F00920007 /* ExploreCollectionViewController.swift in Sources */,
@@ -612,6 +638,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2NK2JDQHKG;
@@ -624,6 +651,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = coco.federicoli.tolocam;
 				PRODUCT_NAME = "Zezheng Li";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ToloCam/ToloCam-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -632,6 +661,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2NK2JDQHKG;
@@ -644,6 +674,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = coco.federicoli.tolocam;
 				PRODUCT_NAME = "Zezheng Li";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ToloCam/ToloCam-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

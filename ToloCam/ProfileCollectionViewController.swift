@@ -92,7 +92,7 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
     func loadData(){
         
         print("load data is called")
-        print("username is", PFUser.current()?.username)
+        //print("username is", PFUser.current()?.username)
         
         let query = PFQuery(className: "Posts")
         query.order(byDescending: "createdAt")

@@ -56,6 +56,9 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     @IBAction func logInTapped(_ sender: AnyObject) {
+        
+        self.view.isUserInteractionEnabled = false
+
         let username = usernameField.text?.lowercased()
         let password = passwordField.text
         print("password \(password)")
@@ -77,6 +80,9 @@ class LoginViewController: UIViewController {
                 let alertController = UIAlertController(title: "Error", message: "Incorrect Username/Password", preferredStyle: UIAlertControllerStyle.alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
                 self.present(alertController, animated: true, completion: nil)
+                
+                self.view.isUserInteractionEnabled = true
+                
             }
             
         }

@@ -73,13 +73,11 @@ class Compose2ViewController: UIViewController, UIImagePickerControllerDelegate,
     
     
     @IBAction func composeTapped(_ sender: AnyObject) {
-        
         let date = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = DateFormatter.Style.short
         dateFormatter.dateStyle = DateFormatter.Style.short
         let localDate = dateFormatter.string(from: date)
-        
         if let imageToBeUploaded = self.previewImage.image {
             let imagedata2 = imageToBeUploaded.lowQualityJPEGNSData
             

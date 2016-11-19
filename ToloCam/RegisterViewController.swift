@@ -66,6 +66,7 @@ class RegisterViewController: UIViewController {
     
     @IBAction func registerTapped(_ sender: AnyObject) {
         
+        self.view.isUserInteractionEnabled = false
         
         if usernameTextField.text == "" {
             let alertController = UIAlertController(title:"Error", message:"Please input a username.", preferredStyle: UIAlertControllerStyle.alert)

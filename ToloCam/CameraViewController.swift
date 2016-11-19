@@ -13,21 +13,19 @@ import Bolts
 import AVFoundation
 
 
-class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
+class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, ImageCropViewControllerDelegate {
     
     var captureSession : AVCaptureSession?
     var stillImageOutput : AVCaptureStillImageOutput?
     var imageCaptured : UIImage!
     var previewLayer : AVCaptureVideoPreviewLayer?
-    var audioPlayer:AVAudioPlayer!
-    
+    var shutterSound:AVAudioPlayer!
     
     @IBOutlet weak var cameraView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+
         let attributes = [
             NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
             NSFontAttributeName : UIFont(name: "Coves-Bold", size: 30)! // Note the !
@@ -47,6 +45,8 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         previewLayer?.frame = cameraView.bounds
+        
+//        var instanceOfImageCropView: ImageCropView = ImageCropView()
         
         
     }
@@ -118,16 +118,15 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         print("Capturing image")
         
-//        let path = NSBundle.mainBundle().pathForResource("meow.mp3", ofType:nil)!
-//        let url = NSURL(fileURLWithPath: path)
-//        
-//        do {
-//            let sound = try AVAudioPlayer(contentsOfURL: url)
-//            audioPlayer = sound
-//            sound.play()
-//        } catch {
-//            // couldn't load file :(
-//        }
+        //shutter sound
+        do{
+            let player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "meow.mp3", ofType: nil)!))
+            self.shutterSound = player
+            player.play()
+        } catch {
+            print("error")
+        }
+        
         
         if let videoConnection = stillImageOutput!.connection(withMediaType: AVMediaTypeVideo){
             stillImageOutput!.captureStillImageAsynchronously(from: videoConnection, completionHandler: {
@@ -139,26 +138,12 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                 
                 self.imageCaptured = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.right)
                 
+                let controller = ImageCropViewController.init(image: self.imageCaptured)
+                controller?.delegate = self
+                controller?.blurredBackground = true
+                self.navigationController?.pushViewController(controller!, animated: true)
+                
                 print("passing image view")
-                //self.tempImageView.image = imageCaptured
-                //self.tempImageView.frame = CGRect(x:0, y:0, width:self.view.frame.width, height:self.view.frame.width)
-                
-                //imageView.frame = CGRect(x:0, y:0, width:self.view.frame.width, height:self.view.frame.width)
-                
-                //Show the captured image to
-                //self.view.addSubview(imageView)
-                
-                //Save the captured preview to image
-                
-                UIImageWriteToSavedPhotosAlbum(self.imageCaptured, nil, nil, nil)
-                
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyboard.instantiateViewController(withIdentifier: "Compose2ViewController") as! Compose2ViewController
-                vc.newImage = self.imageCaptured
-                self.navigationController!.pushViewController(vc, animated: true)
-                print("image saved")
-                
-                
                 
             })
             
@@ -168,9 +153,19 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
     }
     
+    func imageCropViewControllerSuccess(_ controller: UIViewController!, didFinishCroppingImage croppedImage: UIImage) {
+        
+        UIImageWriteToSavedPhotosAlbum(croppedImage, nil, nil, nil)
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "Compose2ViewController") as! Compose2ViewController
+        vc.newImage = croppedImage
+        self.navigationController!.pushViewController(vc, animated: true)
+    }
     
-    
-    
+    func imageCropViewControllerDidCancel(_ controller: UIViewController!) {
+        self.navigationController!.popViewController(animated: true)
+    }
     
     //    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     //
