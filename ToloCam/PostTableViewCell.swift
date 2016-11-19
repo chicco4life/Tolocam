@@ -50,8 +50,6 @@ class PostTableViewCell: PFTableViewCell {
                 
                 //Get dictionary from Parse, and look for the value associated to the key of current user's username.
                 let dictionaryOfLikers:NSMutableDictionary = (parseObject?.object(forKey: "likedBy") as! NSMutableDictionary)
-//                print("DoL.currentuser: \(dictionaryOfLikers[(PFUser.currentUser()?.username)!] as! Int)")
-//                print(dictionaryOfLikers[(PFUser.currentUser()?.username)!])
                 let yourLikes = dictionaryOfLikers[PFUser.current()!.username!]
                 
                 if yourLikes == nil{
