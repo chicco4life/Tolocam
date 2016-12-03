@@ -5,15 +5,11 @@ import Bolts
 import ParseUI
 
 class ExploreCollectionViewController: PFQueryCollectionViewController,UIViewControllerPreviewingDelegate {
-    
-   // @IBOutlet weak var collectionView: UICollectionView!
+
+    //@IBOutlet weak var collectionView: UICollectionView!
 
     
     var images = [UIImage]()
-    
-    init!(style: UICollectionViewFlowLayout, className: String!) {
-        super.init(collectionViewLayout: style, className: className)
-    }
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
@@ -22,6 +18,7 @@ class ExploreCollectionViewController: PFQueryCollectionViewController,UIViewCon
         self.pullToRefreshEnabled = true
         self.paginationEnabled = true
         self.objectsPerPage = 15
+        self.isLoading = true
     }
     
     override func queryForCollection() -> PFQuery<PFObject> {
@@ -42,13 +39,17 @@ class ExploreCollectionViewController: PFQueryCollectionViewController,UIViewCon
         self.navigationController?.navigationBar.titleTextAttributes = attributes
         
         //for auto resizing collection view cells
-      //  let screenWidth = UIScreen.main.bounds.size.width
-//        let screenHeight = UIScreen.main.bounds.size.height
+        let screenWidth = UIScreen.main.bounds.size.width
+        let screenHeight = UIScreen.main.bounds.size.height
         
         
-     /*   let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
-        layout.itemSize = CGSize(width: (screenWidth - 4)/3, height: (screenWidth - 4)/3)*/
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+//        layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+//        layout.itemSize = CGSize(width: (screenWidth-4) / 3, height: (screenWidth-4) / 3)
+//        layout.minimumInteritemSpacing = 1
+//        layout.minimumLineSpacing = 1
+//        self.collectionView!.collectionViewLayout = layout
+        
         
 //        _ = UICollectionView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight), collectionViewLayout: layout)
         
@@ -68,8 +69,6 @@ class ExploreCollectionViewController: PFQueryCollectionViewController,UIViewCon
         guard let indexPath = collectionView?.indexPathForItem(at: location) else {return nil}
         guard let cell = collectionView?.cellForItem(at: indexPath) else {return nil}
         //        guard let detailVC = storyboard?.instantiateViewControllerWithIdentifier("PostDetailVC") as? PostDetailViewController else {return nil}
-        
-        
         return self
     }
     
@@ -78,84 +77,13 @@ class ExploreCollectionViewController: PFQueryCollectionViewController,UIViewCon
         
     }
     
-    /*func loadData(){
-        
-        print("load data is called")
-        
-        let query = PFQuery(className: "Posts")
-        query.order(byDescending: "createdAt")
-        query.findObjectsInBackground{(posts:[PFObject]?, error: Error?) -> Void in
-            
-            if (error == nil) {
-                if let posts = posts as [PFObject]! {
-                    for post in posts {
-                        
-                        
-                        if  post["Image"] == nil{
-                            print("    CHECK THIS LOL NIL )")
-                        }else{
-                            print("    CHECK THIS LOL \(post["Image"])")
-                            
-                            let imageToLoad = post["Image"]! as! PFFile
-                            var imageIWillUse = UIImage()
-                            
-                            do {
-                                try imageIWillUse = UIImage(data:imageToLoad.getData())!
-                                
-                            } catch {
-                                
-                                print(error)
-                            }
-                            
-                            
-                            
-                            self.images.append(imageIWillUse)
-                        }
-                    }
-                    
-                    self.collectionView?.reloadData()
-                    
-                    
-                }
-            } else {
-                //Error
-                
-            }
-            
-        }
-        
-    }*/
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if self.images.count > 0{
-            return self.images.count
-        }else{
-            return 0
-        }
-    }
-    
-    /*override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> PFCollectionViewCell {
-        
-        let cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ExploreCollectionViewCell
-        
-        
-     //   cell.imageToShow.image = (self.images[(indexPath as NSIndexPath).row] )
-        
-    //    cell.contentView.frame = cell.bounds
-        
-        cell.imageToShow.image = object["Image"] as? PFFile
-        
-        return cell
-    }
-    */
-    
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, object: PFObject?) -> PFCollectionViewCell? {
-        let cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ExploreCollectionViewCell
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, object: PFObject?) -> PFCollectionViewCell {
+        let cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: "exploreCollectionViewCell", for: indexPath) as! ExploreCollectionViewCell
         
         
         //   cell.imageToShow.image = (self.images[(indexPath as NSIndexPath).row] )
@@ -165,15 +93,14 @@ class ExploreCollectionViewController: PFQueryCollectionViewController,UIViewCon
         cell.imageToShow.image = UIImage(named: "gray.png")
         let image: PFFile = object!["Image"] as! PFFile
         cell.imageToShow.file = image
+        cell.imageToShow.loadInBackground()
         
         return cell
     }
     
-/*    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize
-    {
+    /*override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (UIScreen.main.bounds.size.width-4) / 3, height: (UIScreen.main.bounds.size.width-4) / 3)
-    }
-*/
+    }*/
     
     
     /*

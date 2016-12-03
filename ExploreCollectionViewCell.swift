@@ -15,7 +15,6 @@ class ExploreCollectionViewCell: PFCollectionViewCell {
     
     @IBOutlet weak var imageToShow: PFImageView!
     
-    
 
 
 }

@@ -33,6 +33,8 @@ class PostTableViewController: PFQueryTableViewController {
         self.pullToRefreshEnabled = true
         
         self.paginationEnabled = false
+        
+        self.isLoading = true
     }
     
     // Define the query that will provide the data for the table view
