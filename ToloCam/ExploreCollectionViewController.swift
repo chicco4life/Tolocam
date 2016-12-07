@@ -44,11 +44,11 @@ class ExploreCollectionViewController: PFQueryCollectionViewController,UIViewCon
         
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-//        layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
-//        layout.itemSize = CGSize(width: (screenWidth-4) / 3, height: (screenWidth-4) / 3)
-//        layout.minimumInteritemSpacing = 1
-//        layout.minimumLineSpacing = 1
-//        self.collectionView!.collectionViewLayout = layout
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.itemSize = CGSize(width: (screenWidth-2) / 3, height: (screenWidth-2) / 3)
+        layout.minimumInteritemSpacing = 1
+        layout.minimumLineSpacing = 1
+        self.collectionView!.collectionViewLayout = layout
         
         
 //        _ = UICollectionView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight), collectionViewLayout: layout)
@@ -91,7 +91,7 @@ class ExploreCollectionViewController: PFQueryCollectionViewController,UIViewCon
         //    cell.contentView.frame = cell.bounds
         
         cell.imageToShow.image = UIImage(named: "gray.png")
-        let image: PFFile = object!["Image"] as! PFFile
+        let image = object!["Image"] as! PFFile
         cell.imageToShow.file = image
         cell.imageToShow.loadInBackground()
         

@@ -20,13 +20,15 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
     
     @IBOutlet var followButtonTitle: UIButton!
     @IBOutlet weak var usernameLabel: UILabel!
-    var images = [UIImage]()
+    var imageFiles = [PFFile]()
     var currentProfilePageUser = PFUser()
     var canFollow = Bool()
         
-    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var profileImage: PFImageView!
     @IBOutlet weak var followerCount: UILabel!
     @IBOutlet weak var followingCount: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,86 +43,64 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
         //query for current page user
         let userQuery = PFUser.query()
         userQuery!.whereKey("username", equalTo: userUsername)
-        
-//        print("userUsername: \(userUsername)")
-        
+
         print(PFUser.current()!)
         
-//        userQuery!.findObjectsInBackgroundWithBlock({ (result:[PFObject]?, error:NSError?) in
-//            self.currentProfilePageUser = result![0] as! PFUser
-//         })
-        
-        
-        if PFUser.current()?.objectId == nil {
-            PFUser.current()?.saveInBackground(block: { (done:Bool, error:Error?) in
-                userQuery!.getFirstObjectInBackground { (result:PFObject?, error:Error?) in
-                    self.currentProfilePageUser = result as! PFUser
-                }
-            })
-        } else {
+        PFUser.current()?.saveInBackground(block: { (done:Bool, error:Error?) in
+            print("asking for current profile page user")
             userQuery!.getFirstObjectInBackground { (result:PFObject?, error:Error?) in
                 self.currentProfilePageUser = result as! PFUser
             }
-        }
-
-        
-//        let screenWidth = UIScreen.main.bounds.size.width
-//        let screenHeight = UIScreen.main.bounds.size.height
-//        
-//        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-//        layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
-//        layout.itemSize = CGSize(width: (screenWidth - 4)/3, height: (screenWidth - 4)/3)
-        
-//        _ = UICollectionView(frame: CGRectMake(0, 0, screenWidth, screenHeight), collectionViewLayout: layout)
-        
+        })
         loadData()
         
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
-//        if currentProfilePageUser.objectId == nil{
-//            currentProfilePageUser.saveInBackgroundWithBlock({ (suceess:Bool, error: NSError?) in
-//            })
-//        }
         let query = PFQuery(className: "Follow")
         query.whereKey("followFrom", equalTo: PFUser.current()!)
         query.whereKey("followingTo", equalTo: self.currentProfilePageUser)
         
-        if PFUser.current()?.objectId == nil{
+        if PFUser.current()?.objectId == nil  || self.currentProfilePageUser.objectId == nil{
+            print("current user unsaved")
             PFUser.current()?.saveInBackground(block: { (done:Bool, error:Error?) in
-                query.getFirstObjectInBackground { (result:PFObject?, error:Error?) in
-                    if error==nil{
-                        if (result != nil){
-                            self.followButtonTitle.setTitle("Unfollow", for: UIControlState())
-                            self.followButtonTitle.setTitleColor(UIColor(red: 93/255, green: 215/255, blue: 217/255, alpha: 1), for: UIControlState())
-                            self.canFollow = false
+                self.currentProfilePageUser.saveInBackground(block: { (done:Bool, error:Error?) in
+                    query.getFirstObjectInBackground { (result:PFObject?, error:Error?) in
+                        print("asking if current user followed current vc user")
+                        if error==nil{
+                            if (result != nil){
+                                self.followButtonTitle.setTitle("Unfollow", for: UIControlState())
+                                self.followButtonTitle.setTitleColor(UIColor(red: 93/255, green: 215/255, blue: 217/255, alpha: 1), for: UIControlState())
+                                self.canFollow = false
+                            }
+                        }else{
+                            self.followButtonTitle.setTitle("Follow", for: UIControlState())
+                            self.followButtonTitle.setTitleColor(UIColor(red: 252/255, green: 105/255, blue: 134/255, alpha: 1), for: UIControlState())
+                            self.canFollow = true
                         }
-                    }else{
-                        //                print("Failed with error \(error)")
-                        self.followButtonTitle.setTitle("Follow", for: UIControlState())
-                        self.followButtonTitle.setTitleColor(UIColor(red: 252/255, green: 105/255, blue: 134/255, alpha: 1), for: UIControlState())
-                        self.canFollow = true
                     }
-                }
+                })
             })
-        }else{
+        }
+        else{
             query.getFirstObjectInBackground { (result:PFObject?, error:Error?) in
+                print("current user is saved")
                 if error==nil{
+                    print("asking if current user followed current vc user")
                     if (result != nil){
                         self.followButtonTitle.setTitle("Unfollow", for: UIControlState())
                         self.followButtonTitle.setTitleColor(UIColor(red: 93/255, green: 215/255, blue: 217/255, alpha: 1), for: UIControlState())
                         self.canFollow = false
                     }
                 }else{
-                    //                print("Failed with error \(error)")
                     self.followButtonTitle.setTitle("Follow", for: UIControlState())
                     self.followButtonTitle.setTitleColor(UIColor(red: 252/255, green: 105/255, blue: 134/255, alpha: 1), for: UIControlState())
                     self.canFollow = true
                 }
             }
         }
-        
+    
         //profile image
     
         self.profileImage.backgroundColor = UIColor.black
@@ -143,16 +123,18 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
         
         //query
         
-        if PFUser.current()?.objectId == nil {
+        if PFUser.current()?.objectId == nil || self.currentProfilePageUser.objectId == nil{
             PFUser.current()?.saveInBackground(block: { (done:Bool, error:Error?) in
-                followerQuery.findObjectsInBackground { (followers:[PFObject]?, error:Error?) in
-                    followerCount = (followers?.count)!
-                    self.followerCount.text = String(followerCount-1)
-                }
-                followingQuery.findObjectsInBackground { (following:[PFObject]?, error:Error?) in
-                    followingsCount = (following?.count)!
-                    self.followingCount.text = String(followingsCount-1)
-                }
+                self.currentProfilePageUser.saveInBackground(block: { (done:Bool, error:Error?) in
+                    followerQuery.findObjectsInBackground { (followers:[PFObject]?, error:Error?) in
+                        followerCount = (followers?.count)!
+                        self.followerCount.text = String(followerCount-1)
+                    }
+                    followingQuery.findObjectsInBackground { (following:[PFObject]?, error:Error?) in
+                        followingsCount = (following?.count)!
+                        self.followingCount.text = String(followingsCount-1)
+                    }
+                })
             })
         }else{
             followerQuery.findObjectsInBackground { (followers:[PFObject]?, error:Error?) in
@@ -220,32 +202,27 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
         let query = PFQuery(className: "Posts")
         query.order(byDescending: "createdAt")
         query.whereKey("addedBy", equalTo: self.userUsername)
-        if PFUser.current()?.objectId == nil{
+        if PFUser.current()?.objectId == nil || self.currentProfilePageUser.objectId == nil{
             PFUser.current()?.saveInBackground(block: { (done:Bool, error:Error?) in
-                query.findObjectsInBackground{(posts:[PFObject]?, error: Error?) -> Void in
-                    if (error == nil) {
-                        if let posts = posts as [PFObject]! {
-                            for post in posts {
-                                if  post["Image"] == nil{
-                                    print("    CHECK THIS LOL NIL )")
-                                }else{
-                                    print("    CHECK THIS LOL \(post["Image"])")
-                                    let imageToLoad = post["Image"]! as! PFFile
-                                    var imageIWillUse = UIImage()
-                                    do {
-                                        try imageIWillUse = UIImage(data:imageToLoad.getData())!
-                                    } catch {
-                                        print(error)
+                self.currentProfilePageUser.saveInBackground(block: { (done:Bool, erorr:Error?) in
+                    query.findObjectsInBackground{(posts:[PFObject]?, error: Error?) -> Void in
+                        if (error == nil) {
+                            if let posts = posts as [PFObject]! {
+                                for post in posts {
+                                    if  post["Image"] == nil{
+                                    }else{
+                                        let imageToLoad = post["Image"]! as! PFFile
+                                    self.imageFiles.append(imageToLoad)
                                     }
-                                    self.images.append(imageIWillUse)
                                 }
+                                self.othersCollectionView.reloadData()
                             }
-                            self.othersCollectionView.reloadData()
+                        } else {
+                            print(error!)
                         }
-                    } else {
-                        //Error
+
                     }
-                }
+                })
             })
         }else{
             query.findObjectsInBackground{(posts:[PFObject]?, error: Error?) -> Void in
@@ -253,24 +230,17 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
                     if let posts = posts as [PFObject]! {
                         for post in posts {
                             if  post["Image"] == nil{
-                                print("    CHECK THIS LOL NIL )")
                             }else{
-                                print("    CHECK THIS LOL \(post["Image"])")
                                 let imageToLoad = post["Image"]! as! PFFile
-                                var imageIWillUse = UIImage()
-                                do {
-                                    try imageIWillUse = UIImage(data:imageToLoad.getData())!
-                                } catch {
-                                    print(error)
-                                }
-                                self.images.append(imageIWillUse)
+                                self.imageFiles.append(imageToLoad)
                             }
                         }
                         self.othersCollectionView.reloadData()
                     }
                 } else {
-                    //Error
+                    print(error!)
                 }
+
             }
         }
     }
@@ -283,9 +253,9 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
         
-        if self.images.count > 0
+        if self.imageFiles.count > 0
         {
-            return self.images.count
+            return self.imageFiles.count
         }else
         {
             return 0
@@ -296,10 +266,11 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
         
         
 //        print("collectionview cell not getting called")
-        //        let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier("othersCell", forIndexPath: indexPath) as! OthersCollectionViewCell
         let cell = self.othersCollectionView.dequeueReusableCell(withReuseIdentifier: "othersCell", for: indexPath) as! OthersCollectionViewCell
         
-        cell.imageToShow.image = (self.images[(indexPath as NSIndexPath).row])
+        cell.imageToShow.image = UIImage(named: "gray.png")
+        cell.imageToShow.file = (self.imageFiles[(indexPath as NSIndexPath).row] )
+        cell.imageToShow.loadInBackground()
         cell.contentView.frame = cell.bounds
         
         

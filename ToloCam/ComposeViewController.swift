@@ -105,13 +105,15 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
             photoToUpload["Likes"] = 0
             photoToUpload["likedBy"] = [:]
             
-            for _ in 0...10{
-            do { try photoToUpload.save()} catch {}
-            }
-//            photoToUpload.saveInBackground()
-            
-            let vc = TabBarInitializer.getTabBarController()
-            self.present(vc, animated: true, completion: nil)
+            photoToUpload.saveInBackground(block: { (done:Bool, error:Error?) in
+//                UIActivityIndicatorView.startAnimating(<#T##UIActivityIndicatorView#>)
+                if done{
+                let vc = TabBarInitializer.getTabBarController()
+                    self.present(vc, animated: true, completion: nil)}
+                else{
+                    print(error)
+                }
+            })
             
         } else {
             print("wauw it was nil")

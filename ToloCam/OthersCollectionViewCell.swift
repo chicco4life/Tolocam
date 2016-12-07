@@ -13,7 +13,7 @@ import ParseUI
 
 class OthersCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var imageToShow: UIImageView!
+    @IBOutlet weak var imageToShow: PFImageView!
 
 
 }

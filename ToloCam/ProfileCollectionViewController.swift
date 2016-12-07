@@ -21,7 +21,7 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
     @IBOutlet weak var collectionView: UICollectionView!
 
     
-    var images = [UIImage]()
+    var imageFiles = [PFFile]()
     
     
     override func viewDidLoad() {
@@ -98,44 +98,20 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         query.order(byDescending: "createdAt")
         query.whereKey("addedBy", equalTo: (PFUser.current()?.username)!)
         query.findObjectsInBackground{(posts:[PFObject]?, error: Error?) -> Void in
-            
-            
+
             if (error == nil) {
                 if let posts = posts as [PFObject]! {
                     for post in posts {
-                        
-                        
                         if  post["Image"] == nil{
-                            print("    CHECK THIS LOL NIL )")
                         }else{
-                            
-                            
-                            print("    CHECK THIS LOL \(post["Image"])")
-                            
                             let imageToLoad = post["Image"]! as! PFFile
-                            
-                            var imageIWillUse = UIImage()
-                            
-                            do {
-                                try imageIWillUse = UIImage(data:imageToLoad.getData())!
-                                
-                            } catch {
-                                
-                                print(error)
-                            }
-                            
-                            
-                            self.images.append(imageIWillUse )
+                            self.imageFiles.append(imageToLoad)
                         }
                     }
-                    
                     self.collectionView.reloadData()
-                    
-                    
                 }
             } else {
-                //Error
-                
+                print(error!)
             }
             
         }
@@ -150,9 +126,9 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
         
-        if self.images.count > 0
+        if self.imageFiles.count > 0
         {
-            return self.images.count
+            return self.imageFiles.count
         }else
         {
             return 0
@@ -160,20 +136,17 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        
-//        print("collectionview cell not getting called")
         let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ProfileCollectionViewCell
         
-        
-        cell.imageToShow.image = (self.images[(indexPath as NSIndexPath).row] )
+        cell.imageToShow.image = UIImage(named: "gray.png")
+        cell.imageToShow.file = (self.imageFiles[(indexPath as NSIndexPath).row] )
+        cell.imageToShow.loadInBackground()
         cell.contentView.frame = cell.bounds
         
-        
         return cell
-        
-        
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize
     {

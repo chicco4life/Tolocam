@@ -95,12 +95,16 @@ class Compose2ViewController: UIViewController, UIImagePickerControllerDelegate,
             photoToUpload["likedBy"] = [:]
             
             
-            // foreground save
-            
-            do { try photoToUpload.save()} catch {}
-            
-            //background save
-//            photoToUpload.saveInBackground()
+            // background save
+            //UIActivityIndicatorView spinning effect
+            photoToUpload.saveInBackground(block: { (done:Bool, error:Error?) in
+                if done{
+                    let vc = TabBarInitializer.getTabBarController()
+                    self.present(vc, animated: true, completion: nil)}
+                else{
+                    print(error)
+                }
+            })
             
             let vc = TabBarInitializer.getTabBarController()
             self.present(vc, animated: true, completion: nil)
