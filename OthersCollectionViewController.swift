@@ -46,48 +46,43 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
 
         print(PFUser.current()!)
         
-        PFUser.current()?.saveInBackground(block: { (done:Bool, error:Error?) in
-            print("asking for current profile page user")
-            userQuery!.getFirstObjectInBackground { (result:PFObject?, error:Error?) in
-                self.currentProfilePageUser = result as! PFUser
-            }
-        })
+        userQuery!.getFirstObjectInBackground { (result:PFObject?, error:Error?) in
+            self.currentProfilePageUser = result as! PFUser
+        }
+        
         loadData()
         
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        let query = PFQuery(className: "Follow")
-        query.whereKey("followFrom", equalTo: PFUser.current()!)
-        query.whereKey("followingTo", equalTo: self.currentProfilePageUser)
+        //query for follow
         
-        if PFUser.current()?.objectId == nil  || self.currentProfilePageUser.objectId == nil{
-            print("current user unsaved")
-            PFUser.current()?.saveInBackground(block: { (done:Bool, error:Error?) in
-                self.currentProfilePageUser.saveInBackground(block: { (done:Bool, error:Error?) in
-                    query.getFirstObjectInBackground { (result:PFObject?, error:Error?) in
-                        print("asking if current user followed current vc user")
-                        if error==nil{
-                            if (result != nil){
-                                self.followButtonTitle.setTitle("Unfollow", for: UIControlState())
-                                self.followButtonTitle.setTitleColor(UIColor(red: 93/255, green: 215/255, blue: 217/255, alpha: 1), for: UIControlState())
-                                self.canFollow = false
-                            }
-                        }else{
-                            self.followButtonTitle.setTitle("Follow", for: UIControlState())
-                            self.followButtonTitle.setTitleColor(UIColor(red: 252/255, green: 105/255, blue: 134/255, alpha: 1), for: UIControlState())
-                            self.canFollow = true
-                        }
-                    }
-                })
-            })
-        }
-        else{
+        let followerQuery = PFQuery(className: "Follow")
+        followerQuery.whereKey("followingTo", equalTo:currentProfilePageUser)
+        var followerCount = Int()
+        
+        let followingQuery = PFQuery(className: "Follow")
+        followingQuery.whereKey("followFrom", equalTo:currentProfilePageUser)
+        var followingsCount = Int()
+        
+            followerQuery.findObjectsInBackground { (followers:[PFObject]?, error:Error?) in
+                followerCount = (followers?.count)!
+                self.followerCount.text = String(followerCount-1)
+            }
+        
+            followingQuery.findObjectsInBackground { (following:[PFObject]?, error:Error?) in
+                followingsCount = (following?.count)!
+                self.followingCount.text = String(followingsCount-1)
+            }
+        
+            let query = PFQuery(className: "Follow")
+            query.whereKey("followFrom", equalTo: PFUser.current()!)
+            query.whereKey("followingTo", equalTo: self.currentProfilePageUser)
+        
             query.getFirstObjectInBackground { (result:PFObject?, error:Error?) in
                 print("current user is saved")
                 if error==nil{
-                    print("asking if current user followed current vc user")
                     if (result != nil){
                         self.followButtonTitle.setTitle("Unfollow", for: UIControlState())
                         self.followButtonTitle.setTitleColor(UIColor(red: 93/255, green: 215/255, blue: 217/255, alpha: 1), for: UIControlState())
@@ -99,7 +94,6 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
                     self.canFollow = true
                 }
             }
-        }
     
         //profile image
     
@@ -111,44 +105,9 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
         self.profileImage.layer.borderColor = UIColor(red: 93/255, green: 215/255, blue: 217/255, alpha: 1).cgColor
         self.profileImage.contentMode = .scaleAspectFill
         
-        //query for follow
-        
-        let followerQuery = PFQuery(className: "Follow")
-        followerQuery.whereKey("followingTo", equalTo:currentProfilePageUser)
-        var followerCount = Int()
-        //following
-        let followingQuery = PFQuery(className: "Follow")
-        followingQuery.whereKey("followFrom", equalTo:currentProfilePageUser)
-        var followingsCount = Int()
-        
-        //query
-        
-        if PFUser.current()?.objectId == nil || self.currentProfilePageUser.objectId == nil{
-            PFUser.current()?.saveInBackground(block: { (done:Bool, error:Error?) in
-                self.currentProfilePageUser.saveInBackground(block: { (done:Bool, error:Error?) in
-                    followerQuery.findObjectsInBackground { (followers:[PFObject]?, error:Error?) in
-                        followerCount = (followers?.count)!
-                        self.followerCount.text = String(followerCount-1)
-                    }
-                    followingQuery.findObjectsInBackground { (following:[PFObject]?, error:Error?) in
-                        followingsCount = (following?.count)!
-                        self.followingCount.text = String(followingsCount-1)
-                    }
-                })
-            })
-        }else{
-            followerQuery.findObjectsInBackground { (followers:[PFObject]?, error:Error?) in
-                followerCount = (followers?.count)!
-                self.followerCount.text = String(followerCount-1)
-            }
-            followingQuery.findObjectsInBackground { (following:[PFObject]?, error:Error?) in
-                followingsCount = (following?.count)!
-                self.followingCount.text = String(followingsCount-1)
-            }
-        }
-        
         //debugging stuff
         print("username in othervc \(self.userUsername)")
+        
         self.usernameLabel.text = self.userUsername
         
     }
@@ -202,45 +161,20 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
         let query = PFQuery(className: "Posts")
         query.order(byDescending: "createdAt")
         query.whereKey("addedBy", equalTo: self.userUsername)
-        if PFUser.current()?.objectId == nil || self.currentProfilePageUser.objectId == nil{
-            PFUser.current()?.saveInBackground(block: { (done:Bool, error:Error?) in
-                self.currentProfilePageUser.saveInBackground(block: { (done:Bool, erorr:Error?) in
-                    query.findObjectsInBackground{(posts:[PFObject]?, error: Error?) -> Void in
-                        if (error == nil) {
-                            if let posts = posts as [PFObject]! {
-                                for post in posts {
-                                    if  post["Image"] == nil{
-                                    }else{
-                                        let imageToLoad = post["Image"]! as! PFFile
-                                    self.imageFiles.append(imageToLoad)
-                                    }
-                                }
-                                self.othersCollectionView.reloadData()
-                            }
-                        } else {
-                            print(error!)
+        query.findObjectsInBackground{(posts:[PFObject]?, error: Error?) -> Void in
+            if (error == nil) {
+                if let posts = posts as [PFObject]! {
+                    for post in posts {
+                        if  post["Image"] == nil{
+                        }else{
+                            let imageToLoad = post["Image"]! as! PFFile
+                            self.imageFiles.append(imageToLoad)
                         }
-
                     }
-                })
-            })
-        }else{
-            query.findObjectsInBackground{(posts:[PFObject]?, error: Error?) -> Void in
-                if (error == nil) {
-                    if let posts = posts as [PFObject]! {
-                        for post in posts {
-                            if  post["Image"] == nil{
-                            }else{
-                                let imageToLoad = post["Image"]! as! PFFile
-                                self.imageFiles.append(imageToLoad)
-                            }
-                        }
-                        self.othersCollectionView.reloadData()
-                    }
-                } else {
-                    print(error!)
+                    self.othersCollectionView.reloadData()
                 }
-
+            } else {
+                print(error!)
             }
         }
     }
@@ -253,11 +187,9 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
         
-        if self.imageFiles.count > 0
-        {
+        if self.imageFiles.count > 0{
             return self.imageFiles.count
-        }else
-        {
+        }else{
             return 0
         }
     }
