@@ -43,9 +43,10 @@ class FriendSearchTableViewController: PFQueryTableViewController, UISearchBarDe
     override func queryForTable() -> PFQuery<PFObject> {
         let query = PFUser.query()
         if searchBar.text != "" {
-            query!.whereKey("username", contains: searchBar.text!.lowercased())
+            query!.whereKey("username", hasPrefix: searchBar.text!.lowercased())
+        }else{
+            query!.whereKey("username", equalTo: "")
         }
-        query!.whereKey("username", notEqualTo: PFUser.current()!.username!)
         query!.order(byAscending: "username")
         return query!
     }
@@ -72,18 +73,6 @@ class FriendSearchTableViewController: PFQueryTableViewController, UISearchBarDe
         
         // Delegate the search bar to this table view class
         searchBar.delegate = self
-    }
-    
-    func search(_ searchText: String? = nil){
-        let query = PFUser.query()
-        if(searchText != nil){
-            query!.whereKey("username", contains: searchText)
-        }
-        query!.findObjectsInBackground { (results, error) -> Void in
-            self.data = results as [PFObject]!
-            self.tableView.reloadData()
-        }
-        
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, object: PFObject?) -> PFTableViewCell {
@@ -146,18 +135,18 @@ class FriendSearchTableViewController: PFQueryTableViewController, UISearchBarDe
         self.loadObjects()
     }
 
-    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-        self.filteredUsernames = self.usernames.filter({( newUsername : String) -> Bool in
-            let categoryMatch = (scope == "All") || (newUsername == scope)
-            return categoryMatch && newUsername.lowercased().contains(searchText.lowercased())
-        })
-        
-        tableView.reloadData()
-    }
+//    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+//        self.filteredUsernames = self.usernames.filter({( newUsername : String) -> Bool in
+//            let categoryMatch = (scope == "All") || (newUsername == scope)
+//            return categoryMatch && newUsername.lowercased().contains(searchText.lowercased())
+//        })
+//        
+//        tableView.reloadData()
+//    }
 }
 
-extension FriendSearchTableViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text!)
-    }
-}
+//extension FriendSearchTableViewController: UISearchResultsUpdating {
+//    func updateSearchResults(for searchController: UISearchController) {
+//        filterContentForSearchText(searchController.searchBar.text!)
+//    }
+//}
