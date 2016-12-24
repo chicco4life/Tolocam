@@ -3,3 +3,5 @@
 //
 
 #import "ImageCropView.h"
+#import <PubNub/PubNub.h>
+#import <JSQMessagesViewController/JSQMessages.h>

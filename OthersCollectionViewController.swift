@@ -16,6 +16,8 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
     
     @IBOutlet weak var othersCollectionView: UICollectionView!
     
+    let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     var userUsername = String()
     
     @IBOutlet var followButtonTitle: UIButton!
@@ -49,6 +51,7 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
         userQuery!.getFirstObjectInBackground { (result:PFObject?, error:Error?) in
             self.currentProfilePageUser = result as! PFUser
         }
+
         
         loadData()
         
@@ -110,6 +113,18 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
         
         self.usernameLabel.text = self.userUsername
         
+    }
+    
+    @IBAction func chatBtn(_ sender: Any) {
+        let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "chatVC") as! ChatViewController
+//        vc.username = self.userUsername //crashes
+        let ID = self.userUsername
+        vc.username = ID
+        appDelegate.client?.subscribeToChannels([self.userUsername], withPresence: true)
+//        appDelegate.client?.publish("Swift+PubNub!", toChannel: self.userUsername, compressed: false, withCompletion: nil)
+        
+        self.navigationController!.pushViewController(vc, animated: true)
     }
     
     @IBAction func followPressed(_ sender: AnyObject) {

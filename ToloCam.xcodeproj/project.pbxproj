@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		34B345383C9F99269ED09EC2 /* Pods_ToloCam.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0165F10545EBB7AF84052CBC /* Pods_ToloCam.framework */; };
 		B62A3EA01CD3D157006C1F74 /* FriendSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A3E9F1CD3D157006C1F74 /* FriendSearchTableViewController.swift */; };
 		B62A3EA21CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A3EA11CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift */; };
 		B691DA341D7016E700AF1EF6 /* Coves Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B691DA321D7016A700AF1EF6 /* Coves Bold.otf */; };
@@ -19,6 +20,7 @@
 		B6C50B161DCACF88004E200D /* FXBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C50B151DCACF88004E200D /* FXBlurView.m */; };
 		B6D48DDE1D617AF200BDEDB3 /* brice.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B6D48DDD1D617AD000BDEDB3 /* brice.ttf */; };
 		B6DC542D1DABF12600E50276 /* gray.png in Resources */ = {isa = PBXBuildFile; fileRef = B6DC542C1DABF12600E50276 /* gray.png */; };
+		B6E67FCE1E059A680005824B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E67FCD1E059A680005824B /* ChatViewController.swift */; };
 		FF06E79B1C75BE8F00920007 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E79A1C75BE8F00920007 /* TabBar.swift */; };
 		FF06E7A51C75C84000920007 /* ExploreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */; };
 		FF06E7A71C75C91F00920007 /* ExploreCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */; };
@@ -74,6 +76,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0165F10545EBB7AF84052CBC /* Pods_ToloCam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToloCam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1234A1AC62C15842D1121D3C /* Pods-ToloCam.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToloCam.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ToloCam/Pods-ToloCam.debug.xcconfig"; sourceTree = "<group>"; };
+		3B6AF7462AAC25035685FE40 /* Pods-ToloCam.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToloCam.release.xcconfig"; path = "Pods/Target Support Files/Pods-ToloCam/Pods-ToloCam.release.xcconfig"; sourceTree = "<group>"; };
 		B62A3E9F1CD3D157006C1F74 /* FriendSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendSearchTableViewController.swift; sourceTree = "<group>"; };
 		B62A3EA11CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsSearchTableviewCell.swift; sourceTree = "<group>"; };
 		B691DA321D7016A700AF1EF6 /* Coves Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Coves Bold.otf"; sourceTree = "<group>"; };
@@ -89,6 +94,7 @@
 		B6C50B151DCACF88004E200D /* FXBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXBlurView.m; sourceTree = "<group>"; };
 		B6D48DDD1D617AD000BDEDB3 /* brice.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = brice.ttf; path = ../brice.ttf; sourceTree = "<group>"; };
 		B6DC542C1DABF12600E50276 /* gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gray.png; path = ../gray.png; sourceTree = "<group>"; };
+		B6E67FCD1E059A680005824B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		FF06E79A1C75BE8F00920007 /* TabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExploreCollectionViewCell.swift; path = ../ExploreCollectionViewCell.swift; sourceTree = "<group>"; };
 		FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewController.swift; sourceTree = "<group>"; };
@@ -152,6 +158,7 @@
 				FFCBBDF51C6C8E3E00BA0773 /* CoreGraphics.framework in Frameworks */,
 				FFCBBDF31C6C8E3700BA0773 /* CFNetwork.framework in Frameworks */,
 				FFCBBDF11C6C8E2800BA0773 /* AudioToolbox.framework in Frameworks */,
+				34B345383C9F99269ED09EC2 /* Pods_ToloCam.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,6 +235,15 @@
 			name = Compose;
 			sourceTree = "<group>";
 		};
+		EC33566BEA3BAFB04C3CBDAD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1234A1AC62C15842D1121D3C /* Pods-ToloCam.debug.xcconfig */,
+				3B6AF7462AAC25035685FE40 /* Pods-ToloCam.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		FFA914D41C7480E500121EE2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -249,6 +265,7 @@
 				FFCBBDD61C6C8D8D00BA0773 /* ToloCamTests */,
 				FFCBBDE11C6C8D8D00BA0773 /* ToloCamUITests */,
 				FFCBBDBD1C6C8D8D00BA0773 /* Products */,
+				EC33566BEA3BAFB04C3CBDAD /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -277,6 +294,7 @@
 				FFA914E11C748F0900121EE2 /* SettingsViewController.swift */,
 				B6C4FF371CD52B4D008548A2 /* OthersCollectionViewCell.swift */,
 				B6C4FF391CD5F4C9008548A2 /* OthersCollectionViewController.swift */,
+				B6E67FCD1E059A680005824B /* ChatViewController.swift */,
 				B62A3EA11CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift */,
 				B62A3E9F1CD3D157006C1F74 /* FriendSearchTableViewController.swift */,
 				FFA914E31C74A68200121EE2 /* imageTableViewCell.swift */,
@@ -327,6 +345,7 @@
 				FFD788531C6CB55D00ACDB65 /* ParseUI.framework */,
 				FFCBBE041C6C8EA600BA0773 /* libsqlite3.tbd */,
 				FFCBBE021C6C8E9200BA0773 /* libz.tbd */,
+				0165F10545EBB7AF84052CBC /* Pods_ToloCam.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -338,9 +357,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FFCBBDE71C6C8D8D00BA0773 /* Build configuration list for PBXNativeTarget "ToloCam" */;
 			buildPhases = (
+				904A495369D00C70D2F0EB13 /* [CP] Check Pods Manifest.lock */,
 				FFCBBDB81C6C8D8C00BA0773 /* Sources */,
 				FFCBBDB91C6C8D8C00BA0773 /* Frameworks */,
 				FFCBBDBA1C6C8D8C00BA0773 /* Resources */,
+				EC590CA2333B989C110860EF /* [CP] Embed Pods Frameworks */,
+				8AE8CB34B045604D5E1253B2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -467,6 +489,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		8AE8CB34B045604D5E1253B2 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ToloCam/Pods-ToloCam-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		904A495369D00C70D2F0EB13 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		EC590CA2333B989C110860EF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ToloCam/Pods-ToloCam-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		FFCBBDB81C6C8D8C00BA0773 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -488,6 +558,7 @@
 				B6C4FF381CD52B4D008548A2 /* OthersCollectionViewCell.swift in Sources */,
 				FFCBBDC01C6C8D8D00BA0773 /* AppDelegate.swift in Sources */,
 				FFD788501C6CB14300ACDB65 /* PostTableViewCell.swift in Sources */,
+				B6E67FCE1E059A680005824B /* ChatViewController.swift in Sources */,
 				FF06E7A51C75C84000920007 /* ExploreCollectionViewCell.swift in Sources */,
 				FFE37A661C775BCE00C1670F /* ProfileCollectionViewCell.swift in Sources */,
 				FFA914E21C748F0900121EE2 /* SettingsViewController.swift in Sources */,
@@ -636,6 +707,7 @@
 		};
 		FFCBBDE81C6C8D8D00BA0773 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1234A1AC62C15842D1121D3C /* Pods-ToloCam.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -659,6 +731,7 @@
 		};
 		FFCBBDE91C6C8D8D00BA0773 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3B6AF7462AAC25035685FE40 /* Pods-ToloCam.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
