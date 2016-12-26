@@ -51,8 +51,6 @@ class ChatViewController: UIViewController, PNObjectEventListener, UITableViewDe
     
     @IBAction func send(_ sender: Any) {
         appDelegate.client?.publish([PFUser.current()?.objectId, self.textField.text], toChannel: self.username, compressed: false, withCompletion: nil)
-//        self.messages.append("\(PFUser.current()?.objectId): \(self.textField.text)")
-//        self.table.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

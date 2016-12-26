@@ -118,12 +118,14 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
     @IBAction func chatBtn(_ sender: Any) {
         let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "chatVC") as! ChatViewController
-//        vc.username = self.userUsername //crashes
         let ID = self.userUsername
         vc.username = ID
-        appDelegate.client?.subscribeToChannels([self.userUsername], withPresence: true)
-//        appDelegate.client?.publish("Swift+PubNub!", toChannel: self.userUsername, compressed: false, withCompletion: nil)
-        
+        var array = [String]()
+        array.append(self.currentProfilePageUser.objectId!)
+        array.append((PFUser.current()?.objectId)!)
+        array.sort()
+        let channelName = "\(array[0])-\(array[1])-channel"
+        appDelegate.client?.subscribeToChannels([channelName], withPresence: true)
         self.navigationController!.pushViewController(vc, animated: true)
     }
     
