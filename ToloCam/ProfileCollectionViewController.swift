@@ -11,9 +11,9 @@ import Parse
 import Bolts
 import ParseUI
 
-class ProfileCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class ProfileCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, ImageCropViewControllerDelegate, UINavigationControllerDelegate {
     
-    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var profileImage: PFImageView!
     @IBOutlet weak var followersCount: UILabel!
     @IBOutlet weak var followingCount: UILabel!
     @IBOutlet weak var profileName: UILabel!
@@ -72,7 +72,15 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
     }
     
     override func viewDidLayoutSubviews() {
-            self.profileImage.backgroundColor = UIColor.black
+        
+        if PFUser.current()?.object(forKey: "profileImg") != nil{
+            print(PFUser.current()?.object(forKey: "profileImg"))
+            self.profileImage.file = PFUser.current()?.object(forKey: "profileImg") as? PFFile
+            self.profileImage.loadInBackground()
+        }else{
+            self.profileImage.image = UIImage(named: "gray")
+        }
+        
             self.profileImage.layer.masksToBounds = true
         //        self.profileImage.clipsToBounds = true
             self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width/2
@@ -88,6 +96,63 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         
     }
     
+    @IBAction func proflieImgBtn(_ sender: Any) {
+        let imagePicker = UIImagePickerController()
+        
+        imagePicker.delegate = self
+        imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        imagePicker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
+        imagePicker.allowsEditing = false
+        
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+        
+        let controller = ImageCropViewController.init(image: image)
+        controller?.delegate = self
+        controller?.blurredBackground = true
+        self.navigationController?.pushViewController(controller!, animated: true)
+        
+        self.dismiss(animated: true, completion: nil)
+        
+    }
+    
+    func imageCropViewControllerSuccess(_ controller: UIViewController!, didFinishCroppingImage croppedImage: UIImage!) {
+        
+        UIImageWriteToSavedPhotosAlbum(croppedImage, nil, nil, nil)
+        
+        self.profileImage.image = croppedImage
+        
+        let data = croppedImage.lowQualityJPEGNSData
+        let file = PFFile(data: data) as PFFile!
+        
+        let userObj = PFUser.current()
+//        let profilePic = userObj?.object(forKey: "profileImg") as! PFFile
+        userObj?.setObject(file!, forKey: "profileImg")
+        
+//        print(profilePic)
+
+        
+//        print(profileImages)
+//        
+        userObj?.saveInBackground { (done:Bool, error:Error?) in
+            if !done{
+                self.profileImage.image = UIImage(named: "gray")
+                let alertController = UIAlertController(title: "Error", message: "Profile image upload failed", preferredStyle: UIAlertControllerStyle.alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+                
+            }
+        }
+        
+        
+        self.navigationController!.popViewController(animated: true)
+    }
+    
+    func imageCropViewControllerDidCancel(_ controller: UIViewController!) {
+        self.navigationController!.popViewController(animated: true)
+    }
     
     func loadData(){
         

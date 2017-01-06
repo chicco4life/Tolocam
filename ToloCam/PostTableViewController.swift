@@ -72,7 +72,6 @@ class PostTableViewController: PFQueryTableViewController {
         
         self.navigationController?.navigationBar.titleTextAttributes = attributes
         
-        
         //Now only loading followingWho, hence loadData is commented out
         //loadData()
         
@@ -115,6 +114,7 @@ class PostTableViewController: PFQueryTableViewController {
         let yourLikes = dictionaryOfLikers[(PFUser.current()?.username)!] as? Int
         
         cell.parseObject = object
+//        print(object)
         
         cell.postImageView.image = UIImage(named: "gray")
         cell.postImageView.file = image

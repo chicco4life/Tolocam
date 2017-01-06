@@ -44,6 +44,7 @@ class FriendSearchTableViewController: PFQueryTableViewController, UISearchBarDe
         let query = PFUser.query()
         if searchBar.text != "" {
             query!.whereKey("username", hasPrefix: searchBar.text!.lowercased())
+            query!.whereKey("username", notEqualTo: PFUser.current()!.username!)
         }else{
             query!.whereKey("username", equalTo: "")
         }

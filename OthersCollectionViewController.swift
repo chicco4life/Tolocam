@@ -100,7 +100,14 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
     
         //profile image
     
-        self.profileImage.backgroundColor = UIColor.black
+        if self.currentProfilePageUser.object(forKey: "profileImg") != nil{
+            let file = self.currentProfilePageUser.object(forKey: "profileImg") as? PFFile
+            self.profileImage.file = file
+            self.profileImage.loadInBackground()
+        }else{
+            self.profileImage.image = UIImage(named: "gray")!
+        }
+        
         self.profileImage.layer.masksToBounds = true
         self.profileImage.clipsToBounds = true
         self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width/2
@@ -121,6 +128,7 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
         let vc = storyboard.instantiateViewController(withIdentifier: "chatVC") as! ChatViewController
         let ID = self.userUsername
         vc.username = ID
+        vc.otherUser = self.currentProfilePageUser
         
         //using object IDs to create a channel name
         var array = [String]()

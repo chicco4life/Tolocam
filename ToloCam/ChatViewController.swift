@@ -17,12 +17,16 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
     
     @IBOutlet weak var table: UITableView!
     @IBOutlet weak var textField: UITextField!
+    
+    var count = 0
 
     let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
     var username = String()
     var currentChannel = String()
-    var messages = [String]()
     var messagePackets = [JSQMessage]()
+    var selfAvatarImg = UIImage()
+    var friendAvatarImg = UIImage()
+    var otherUser = PFUser()
     
     lazy var outgoingBubbleImageView: JSQMessagesBubbleImage = self.setupOutgoingBubble()
     lazy var incomingBubbleImageView: JSQMessagesBubbleImage = self.setupIncomingBubble()
@@ -32,13 +36,28 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
         self.title = self.username
         appDelegate.client?.addListener(self)
         
-        //no avatar for now, setup later
-        collectionView!.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
-        collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
+        if PFUser.current()?.object(forKey: "profileImg") != nil{
+            let file = PFUser.current()?.object(forKey: "profileImg") as? PFFile
+            file?.getDataInBackground(block: { (data:Data?, error:Error?) in
+                self.selfAvatarImg = UIImage(data: data!)!
+            })
+        }else{
+            self.selfAvatarImg = UIImage(named: "gray")!
+        }
+        
+        if self.otherUser.object(forKey: "profileImg") != nil{
+            let file = self.otherUser.object(forKey: "profileImg") as? PFFile
+            file?.getDataInBackground(block: { (data:Data?, error:Error?) in
+                self.friendAvatarImg = UIImage(data: data!)!
+            })
+        }else{
+            self.friendAvatarImg = UIImage(named: "gray")!
+        }
+        
         
         self.senderId = PFUser.current()?.objectId
         self.senderDisplayName = PFUser.current()?.username
-        self.automaticallyScrollsToMostRecentMessage = true
+        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -46,9 +65,9 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
     }
     
     func client(_ client: PubNub, didReceiveMessage message: PNMessageResult) {
-        print("received message")
-        print(message)
-        print(message.data.channel) //channel
+//        print("received message")
+//        print(message)
+//        print(message.data.channel) //channel
         var messageArray = message.data.message as! Array<Any>
         if  messageArray[3] as! String == "img"{
             let data = NSData(base64Encoded: messageArray[2] as! String, options: .ignoreUnknownCharacters)
@@ -61,7 +80,7 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
             if message.data.channel == self.currentChannel{
                 addMessage(withId: senderObjID , name: senderName , text: theMessage)
                 print("is a message for this channel")
-                }
+            }
         }
     }
     
@@ -73,17 +92,19 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
         if let message = JSQMessage(senderId: id, displayName: name, text: text) {
             messagePackets.append(message)
             collectionView.reloadData()
+            self.finishReceivingMessage(animated: true)
         }
     }
     
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
         print("send")
-        self.inputToolbar.contentView.textView.text = ""
         let messageArray = [senderId,senderDisplayName,text,"notImg"]
         appDelegate.client?.publish(messageArray, toChannel: self.currentChannel, withCompletion: nil)
+        self.finishSendingMessage(animated: true)
     }
     
     override func didPressAccessoryButton(_ sender: UIButton!) {
+        print(collectionView!.collectionViewLayout.incomingAvatarViewSize.width)
         let imagePicker = UIImagePickerController()
         
         imagePicker.delegate = self
@@ -126,7 +147,18 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
     
     //setup avatar later, nil for now
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
-        return nil
+        
+        let currentMessage = messagePackets[indexPath.item]
+        var avatarImg:JSQMessagesAvatarImage
+        if currentMessage.senderId == PFUser.current()?.objectId{
+            let placeholderImg = UIImage(named: "gray")
+            avatarImg = JSQMessagesAvatarImage.init(avatarImage: self.selfAvatarImg, highlightedImage: self.selfAvatarImg, placeholderImage: placeholderImg)
+        }else{
+            let placeholderImg = UIImage(named: "gray")
+            avatarImg = JSQMessagesAvatarImage.init(avatarImage: self.friendAvatarImg, highlightedImage: self.friendAvatarImg, placeholderImage: placeholderImg)
+        }
+        
+        return avatarImg
     }
     
     private func setupOutgoingBubble() -> JSQMessagesBubbleImage {
