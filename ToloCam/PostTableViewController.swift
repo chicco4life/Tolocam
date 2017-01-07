@@ -11,12 +11,13 @@
 //imageUsers[0] = first post's addedBy
 
 import UIKit
-import Parse
-import Bolts
-import ParseUI
+//import Parse
+//import Bolts
+//import ParseUI
+import LeanCloud
 
 
-class PostTableViewController: PFQueryTableViewController {
+class PostTableViewController: UITableViewController {
     
     var followingWho = [String]()
     

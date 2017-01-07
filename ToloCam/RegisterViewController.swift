@@ -7,8 +7,9 @@
 //
 
 import UIKit
-import Parse
-import Bolts
+//import Parse
+//import Bolts
+import LeanCloud
 
 class RegisterViewController: UIViewController {
     @IBOutlet weak var usernameTextField: UITextField!
@@ -99,15 +100,14 @@ class RegisterViewController: UIViewController {
             
         }
         
-        let user = PFUser()
-        user.username = usernameTextField.text?.lowercased()
-        user.password = passwordTextField.text
-        user.email = emailTextField.text
+        let user = LCUser()
+//        let user = PFUser()
+        user.username = LCString((usernameTextField.text?.lowercased())!)
+        user.password = LCString(passwordTextField.text!)
+        user.email = LCString(emailTextField.text!)
         //            user["followingWho"] = ["admin","chicco", "leo", usernameTextField.text!.lowercaseString]
-        
-        user.signUpInBackground(block: {(succeeded: Bool, error: Error?) -> Void in
-            
-            if error == nil {
+        user.signUp { (success:LCBooleanResult) in
+            if success.isSuccess {
                 //no error
                 
                 print("Successfully Signed Up User.")
@@ -117,11 +117,13 @@ class RegisterViewController: UIViewController {
                 
                 //follow self
                 
-                let follow = PFObject(className: "Follow")
-                follow["followFrom"] = PFUser.current()
-                follow["followingTo"] = PFUser.current()
+//                let follow = PFObject(className: "Follow")
+                let follow = LCObject(className: "Follow")
+                follow["followFrom"] = LCUser.current
+                follow["followingTo"] = LCUser.current
                 
-                follow.saveInBackground()
+//                follow.saveInBackground()
+                follow.save()
                 
             } else {
                 // There is an error while signing up
@@ -131,8 +133,36 @@ class RegisterViewController: UIViewController {
                 self.present(alertController, animated: true, completion: nil)
                 
             }
-            
-        })
+        }
+        
+//        user.signUpInBackground(block: {(succeeded: Bool, error: Error?) -> Void in
+//            
+//            if error == nil {
+//                //no error
+//                
+//                print("Successfully Signed Up User.")
+//                
+//                let vc = TabBarInitializer.getTabBarController()
+//                self.present(vc, animated: true, completion: nil)
+//                
+//                //follow self
+//                
+//                let follow = PFObject(className: "Follow")
+//                follow["followFrom"] = PFUser.current()
+//                follow["followingTo"] = PFUser.current()
+//                
+//                follow.saveInBackground()
+//                
+//            } else {
+//                // There is an error while signing up
+//                
+//                let alertController = UIAlertController(title:"Error", message:"This username/email is already registered!", preferredStyle: UIAlertControllerStyle.alert)
+//                alertController.addAction(UIAlertAction(title:"OK", style: .cancel, handler: nil))
+//                self.present(alertController, animated: true, completion: nil)
+//                
+//            }
+//            
+//        })
         
         
         

@@ -7,8 +7,9 @@
 //
 
 import UIKit
-import Parse
-import Bolts
+//import Parse
+//import Bolts
+import LeanCloud
 import Foundation
 
 class LoginViewController: UIViewController {
@@ -63,29 +64,41 @@ class LoginViewController: UIViewController {
         let password = passwordField.text
         print("password \(password)")
         
-        
-        PFUser.logInWithUsername(inBackground: username!, password: password!) {(user:PFUser?, error:Error?) -> Void in
-            
-            if (error) == nil {
-                //successfully logged in
-                
-                print("Successfully Logged In.")
-                
+        LCUser.logIn(username: username!, password: password!) { result in
+            if result.isSuccess{
                 let vc = TabBarInitializer.getTabBarController()
                 self.present(vc, animated: true, completion: nil)
-                
-            } else {
-                //Error while logging in
-                
+            }else{
+                //error
                 let alertController = UIAlertController(title: "Error", message: "Incorrect Username/Password", preferredStyle: UIAlertControllerStyle.alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
                 self.present(alertController, animated: true, completion: nil)
                 
                 self.view.isUserInteractionEnabled = true
-                
             }
-            
         }
+//        PFUser.logInWithUsername(inBackground: username!, password: password!) {(user:PFUser?, error:Error?) -> Void in
+//            
+//            if (error) == nil {
+//                //successfully logged in
+//                
+//                print("Successfully Logged In.")
+//                
+//                let vc = TabBarInitializer.getTabBarController()
+//                self.present(vc, animated: true, completion: nil)
+//                
+//            } else {
+//                //Error while logging in
+//                
+//                let alertController = UIAlertController(title: "Error", message: "Incorrect Username/Password", preferredStyle: UIAlertControllerStyle.alert)
+//                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
+//                self.present(alertController, animated: true, completion: nil)
+//                
+//                self.view.isUserInteractionEnabled = true
+//                
+//            }
+        
+//        }
         
     }
 

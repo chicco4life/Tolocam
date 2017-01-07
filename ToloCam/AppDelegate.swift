@@ -8,9 +8,10 @@
 
 import UIKit
 import CoreData
-import Parse
-import Bolts
+//import Parse
+//import Bolts
 import PubNub
+import LeanCloud
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
@@ -25,21 +26,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        Parse.setApplicationId("cDhho7qZDlMwdZVxvFcXAOlQPoVoLbuyRm84jeud",
-            clientKey: "pEQEEydmSTWWRb7xTNOGmNlFyWMcrak0nXXFwpSf")
+//        Parse.setApplicationId("cDhho7qZDlMwdZVxvFcXAOlQPoVoLbuyRm84jeud",
+//            clientKey: "pEQEEydmSTWWRb7xTNOGmNlFyWMcrak0nXXFwpSf")
+        
+        LeanCloud.initialize(applicationID: "TCldgsnzV2zm3EjofgYn20U3-gzGzoHsz", applicationKey: "NOTBs0QwYRx242mzzzV7eEv6")
+        
+        let post = LCObject(className: "TestObject")
+        
+        post.set("words", value: "Hello World!")
+        
+        post.save()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        if PFUser.current() == nil {
-            // login page
-            let vc = storyboard.instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
-            self.window!.rootViewController = vc
-        } else {
-            // home page
-            //let vc = tabB.instantiateViewControllerWithIdentifier("tabController") as! UITabBarController
+        
+        if (LCUser.current != nil){
             let vc = TabBarInitializer.getTabBarController()
             self.window!.rootViewController = vc
+        }else{
+            let vc = storyboard.instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
+            self.window!.rootViewController = vc
         }
+        
+//        if PFUser.current() == nil {
+            // login page
+//            let vc = storyboard.instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
+//            self.window!.rootViewController = vc
+//        } else {
+//             home page
+            //let vc = tabB.instantiateViewControllerWithIdentifier("tabController") as! UITabBarController
+//            let vc = TabBarInitializer.getTabBarController()
+//            self.window!.rootViewController = vc
+//        }
         
         self.client?.addListener(self)
         
