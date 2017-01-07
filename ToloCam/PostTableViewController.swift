@@ -17,7 +17,7 @@ import UIKit
 import LeanCloud
 
 
-class PostTableViewController: UITableViewController {
+class PostTableViewController: PFQueryTableViewController {
     
     var followingWho = [String]()
     

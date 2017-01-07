@@ -1,4 +1,4 @@
-//
+
 //  ChatViewController.swift
 //  ToloCam
 //
@@ -7,9 +7,10 @@
 //
 
 import UIKit
-import Parse
-import ParseUI
-import Bolts
+//import Parse
+//import ParseUI
+//import Bolts
+import LeanCloud
 import PubNub
 import JSQMessagesViewController
 

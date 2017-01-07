@@ -7,10 +7,11 @@
 //
 
 import UIKit
-import Parse
-import ParseUI
-import Bolts
+//import Parse
+//import ParseUI
+//import Bolts
 import AVFoundation
+import LeanCloud
 
 
 class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, ImageCropViewControllerDelegate {

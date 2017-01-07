@@ -7,9 +7,10 @@
 //
 
 import UIKit
-import Parse
-import ParseUI
-import Bolts
+//import Parse
+//import ParseUI
+//import Bolts
+import LeanCloud
 import AVFoundation
 
 //extension UIImage {

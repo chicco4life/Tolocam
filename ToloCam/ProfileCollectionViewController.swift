@@ -7,9 +7,10 @@
 //
 
 import UIKit
-import Parse
-import Bolts
-import ParseUI
+//import Parse
+//import Bolts
+//import ParseUI
+import LeanCloud
 
 class ProfileCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, ImageCropViewControllerDelegate, UINavigationControllerDelegate {
     

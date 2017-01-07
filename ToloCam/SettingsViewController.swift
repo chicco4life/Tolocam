@@ -7,8 +7,9 @@
 //
 
 import UIKit
-import Parse
-import Bolts
+//import Parse
+//import Bolts
+import LeanCloud
 
 class SettingsViewController: UIViewController {
 

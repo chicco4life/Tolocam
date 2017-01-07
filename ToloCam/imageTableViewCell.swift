@@ -7,11 +7,10 @@
 //
 
 import UIKit
-import Parse
-import Bolts
-import ParseUI
-
-
+//import Parse
+//import Bolts
+//import ParseUI
+import LeanCloud
 
 class imageTableViewCell: UITableViewCell {
     

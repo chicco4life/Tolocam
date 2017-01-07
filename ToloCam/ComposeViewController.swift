@@ -7,9 +7,10 @@
 //
 
 import UIKit
-import Parse
-import ParseUI
-import Bolts
+//import Parse
+//import ParseUI
+//import Bolts
+import LeanCloud
 
 extension UIImage {
     var uncompressedPNGData: Data      { return UIImagePNGRepresentation(self)!        }
@@ -94,6 +95,7 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
             
             
             let file: PFFile = PFFile(data:imagedata2) as PFFile!
+            let file: 
             let fileCaption: String = self.captionTextView.text
             
             let photoToUpload = PFObject(className: "Posts")
