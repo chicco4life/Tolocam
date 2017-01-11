@@ -1,0 +1,28 @@
+PODS:
+  - Alamofire (4.2.0)
+  - JSQMessagesViewController (7.3.4):
+    - JSQSystemSoundPlayer (~> 2.0.1)
+  - JSQSystemSoundPlayer (2.0.1)
+  - LeanCloud (10.0.0):
+    - LeanCloud/Storage (= 10.0.0)
+  - LeanCloud/Storage (10.0.0):
+    - Alamofire (~> 4.2.0)
+  - PubNub (4.5.9):
+    - PubNub/Core (= 4.5.9)
+  - PubNub/Core (4.5.9)
+
+DEPENDENCIES:
+  - JSQMessagesViewController
+  - LeanCloud
+  - PubNub (~> 4)
+
+SPEC CHECKSUMS:
+  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
+  JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
+  JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
+  LeanCloud: 0a6a0d52e33dd43d998ab256cc83f6c4954607b8
+  PubNub: fbcd3f98bced45b7d61de79cf3cd6822ee8c1858
+
+PODFILE CHECKSUM: 6101f36ef45f468cc3bdc0a37a2647fa2a8226fd
+
+COCOAPODS: 1.1.1
