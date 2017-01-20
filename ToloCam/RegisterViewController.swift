@@ -101,7 +101,7 @@ class RegisterViewController: UIViewController {
         }
         
         let user = LCUser()
-//        let user = PFUser()
+        //        let user = PFUser()
         user.username = LCString((usernameTextField.text?.lowercased())!)
         user.password = LCString(passwordTextField.text!)
         user.email = LCString(emailTextField.text!)
@@ -117,12 +117,12 @@ class RegisterViewController: UIViewController {
                 
                 //follow self
                 
-//                let follow = PFObject(className: "Follow")
+                //                let follow = PFObject(className: "Follow")
                 let follow = LCObject(className: "Follow")
                 follow["followFrom"] = LCUser.current
                 follow["followingTo"] = LCUser.current
                 
-//                follow.saveInBackground()
+                //                follow.saveInBackground()
                 follow.save()
                 
             } else {
@@ -134,36 +134,6 @@ class RegisterViewController: UIViewController {
                 
             }
         }
-        
-//        user.signUpInBackground(block: {(succeeded: Bool, error: Error?) -> Void in
-//            
-//            if error == nil {
-//                //no error
-//                
-//                print("Successfully Signed Up User.")
-//                
-//                let vc = TabBarInitializer.getTabBarController()
-//                self.present(vc, animated: true, completion: nil)
-//                
-//                //follow self
-//                
-//                let follow = PFObject(className: "Follow")
-//                follow["followFrom"] = PFUser.current()
-//                follow["followingTo"] = PFUser.current()
-//                
-//                follow.saveInBackground()
-//                
-//            } else {
-//                // There is an error while signing up
-//                
-//                let alertController = UIAlertController(title:"Error", message:"This username/email is already registered!", preferredStyle: UIAlertControllerStyle.alert)
-//                alertController.addAction(UIAlertAction(title:"OK", style: .cancel, handler: nil))
-//                self.present(alertController, animated: true, completion: nil)
-//                
-//            }
-//            
-//        })
-        
         
         
         /*

@@ -14,7 +14,7 @@ import LeanCloud
 
 class imageTableViewCell: UITableViewCell {
     
-    let postImageView = PFImageView()
+    let postImageView = UIImageView()
     let cellData = UIView()
     
     let postCaption = UILabel()

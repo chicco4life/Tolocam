@@ -15,45 +15,18 @@ import UIKit
 //import Bolts
 //import ParseUI
 import LeanCloud
+import AVOSCloud
 
-
-class PostTableViewController: PFQueryTableViewController {
+class PostTableViewController: UITableViewController {
     
     var followingWho = [String]()
-    
-    override init(style: UITableViewStyle, className: String!) {
-        super.init(style: style, className: className)
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-        
-        // Configure the PFQueryTableView
-        self.parseClassName = "Posts"
-        
-        self.pullToRefreshEnabled = true
-        
-        self.paginationEnabled = false
-        
-        self.isLoading = true
-    }
-    
-    // Define the query that will provide the data for the table view
-    override func queryForTable() -> PFQuery<PFObject> {
-        /*
-         make user query
-         query for all users that are followed by you -> [PFUser]
-         query.whereKey("postedBy", matchesQuery: userQuery)
- */
-        let userQuery = PFQuery(className: "Follow")
-        userQuery.whereKey("followFrom", equalTo: PFUser.current()!)
-        print(PFUser.current()!.objectId!)
-        let query = PFQuery(className: "Posts")
-        query.whereKey("postedBy", matchesKey: "followingTo", in: userQuery)
-        query.order(byDescending: "createdAt")
-        print(query)
-        return query
-    }
+    var imageFiles = [AVFile]()
+    var imageCaptions = [String]()
+    var imageDates = [String]()
+    var imageUsers = [String]()
+    var imageLikes = [Int]()
+    var imageDictionaryOfLikers = [NSMutableDictionary]()
+    var postObjects = [LCObject]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,73 +46,88 @@ class PostTableViewController: PFQueryTableViewController {
         
         self.navigationController?.navigationBar.titleTextAttributes = attributes
         
+        //query
+        
+        
         //Now only loading followingWho, hence loadData is commented out
         //loadData()
         
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        //         self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.tableView.reloadData()
     }
 
     func refreshPulled() {
-        self.loadObjects()
+//        self.loadObjects()
+        self.loadData()
+        self.tableView.reloadData()
         self.refreshControl?.endRefreshing()
-        
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func loadData () {
+        let userQuery = LCQuery(className: "Follow")
+        userQuery.whereKey("followFrom", .equalTo(LCUser.current!))
+        let query = LCQuery(className: "Posts")
+        //            query.whereKey("postedBy", matchesKey: "followingTo", in: userQuery)
+        query.whereKey("postedBy", .matchedQueryAndKey(query: userQuery, key: "followingTo"))
+        query.whereKey("createdAt", .descending)
+        query.find { (result) in
+            if result.isSuccess {
+                // no error
+                if let posts = result.objects {
+                    for post in posts {
+                        if  post["Image"] == nil{
+                            print("    CHECK THIS LOL NIL )")
+                        }else{
+                            let imageToLoad = post["Image"]! as! AVFile
+                            self.imageFiles.append(imageToLoad)
+                            self.imageCaptions.append(post["Caption"] as! String)
+                            self.imageDates.append(post["date"] as! String)
+                            self.imageUsers.append(post["addedBy"] as! String)
+                            self.imageLikes.append(post["Likes"] as! Int)
+                            self.imageDictionaryOfLikers.append(post["likedBy"] as! NSMutableDictionary)
+                            self.postObjects.append(post)
+                        }
+                    }
+                    self.tableView.reloadData()
+                }
+            } else {
+                //Error
+            }
+        }
     }
     
     // MARK: - Table view data source
 
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, object: PFObject?) -> PFTableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath) as! PostTableViewCell
+        let imageFile = self.imageFiles[indexPath.row]
+        var image = UIImage()
+        imageFile.getDataInBackground({ (data:Data?, error:Error?) in
+            image = UIImage(data: data!)!
+        }) { (progress) in
+            //progress
+        }
         
-        // Configure the cell...
-
+        let imageCaption = imageCaptions[indexPath.row]
+        let imageDate =  imageDates[indexPath.row]
+        let imageUser = imageUsers[indexPath.row]
+        let imageLikes = self.imageLikes[indexPath.row]
+        let dictionaryOfLikers:NSMutableDictionary = self.imageDictionaryOfLikers[indexPath.row] 
+        let yourLikes = dictionaryOfLikers[(LCUser.current!.username)!] as? Int
         
-        let image: PFFile = object!["Image"] as! PFFile
+        cell.object = self.postObjects[indexPath.row]
+        //        print(object)
         
-        let imageCaption = object!["Caption"] as! String
-        let imageDate =  object!["date"] as! String
-        let imageUsers = object!["addedBy"] as! String
-        let imageLikes = object!["Likes"] as! Int
-        let dictionaryOfLikers:NSMutableDictionary = object!["likedBy"] as! NSMutableDictionary
-        let yourLikes = dictionaryOfLikers[(PFUser.current()?.username)!] as? Int
-        
-        cell.parseObject = object
-//        print(object)
-        
-        cell.postImageView.image = UIImage(named: "gray")
-        cell.postImageView.file = image
-        cell.postImageView.loadInBackground()
+        cell.postImageView.image = image
         cell.postCaption.text = imageCaption
-        cell.addedBy.text = imageUsers
+        cell.addedBy.text = imageUser
         cell.dateLabel.text = imageDate
         cell.likesLabel.text = "\(imageLikes)"
         if yourLikes == nil{
             cell.yourLikesLabel.text = "0"
         }else{
-        cell.yourLikesLabel.text = "\(yourLikes!)"
+            cell.yourLikesLabel.text = "\(yourLikes!)"
         }
-        
-        print("cell for row is called")
-
-        //Create the object you want to get the data from. It will have to be a variable because you might recieve the image from the server or you might not.
-        
-        //Start your error catching by using this format do { try *func* } catch { *error handling* }
-        
-        //var imageData = NSData()
-        
-        
-        //once finished autolayout, change cell to cellCoded
         return cell
     }
     

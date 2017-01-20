@@ -3,32 +3,15 @@ import UIKit
 //import Parse
 //import Bolts
 //import ParseUI
+import AVOSCloud
 import LeanCloud
 
-class ExploreCollectionViewController: PFQueryCollectionViewController,UIViewControllerPreviewingDelegate {
+class ExploreCollectionViewController: UICollectionViewController,UIViewControllerPreviewingDelegate {
 
     //@IBOutlet weak var collectionView: UICollectionView!
 
-    
-    var images = [UIImage]()
-    
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-        // Configure the PFQueryCollectionView
-        self.parseClassName = "Posts"
-        self.pullToRefreshEnabled = true
-        self.paginationEnabled = true
-        self.objectsPerPage = 15
-        self.isLoading = true
-    }
-    
-    override func queryForCollection() -> PFQuery<PFObject> {
-        let query = PFQuery(className: "Posts")
-        query.order(byDescending:("createdAt"))
-        
-        return query
-    }
-    
+    var imageFiles = [AVFile]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -83,19 +66,54 @@ class ExploreCollectionViewController: PFQueryCollectionViewController,UIViewCon
         // Dispose of any resources that can be recreated.
     }
     
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, object: PFObject?) -> PFCollectionViewCell {
+    func loadData(){
+        let query = LCQuery(className: "Posts")
+        query.whereKey("createdAt", .descending)
+        query.find{(result) in
+            if (result.isSuccess) {
+                if let posts = result.objects {
+                    for post in posts {
+                        if  post["Image"] == nil{
+                            print("    CHECK THIS LOL NIL )")
+                        }else{
+                            print("    CHECK THIS LOL \(post["Image"])")
+                            let imageToLoad = post["Image"]! as! AVFile
+                            self.imageFiles.append(imageToLoad)
+                        }
+                    }
+                    self.collectionView?.reloadData()
+                }
+            } else {
+                //Error
+            }
+            
+        }
+    }
+    
+//    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, object: PFObject?) -> PFCollectionViewCell {
+//        let cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: "exploreCollectionViewCell", for: indexPath) as! ExploreCollectionViewCell
+//        
+//        
+//        //   cell.imageToShow.image = (self.images[(indexPath as NSIndexPath).row] )
+//        
+//        //    cell.contentView.frame = cell.bounds
+//        
+////        cell.imageToShow.image = UIImage(named: "gray.png")
+//        let imageFile = self.imageFiles
+//        cell.imageToShow.file = image
+//        cell.imageToShow.loadInBackground()
+//        
+//        return cell
+//    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: "exploreCollectionViewCell", for: indexPath) as! ExploreCollectionViewCell
-        
-        
-        //   cell.imageToShow.image = (self.images[(indexPath as NSIndexPath).row] )
-        
-        //    cell.contentView.frame = cell.bounds
-        
-        cell.imageToShow.image = UIImage(named: "gray.png")
-        let image = object!["Image"] as! PFFile
-        cell.imageToShow.file = image
-        cell.imageToShow.loadInBackground()
-        
+        let imageFile = self.imageFiles[indexPath.row]
+        imageFile.getDataInBackground({ (data, error) in
+            cell.imageToShow.image = UIImage(data: data!)
+        }) { (progress) in
+        }
+            
         return cell
     }
     

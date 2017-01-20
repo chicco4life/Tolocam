@@ -12,6 +12,7 @@ import CoreData
 //import Bolts
 import PubNub
 import LeanCloud
+import AVOSCloud
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
@@ -30,12 +31,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
 //            clientKey: "pEQEEydmSTWWRb7xTNOGmNlFyWMcrak0nXXFwpSf")
         
         LeanCloud.initialize(applicationID: "TCldgsnzV2zm3EjofgYn20U3-gzGzoHsz", applicationKey: "NOTBs0QwYRx242mzzzV7eEv6")
+        AVOSCloud.setApplicationId("TCldgsnzV2zm3EjofgYn20U3-gzGzoHsz",clientKey: "NOTBs0QwYRx242mzzzV7eEv6")
         
-        let post = LCObject(className: "TestObject")
+//        let post = LCObject(className: "_User")
         
-        post.set("words", value: "Hello World!")
+//        post.set("words", value: "Hello World!")
+//        post.save()
         
-        post.save()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.window = UIWindow(frame: UIScreen.main.bounds)

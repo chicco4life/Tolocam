@@ -1,5 +1,24 @@
 PODS:
   - Alamofire (4.2.0)
+  - AVOSCloud (3.8.1)
+  - AVOSCloudCrashReporting (3.8.1):
+    - AVOSCloud (= 3.8.1)
+    - AVOSCloudCrashReporting/_ARC (= 3.8.1)
+    - AVOSCloudCrashReporting/_NOARC (= 3.8.1)
+  - AVOSCloudCrashReporting/_ARC (3.8.1):
+    - AVOSCloud (= 3.8.1)
+    - AVOSCloudCrashReporting/_NOARC (= 3.8.1)
+  - AVOSCloudCrashReporting/_NOARC (3.8.1):
+    - AVOSCloud (= 3.8.1)
+  - AVOSCloudIM (3.8.1):
+    - AVOSCloud (= 3.8.1)
+    - AVOSCloudIM/_ARC (= 3.8.1)
+    - AVOSCloudIM/_NOARC (= 3.8.1)
+  - AVOSCloudIM/_ARC (3.8.1):
+    - AVOSCloud (= 3.8.1)
+    - AVOSCloudIM/_NOARC (= 3.8.1)
+  - AVOSCloudIM/_NOARC (3.8.1):
+    - AVOSCloud (= 3.8.1)
   - JSQMessagesViewController (7.3.4):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
@@ -12,17 +31,23 @@ PODS:
   - PubNub/Core (4.5.9)
 
 DEPENDENCIES:
+  - AVOSCloud
+  - AVOSCloudCrashReporting
+  - AVOSCloudIM
   - JSQMessagesViewController
   - LeanCloud
   - PubNub (~> 4)
 
 SPEC CHECKSUMS:
   Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
+  AVOSCloud: aa4b75bd7de2f62431ec7acbf357a25a66499427
+  AVOSCloudCrashReporting: e4507d3d9eadb8aaf06dad51fd9401c9d54d5d87
+  AVOSCloudIM: 5ce9c6d38dfb60347aecfa2666829d73335b4541
   JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   LeanCloud: 0a6a0d52e33dd43d998ab256cc83f6c4954607b8
   PubNub: fbcd3f98bced45b7d61de79cf3cd6822ee8c1858
 
-PODFILE CHECKSUM: 6101f36ef45f468cc3bdc0a37a2647fa2a8226fd
+PODFILE CHECKSUM: a1820cfa1935987d429b18e7ef558fbe38ef4b0d
 
 COCOAPODS: 1.1.1

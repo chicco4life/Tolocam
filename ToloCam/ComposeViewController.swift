@@ -11,6 +11,7 @@ import UIKit
 //import ParseUI
 //import Bolts
 import LeanCloud
+import AVOSCloud
 
 extension UIImage {
     var uncompressedPNGData: Data      { return UIImagePNGRepresentation(self)!        }
@@ -94,20 +95,21 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
             let imagedata2 = imageToBeUploaded.lowQualityJPEGNSData
             
             
-            let file: PFFile = PFFile(data:imagedata2) as PFFile!
-            let file: 
-            let fileCaption: String = self.captionTextView.text
+//            let file: PFFile = PFFile(data:imagedata2) as PFFile!
+            let file:AVFile = AVFile(data: imagedata2) as AVFile!
+//            let fileCaption: String = self.captionTextView.text
+            let fileCaption = LCString(self.captionTextView.text)
             
-            let photoToUpload = PFObject(className: "Posts")
+            let photoToUpload = AVObject(className: "Posts")
             photoToUpload["Image"] = file
             photoToUpload["Caption"] = fileCaption
-            photoToUpload["postedBy"] = PFUser.current()!
-            photoToUpload["addedBy"] = PFUser.current()!.username!
+            photoToUpload["postedBy"] = LCUser.current!
+            photoToUpload["addedBy"] = LCUser.current?.username!
             photoToUpload["date"] = localDate
             photoToUpload["Likes"] = 0
             photoToUpload["likedBy"] = [:]
             
-            photoToUpload.saveInBackground(block: { (done:Bool, error:Error?) in
+            photoToUpload.saveInBackground({ (done:Bool, error:Error?) in
 //                UIActivityIndicatorView.startAnimating(<#T##UIActivityIndicatorView#>)
                 if done{
                 let vc = TabBarInitializer.getTabBarController()

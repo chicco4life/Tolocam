@@ -12,8 +12,8 @@ import UIKit
 //import Bolts
 import LeanCloud
 
-class ProfileCollectionViewCell: PFCollectionViewCell {
+class ProfileCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var imageToShow: PFImageView!
+    @IBOutlet weak var imageToShow: UIImageView!
     
 }

@@ -32,7 +32,7 @@ class SettingsViewController: UIViewController {
     }
     @IBAction func logOutTapped(_ sender: AnyObject) {
         
-        PFUser.logOut()
+        LCUser.logOut()
         
         print("Successfully logged out")
         

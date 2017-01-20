@@ -10,15 +10,16 @@ import UIKit
 //import Parse
 //import Bolts
 //import ParseUI
+import AVOSCloud
 import LeanCloud
 
-class FriendSearchTableViewController: PFQueryTableViewController, UISearchBarDelegate {
+class FriendSearchTableViewController: UITableViewController, UISearchBarDelegate {
     
     @IBOutlet weak var friendTableView: UITableView!
     
     var searchActive = false
-    var data:[PFObject]!
-    var filtered:[PFObject]!
+    var data:[LCObject]!
+    var filtered:[LCObject]!
     
     @IBOutlet var searchBar: UISearchBar!
     
@@ -26,32 +27,32 @@ class FriendSearchTableViewController: PFQueryTableViewController, UISearchBarDe
     var filteredUsernames = [String]()
     var username = String()
     
-    override init(style: UITableViewStyle, className: String!) {
-        super.init(style: style, className: className)
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-        
-        // Configure the PFQueryTableView
-        self.parseClassName = String(describing: PFUser.object())
-        
-        self.pullToRefreshEnabled = false
-        self.paginationEnabled = false
-    }
+//    override init(style: UITableViewStyle, className: String!) {
+//        super.init(style: style, className: className)
+//    }
+//    
+//    required init(coder aDecoder: NSCoder) {
+//        super.init(coder: aDecoder)!
+//        
+//        // Configure the PFQueryTableView
+//        self.parseClassName = String(describing: PFUser.object())
+//        
+//        self.pullToRefreshEnabled = false
+//        self.paginationEnabled = false
+//    }
     
     // Define the query that will provide the data for the table view
-    override func queryForTable() -> PFQuery<PFObject> {
-        let query = PFUser.query()
-        if searchBar.text != "" {
-            query!.whereKey("username", hasPrefix: searchBar.text!.lowercased())
-            query!.whereKey("username", notEqualTo: PFUser.current()!.username!)
-        }else{
-            query!.whereKey("username", equalTo: "")
-        }
-        query!.order(byAscending: "username")
-        return query!
-    }
+//    override func queryForTable() -> PFQuery<PFObject> {
+//        let query = PFUser.query()
+//        if searchBar.text != "" {
+//            query!.whereKey("username", hasPrefix: searchBar.text!.lowercased())
+//            query!.whereKey("username", notEqualTo: PFUser.current()!.username!)
+//        }else{
+//            query!.whereKey("username", equalTo: "")
+//        }
+//        query!.order(byAscending: "username")
+//        return query!
+//    }
     
     
     override func viewDidLoad() {
@@ -77,15 +78,50 @@ class FriendSearchTableViewController: PFQueryTableViewController, UISearchBarDe
         searchBar.delegate = self
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, object: PFObject?) -> PFTableViewCell {
-        
+//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath) as! FriendsSearchTableviewCell
+//        
+//        let username = object!["username"] as! String
+//        
+//        cell.friendUsername.text = username
+//        
+//        return cell
+//    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath) as! FriendsSearchTableviewCell
-        
-        let username = object!["username"] as! String
-        
+
+        let username = self.usernames[indexPath.row] 
+
         cell.friendUsername.text = username
-        
+
         return cell
+    }
+    
+    func loadData () {
+//        let query = PFUser.query()
+        let query = LCQuery(className: "_User")
+        if searchBar.text != "" {
+            query.whereKey("username", .prefixedBy(searchBar.text!.lowercased()))
+            query.whereKey("username", .notEqualTo(LCUser.current!.username!))
+        }else{
+            query.whereKey("username", .equalTo(""))
+        }
+        query.whereKey("username", .ascending)
+        query.find { (result) in
+            if result.isSuccess {
+                // no error
+                if let usernames = result.objects {
+                    for oneID in usernames {
+                            self.usernames.append((oneID["username"]?.stringValue)!)
+                        }
+                    }
+                    self.tableView.reloadData()
+            } else {
+                //Error
+            }
+        }
     }
     
     
@@ -113,7 +149,7 @@ class FriendSearchTableViewController: PFQueryTableViewController, UISearchBarDe
         searchBar.resignFirstResponder()
         
         // Force reload of table data
-        self.loadObjects()
+        self.loadData()
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -122,7 +158,7 @@ class FriendSearchTableViewController: PFQueryTableViewController, UISearchBarDe
         searchBar.resignFirstResponder()
         
         // Force reload of table data
-        self.loadObjects()
+        self.loadData()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -134,7 +170,7 @@ class FriendSearchTableViewController: PFQueryTableViewController, UISearchBarDe
         searchBar.resignFirstResponder()
         
         // Force reload of table data
-        self.loadObjects()
+        self.loadData()
     }
 
 //    func filterContentForSearchText(_ searchText: String, scope: String = "All") {

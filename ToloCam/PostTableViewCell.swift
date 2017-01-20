@@ -11,18 +11,19 @@ import UIKit
 //import Bolts
 //import ParseUI
 import LeanCloud
+import AVOSCloud
 
 
-class PostTableViewCell: PFTableViewCell {
+class PostTableViewCell: UITableViewCell {
     
     
-    @IBOutlet weak var postImageView: PFImageView!
+    @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var postCaption: UILabel!
     @IBOutlet weak var addedBy: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var likesLabel: UILabel!
 //    var yourLikes = Int()
-    var parseObject: PFObject?
+    var object: LCObject?
     @IBOutlet weak var yourLikesLabel: UILabel!
     
     override func awakeFromNib() {
@@ -36,39 +37,40 @@ class PostTableViewCell: PFTableViewCell {
     
     func handleLike(_ sender:AnyObject){
         print("like button pressed")
-        if (parseObject != nil){
+        if (object != nil){
             //1. Get total likes from Parse
-            if var likes:Int? = parseObject!.object(forKey: "Likes") as? Int {
+            if var likes:Int = object!["Likes"] as? Int {
                 
                 //2. Set total likes to total likes+1, and upload.
-                likes! += 1
-                parseObject!.setObject(likes!, forKey: "Likes")
+                likes += 1
+//                object!.setObject(likes!, forKey: "Likes")
+                object!.set("Likes", value: likes)
                 
                 //Reset the text of the total likes label.
-                likesLabel?.text = "\(likes!)"
+                likesLabel?.text = "\(likes)"
                 
                 //if first time like, need to upload current user's username to parse
                 
                 //Get dictionary from Parse, and look for the value associated to the key of current user's username.
-                let dictionaryOfLikers:NSMutableDictionary = (parseObject?.object(forKey: "likedBy") as! NSMutableDictionary)
-                let yourLikes = dictionaryOfLikers[PFUser.current()!.username!]
+                let dictionaryOfLikers:NSMutableDictionary = (object?["likedBy"] as! NSMutableDictionary)
+                let yourLikes = dictionaryOfLikers[LCUser.current!.username!]
                 
                 if yourLikes == nil{
-                    let currentUser = PFUser.current()?.username
+                    let currentUser = LCUser.current!.username
                     dictionaryOfLikers[currentUser!] = 1
-                    parseObject?.setObject(dictionaryOfLikers, forKey: "likedBy")
+                    object?.set("likedBy", value: dictionaryOfLikers)
                     yourLikesLabel.text = "1"
                 }
                 else{
-                    let currentUser = PFUser.current()?.username
+                    let currentUser = LCUser.current!.username
                     var tempYourLikes = dictionaryOfLikers[currentUser!] as! Int
                     tempYourLikes+=1
                     dictionaryOfLikers[currentUser!] = tempYourLikes
-                    parseObject?.setObject(dictionaryOfLikers, forKey: "likedBy")
+                    object?.set("likedBy", value: dictionaryOfLikers)
                     yourLikesLabel.text = "\(tempYourLikes)"
                 }
                 
-                parseObject!.saveInBackground();
+                object!.save()
             }
         }
     }

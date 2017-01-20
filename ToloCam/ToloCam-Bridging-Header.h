@@ -5,3 +5,4 @@
 #import "ImageCropView.h"
 #import <PubNub/PubNub.h>
 #import <JSQMessagesViewController/JSQMessages.h>
+#import <AVOSCloud/AVOSCloud.h>

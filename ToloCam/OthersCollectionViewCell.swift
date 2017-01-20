@@ -14,7 +14,7 @@ import LeanCloud
 
 class OthersCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var imageToShow: PFImageView!
+    @IBOutlet weak var imageToShow: UIImageView!
 
 
 }

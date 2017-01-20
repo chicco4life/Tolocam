@@ -204,6 +204,7 @@
 			children = (
 				FFD788511C6CB1BB00ACDB65 /* PostTableViewController.swift */,
 				FFD7884F1C6CB14300ACDB65 /* PostTableViewCell.swift */,
+				FFA914E31C74A68200121EE2 /* imageTableViewCell.swift */,
 			);
 			name = Posts;
 			sourceTree = "<group>";
@@ -220,8 +221,8 @@
 		B6D48DE71D617FDE00BDEDB3 /* Explore */ = {
 			isa = PBXGroup;
 			children = (
-				FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */,
 				FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */,
+				FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */,
 			);
 			name = Explore;
 			sourceTree = "<group>";
@@ -297,7 +298,6 @@
 				B6E67FCD1E059A680005824B /* ChatViewController.swift */,
 				B62A3EA11CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift */,
 				B62A3E9F1CD3D157006C1F74 /* FriendSearchTableViewController.swift */,
-				FFA914E31C74A68200121EE2 /* imageTableViewCell.swift */,
 				B6C50B171DCACF8F004E200D /* libraries */,
 				B6B494271DBF210300E3D60A /* ToloCam-Bridging-Header.h */,
 				FFCBBDC91C6C8D8D00BA0773 /* Assets.xcassets */,

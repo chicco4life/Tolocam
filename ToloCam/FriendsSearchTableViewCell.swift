@@ -12,7 +12,7 @@ import UIKit
 //import ParseUI
 import LeanCloud
 
-class FriendsSearchTableviewCell: PFTableViewCell {
+class FriendsSearchTableviewCell: UITableViewCell {
     
     var cellUsername = String()
 

@@ -13,8 +13,8 @@ import LeanCloud
 import Foundation
 
 class LoginViewController: UIViewController {
-
-
+    
+    
     @IBOutlet weak var registerBtn: UIButton!
     
     @IBOutlet var usernameField: UITextField!
@@ -47,11 +47,11 @@ class LoginViewController: UIViewController {
         passwordField.resignFirstResponder()
         return true;
     }
-
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -59,7 +59,7 @@ class LoginViewController: UIViewController {
     @IBAction func logInTapped(_ sender: AnyObject) {
         
         self.view.isUserInteractionEnabled = false
-
+        
         let username = usernameField.text?.lowercased()
         let password = passwordField.text
         print("password \(password)")
@@ -77,30 +77,7 @@ class LoginViewController: UIViewController {
                 self.view.isUserInteractionEnabled = true
             }
         }
-//        PFUser.logInWithUsername(inBackground: username!, password: password!) {(user:PFUser?, error:Error?) -> Void in
-//            
-//            if (error) == nil {
-//                //successfully logged in
-//                
-//                print("Successfully Logged In.")
-//                
-//                let vc = TabBarInitializer.getTabBarController()
-//                self.present(vc, animated: true, completion: nil)
-//                
-//            } else {
-//                //Error while logging in
-//                
-//                let alertController = UIAlertController(title: "Error", message: "Incorrect Username/Password", preferredStyle: UIAlertControllerStyle.alert)
-//                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
-//                self.present(alertController, animated: true, completion: nil)
-//                
-//                self.view.isUserInteractionEnabled = true
-//                
-//            }
-        
-//        }
         
     }
-
+    
 }
-

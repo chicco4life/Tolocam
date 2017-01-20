@@ -12,9 +12,9 @@ import UIKit
 //import Bolts
 import LeanCloud
 
-class ExploreCollectionViewCell: PFCollectionViewCell {
+class ExploreCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var imageToShow: PFImageView!
+    @IBOutlet weak var imageToShow: UIImageView!
     
 
 
