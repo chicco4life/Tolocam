@@ -67,7 +67,7 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         
         print("collectionviewdidload is called")
 
-        loadData()
+        __loadData()
         
         
         
@@ -163,37 +163,20 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         self.navigationController!.popViewController(animated: true)
     }
     
-    func loadData(){
+    func __loadData(){
         
         print("load data is called")
         //print("username is", PFUser.current()?.username)
         
-        let query = LCQuery(className: "Posts")
-        query.whereKey("createdAt", .descending)
+        let query = AVQuery(className: "Posts")
+        query.addDescendingOrder("createdAt")
         let username = LCUser.current!.username!.stringValue!
-        query.whereKey("addedBy", .equalTo(username))
-//        query.findObjectsInBackground{(posts:[PFObject]?, error: Error?) -> Void in
-//            if (error == nil) {
-//                if let posts = posts as [PFObject]! {
-//                    for post in posts {
-//                        if  post["Image"] == nil{
-//                        }else{
-//                            let imageToLoad = post["Image"]! as! PFFile
-//                            self.imageFiles.append(imageToLoad)
-//                        }
-//                    }
-//                    self.collectionView.reloadData()
-//                }
-//            } else {
-//                print(error!)
-//            }
-//            
-//        }
-        query.find { (result) in
-            if result.isSuccess{
-                if let posts = result.objects {
+        query.whereKey("addedBy", equalTo: username)
+        query.findObjectsInBackground{(results, error: Error?) -> Void in
+            if (error == nil) {
+                if let posts = results as! [AVObject]! {
                     for post in posts {
-                        if post["Image"] == nil{
+                        if  post["Image"] == nil{
                         }else{
                             let imageToLoad = post["Image"]! as! AVFile
                             self.imageFiles.append(imageToLoad)
@@ -201,8 +184,27 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
                     }
                     self.collectionView.reloadData()
                 }
+            } else {
+                print(error!)
             }
+            
         }
+//        query.find { (result) in
+//            if result.isSuccess{
+//                if let posts = result.objects {
+//                    for post in posts {
+//                        if post["Image"] == nil{
+//                        }else{
+//                            let imageToLoad = post["Image"]!
+//                            print(imageToLoad)
+//                            
+////                            self.imageFiles.append(imageToLoad)
+//                        }
+//                    }
+//                    self.collectionView.reloadData()
+//                }
+//            }
+//        }
         
     }
     
@@ -227,10 +229,13 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ProfileCollectionViewCell
         
         cell.imageToShow.image = UIImage(named: "gray.png")
-        let file = self.imageFiles[indexPath.row]
-        file.getDataInBackground({ (data:Data?, error:Error?) in
-            cell.imageToShow.image = UIImage(data: data!)
-        }) { (progress:Int) in
+        if self.imageFiles.count != 0{
+            print(indexPath.row)
+            let file = self.imageFiles[indexPath.row]
+            file.getDataInBackground({ (data:Data?, error:Error?) in
+                cell.imageToShow.image = UIImage(data: data!)
+            }) { (progress:Int) in
+            }
         }
 //        cell.imageToShow.file = (self.imageFiles[(indexPath as NSIndexPath).row] )
 //        cell.imageToShow.loadInBackground()

@@ -102,9 +102,9 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
             
             let photoToUpload = AVObject(className: "Posts")
             photoToUpload["Image"] = file
-            photoToUpload["Caption"] = fileCaption
-            photoToUpload["postedBy"] = LCUser.current!
-            photoToUpload["addedBy"] = LCUser.current?.username!
+            photoToUpload["Caption"] = fileCaption.stringValue
+            photoToUpload["postedBy"] = AVUser.current()
+            photoToUpload["addedBy"] = LCUser.current?.username!.stringValue
             photoToUpload["date"] = localDate
             photoToUpload["Likes"] = 0
             photoToUpload["likedBy"] = [:]
@@ -115,7 +115,7 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
                 let vc = TabBarInitializer.getTabBarController()
                     self.present(vc, animated: true, completion: nil)}
                 else{
-                    print(error)
+                    print(error!)
                 }
             })
             

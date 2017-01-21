@@ -14,6 +14,32 @@ import LeanCloud
 import AVOSCloud
 
 class OthersCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+    @available(iOS 6.0, *)
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if self.imageFiles.count > 0{
+            return self.imageFiles.count
+        }else{
+            return 0
+        }
+    }
+    
+    @available(iOS 6.0, *)
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = self.othersCollectionView.dequeueReusableCell(withReuseIdentifier: "othersCell", for: indexPath) as! OthersCollectionViewCell
+        
+        cell.imageToShow.image = UIImage(named: "gray.png")
+        let file = self.imageFiles[indexPath.row]
+        file.getDataInBackground({ (data:Data?, error:Error?) in
+            cell.imageToShow.image = UIImage(data: data!)
+        }, progressBlock: { (progress:Int) in
+            //progress is a value from 0~100
+        })
+        
+        cell.contentView.frame = cell.bounds
+        
+        return cell
+    }
+
     
     @IBOutlet weak var othersCollectionView: UICollectionView!
     
@@ -229,30 +255,30 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
 //        // Dispose of any resources that can be recreated.
 //    }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
-        if self.imageFiles.count > 0{
-            return self.imageFiles.count
-        }else{
-            return 0
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell = self.othersCollectionView.dequeueReusableCell(withReuseIdentifier: "othersCell", for: indexPath) as! OthersCollectionViewCell
-        
-        cell.imageToShow.image = UIImage(named: "gray.png")
-        let file = self.imageFiles[indexPath.row]
-        file.getDataInBackground({ (data:Data?, error:Error?) in
-            cell.imageToShow.image = UIImage(data: data!)
-        }, progressBlock: { (progress:Int) in
-            //progress is a value from 0~100
-        })
-
-        cell.contentView.frame = cell.bounds
-
-        return cell
-    }
+//    func collectionView(_ collectionView: UICollectionView!, numberOfItemsInSection section: Int!) -> Int!{
+//        if self.imageFiles.count > 0{
+//            return self.imageFiles.count
+//        }else{
+//            return 0
+//        }
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView!, cellForItemAt indexPath: IndexPath!) -> UICollectionViewCell! {
+//        
+//        let cell = self.othersCollectionView.dequeueReusableCell(withReuseIdentifier: "othersCell", for: indexPath) as! OthersCollectionViewCell
+//        
+//        cell.imageToShow.image = UIImage(named: "gray.png")
+//        let file = self.imageFiles[indexPath.row]
+//        file.getDataInBackground({ (data:Data?, error:Error?) in
+//            cell.imageToShow.image = UIImage(data: data!)
+//        }, progressBlock: { (progress:Int) in
+//            //progress is a value from 0~100
+//        })
+//
+//        cell.contentView.frame = cell.bounds
+//
+//        return cell
+//    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         return CGSize(width: (UIScreen.main.bounds.size.width-4) / 3, height: (UIScreen.main.bounds.size.width-4) / 3)

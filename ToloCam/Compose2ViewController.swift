@@ -89,7 +89,7 @@ class Compose2ViewController: UIViewController, UIImagePickerControllerDelegate,
             
             let photoToUpload = AVObject(className: "Posts")
             photoToUpload["Image"] = file
-            photoToUpload["Caption"] = fileCaption
+            photoToUpload["Caption"] = fileCaption.stringValue
             photoToUpload["postedBy"] = LCUser.current
             photoToUpload["addedBy"] = LCUser.current?.username!
             photoToUpload["date"] = localDate

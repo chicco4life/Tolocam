@@ -48,21 +48,19 @@ class PostTableViewController: UITableViewController {
         
         //query
         
-        
-        //Now only loading followingWho, hence loadData is commented out
-        //loadData()
+        __loadData()
         
         self.tableView.reloadData()
     }
 
     func refreshPulled() {
 //        self.loadObjects()
-        self.loadData()
+        self.__loadData()
         self.tableView.reloadData()
         self.refreshControl?.endRefreshing()
     }
     
-    func loadData () {
+    func __loadData () {
         let userQuery = LCQuery(className: "Follow")
         userQuery.whereKey("followFrom", .equalTo(LCUser.current!))
         let query = LCQuery(className: "Posts")
