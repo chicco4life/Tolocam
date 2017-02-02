@@ -10,7 +10,6 @@ import UIKit
 //import Parse
 //import Bolts
 //import ParseUI
-import LeanCloud
 
 class OthersCollectionViewCell: UICollectionViewCell {
     

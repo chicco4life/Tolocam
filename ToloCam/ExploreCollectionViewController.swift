@@ -4,13 +4,13 @@ import UIKit
 //import Bolts
 //import ParseUI
 import AVOSCloud
-import LeanCloud
 
 class ExploreCollectionViewController: UICollectionViewController,UIViewControllerPreviewingDelegate {
 
     //@IBOutlet weak var collectionView: UICollectionView!
 
     var imageFiles = [AVFile]()
+    let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,10 +22,14 @@ class ExploreCollectionViewController: UICollectionViewController,UIViewControll
         
         self.navigationController?.navigationBar.titleTextAttributes = attributes
         
+        //pull to refresh
+        self.collectionView?.addSubview(refreshControl)
+        self.refreshControl.addTarget(self, action: #selector(ExploreCollectionViewController.__refreshPulled), for: UIControlEvents.valueChanged)
+        self.refreshControl.isUserInteractionEnabled = true
+        self.collectionView?.alwaysBounceVertical = true
+        
         //for auto resizing collection view cells
         let screenWidth = UIScreen.main.bounds.size.width
-        let screenHeight = UIScreen.main.bounds.size.height
-        
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -42,7 +46,13 @@ class ExploreCollectionViewController: UICollectionViewController,UIViewControll
             registerForPreviewing(with: self, sourceView: view)
         }
         
-       // loadData()
+        __loadData()
+    }
+    
+    func __refreshPulled() {
+        self.__loadData()
+        self.collectionView?.reloadData()
+        self.refreshControl.endRefreshing()
     }
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
@@ -66,12 +76,13 @@ class ExploreCollectionViewController: UICollectionViewController,UIViewControll
         // Dispose of any resources that can be recreated.
     }
     
-    func loadData(){
-        let query = LCQuery(className: "Posts")
-        query.whereKey("createdAt", .descending)
-        query.find{(result) in
-            if (result.isSuccess) {
-                if let posts = result.objects {
+    func __loadData(){
+        self.imageFiles = []
+        let query = AVQuery(className: "Posts")
+        query.addDescendingOrder("createdAt")
+        query.findObjectsInBackground({ (results, error) in
+            if error==nil {
+                if let posts = results as? [AVObject] {
                     for post in posts {
                         if  post["Image"] == nil{
                             print("    CHECK THIS LOL NIL )")
@@ -87,33 +98,26 @@ class ExploreCollectionViewController: UICollectionViewController,UIViewControll
                 //Error
             }
             
-        }
+        })
     }
     
-//    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, object: PFObject?) -> PFCollectionViewCell {
-//        let cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: "exploreCollectionViewCell", for: indexPath) as! ExploreCollectionViewCell
-//        
-//        
-//        //   cell.imageToShow.image = (self.images[(indexPath as NSIndexPath).row] )
-//        
-//        //    cell.contentView.frame = cell.bounds
-//        
-////        cell.imageToShow.image = UIImage(named: "gray.png")
-//        let imageFile = self.imageFiles
-//        cell.imageToShow.file = image
-//        cell.imageToShow.loadInBackground()
-//        
-//        return cell
-//    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.imageFiles.count
+    }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: "exploreCollectionViewCell", for: indexPath) as! ExploreCollectionViewCell
         let imageFile = self.imageFiles[indexPath.row]
-        imageFile.getDataInBackground({ (data, error) in
-            cell.imageToShow.image = UIImage(data: data!)
+        imageFile.getDataInBackground({ (data:Data?, error:Error?) in
+            if error == nil{
+                cell.imageToShow.image = UIImage(data: data!)!
+            }else{
+                print(error!)
+            }
         }) { (progress) in
+            //progress
         }
-            
         return cell
     }
     

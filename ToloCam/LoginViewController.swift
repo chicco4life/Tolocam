@@ -9,8 +9,8 @@
 import UIKit
 //import Parse
 //import Bolts
-import LeanCloud
 import Foundation
+import AVOSCloud
 
 class LoginViewController: UIViewController {
     
@@ -64,8 +64,10 @@ class LoginViewController: UIViewController {
         let password = passwordField.text
         print("password \(password)")
         
-        LCUser.logIn(username: username!, password: password!) { result in
-            if result.isSuccess{
+
+        
+        AVUser.logInWithUsername(inBackground: username!, password: password!) { (user, error) in
+            if error == nil {
                 let vc = TabBarInitializer.getTabBarController()
                 self.present(vc, animated: true, completion: nil)
             }else{

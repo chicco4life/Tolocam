@@ -10,7 +10,6 @@ import UIKit
 //import Parse
 //import Bolts
 //import ParseUI
-import LeanCloud
 import AVOSCloud
 
 
@@ -23,7 +22,7 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var likesLabel: UILabel!
 //    var yourLikes = Int()
-    var object: LCObject?
+    var object: AVObject?
     @IBOutlet weak var yourLikesLabel: UILabel!
     
     override func awakeFromNib() {
@@ -44,7 +43,7 @@ class PostTableViewCell: UITableViewCell {
                 //2. Set total likes to total likes+1, and upload.
                 likes += 1
 //                object!.setObject(likes!, forKey: "Likes")
-                object!.set("Likes", value: likes)
+                object!.setObject(likes, forKey: "Likes")
                 
                 //Reset the text of the total likes label.
                 likesLabel?.text = "\(likes)"
@@ -53,24 +52,24 @@ class PostTableViewCell: UITableViewCell {
                 
                 //Get dictionary from Parse, and look for the value associated to the key of current user's username.
                 let dictionaryOfLikers:NSMutableDictionary = (object?["likedBy"] as! NSMutableDictionary)
-                let yourLikes = dictionaryOfLikers[LCUser.current!.username!]
+                let yourLikes = dictionaryOfLikers[AVUser.current()!.username!]
                 
                 if yourLikes == nil{
-                    let currentUser = LCUser.current!.username
+                    let currentUser = AVUser.current()!.username
                     dictionaryOfLikers[currentUser!] = 1
-                    object?.set("likedBy", value: dictionaryOfLikers)
+                    object?.setObject(dictionaryOfLikers, forKey: "likedBy")
                     yourLikesLabel.text = "1"
                 }
                 else{
-                    let currentUser = LCUser.current!.username
+                    let currentUser = AVUser.current()!.username
                     var tempYourLikes = dictionaryOfLikers[currentUser!] as! Int
                     tempYourLikes+=1
                     dictionaryOfLikers[currentUser!] = tempYourLikes
-                    object?.set("likedBy", value: dictionaryOfLikers)
+                    object?.setObject(dictionaryOfLikers, forKey: "likedBy")
                     yourLikesLabel.text = "\(tempYourLikes)"
                 }
                 
-                object!.save()
+                object!.saveInBackground()
             }
         }
     }

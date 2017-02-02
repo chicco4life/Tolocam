@@ -10,7 +10,6 @@ import UIKit
 //import Parse
 //import Bolts
 //import ParseUI
-import LeanCloud
 import AVOSCloud
 
 class OthersCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
@@ -50,7 +49,7 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
     @IBOutlet var followButtonTitle: UIButton!
     @IBOutlet weak var usernameLabel: UILabel!
     var imageFiles = [AVFile]()
-    var currentProfilePageUser = LCUser()
+    var currentProfilePageUser = AVUser()
     var canFollow = Bool()
         
     @IBOutlet weak var profileImage: UIImageView!
@@ -70,21 +69,25 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
         self.navigationController?.navigationBar.titleTextAttributes = attributes
         
         //query for current page user
-        let userQuery = LCQuery(className: "_User")
-        userQuery.whereKey("username", .equalTo(userUsername))
-
-        print(LCUser.current!)
+        let userQuery = AVQuery(className: "_User")
+        userQuery.whereKey("username", equalTo:userUsername)
         
-        userQuery.getFirst { result in
-            switch result{
-            case .success(let objects):
-                self.currentProfilePageUser = objects as! LCUser
-                break
-            case .failure(let error):
+        //layout
+        let screenWidth = UIScreen.main.bounds.size.width
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.itemSize = CGSize(width: (screenWidth-2) / 3, height: (screenWidth-2) / 3)
+        layout.minimumInteritemSpacing = 1
+        layout.minimumLineSpacing = 1
+        self.othersCollectionView!.collectionViewLayout = layout
+        
+        userQuery.getFirstObjectInBackground({ (result, error) in
+            if error==nil{
+                self.currentProfilePageUser = result as! AVUser
+            }else{
                 print(error)
-                break
             }
-        }
+        })
 
         
         loadData()
@@ -95,47 +98,44 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
     override func viewDidAppear(_ animated: Bool) {
         //query for follow
         
-        let followerQuery = LCQuery(className: "Follow")
-        followerQuery.whereKey("followingTo", .equalTo(currentProfilePageUser))
+        let followerQuery = AVQuery(className: "Follow")
+        followerQuery.whereKey("followingTo", equalTo:currentProfilePageUser)
         var followerCount = Int()
         
-        let followingQuery = LCQuery(className: "Follow")
-        followingQuery.whereKey("followFrom", .equalTo(currentProfilePageUser))
+        let followingQuery = AVQuery(className: "Follow")
+        followingQuery.whereKey("followFrom", equalTo:currentProfilePageUser)
         var followingsCount = Int()
         
-        followerQuery.find { (result) in
-            if result.isSuccess{
-                followerCount = (result.objects?.count)!
+        followerQuery.findObjectsInBackground({ (results, error) in
+            if error==nil{
+                followerCount = (results?.count)!
                 self.followerCount.text = String(followerCount-1)
             }
-        }
+        })
         
-        followingQuery.find { (result) in
-            if result.isSuccess{
-                followingsCount = (result.objects?.count)!
+        followingQuery.findObjectsInBackground({ (results, error) in
+            if error==nil{
+                followingsCount = (results!.count)
                 self.followingCount.text = String(followingsCount-1)
             }
-        }
+        })
         
-            let query = LCQuery(className: "Follow")
-            query.whereKey("followFrom", .equalTo(LCUser.current!))
-            query.whereKey("followingTo", .equalTo(self.currentProfilePageUser))
+        let query = AVQuery(className: "Follow")
+        query.whereKey("followFrom", equalTo:AVUser.current()!)
+        query.whereKey("followingTo", equalTo:self.currentProfilePageUser)
         
         
-        query.getFirst { result in
-            switch result{
-            case .success(let objects):
+        query.getFirstObjectInBackground({ (results, error) in
+            if error==nil{
                 self.followButtonTitle.setTitle("Unfollow", for: UIControlState())
                 self.followButtonTitle.setTitleColor(UIColor(red: 93/255, green: 215/255, blue: 217/255, alpha: 1), for: UIControlState())
                 self.canFollow = false
-                break
-            case .failure(let error):
+            }else{
                 self.followButtonTitle.setTitle("Follow", for: UIControlState())
                 self.followButtonTitle.setTitleColor(UIColor(red: 252/255, green: 105/255, blue: 134/255, alpha: 1), for: UIControlState())
                 self.canFollow = true
-                break
             }
-        }
+        })
     
         //profile image
     
@@ -178,8 +178,8 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
         
         //using object IDs to create a channel name
         var array = [String]()
-        array.append((self.currentProfilePageUser.objectId?.stringValue)!)
-        array.append((LCUser.current?.objectId?.stringValue)!)
+        array.append((self.currentProfilePageUser.objectId)!)
+        array.append((AVUser.current()?.objectId)!)
         array.sort()
         
         let channelName = "\(array[0])-\(array[1])-channel"
@@ -193,8 +193,8 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
     @IBAction func followPressed(_ sender: AnyObject) {
         print("followpressed")
         if canFollow == true{
-            let follow = LCObject(className: "Follow")
-            follow["followFrom"] = LCUser.current
+            let follow = AVObject(className: "Follow")
+            follow["followFrom"] = AVUser.current()
             follow["followingTo"] = self.currentProfilePageUser
             follow.save()
             self.followButtonTitle.setTitle("Unfollow", for: UIControlState())
@@ -203,25 +203,35 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
             NotificationCenter.default.post(name: Notification.Name(rawValue: "refresh"), object: nil)
             
         }else{
-            let query = LCQuery(className: "Follow")
-            query.whereKey("followFrom", .equalTo(LCUser.current!))
-            query.whereKey("followingTo", .equalTo(self.currentProfilePageUser))
+            let query = AVQuery(className: "Follow")
+            query.whereKey("followFrom", equalTo:AVUser.current()!)
+            query.whereKey("followingTo", equalTo:self.currentProfilePageUser)
 //            query.getFirstObjectInBackground(block: { (result:PFObject?, error:Error?) in
 //                result?.deleteInBackground(block: nil)
 //            })
-            query.getFirst({ (result) in
-                result.object?.delete({ (result) in
-                    if (result.error != nil) || result.isFailure{
-                        self.followButtonTitle.setTitle("Unfollow", for: UIControlState())
-                        self.followButtonTitle.setTitleColor(UIColor(red: 93/255, green: 215/255, blue: 217/255, alpha: 1), for: UIControlState())
-                        self.canFollow = false
-                    }
-                })
+            
+            query.getFirstObjectInBackground({ (result, error) in
+                if error==nil{
+                    result?.deleteInBackground({ (done, failed) in
+                        if (failed != nil){
+                            //failed to delete
+                            print(failed)
+                            self.followButtonTitle.setTitle("Unfollow", for: UIControlState())
+                            self.followButtonTitle.setTitleColor(UIColor(red: 93/255, green: 215/255, blue: 217/255, alpha: 1), for: UIControlState())
+                            self.canFollow = false
+                        }else{
+                            //successfully deleted
+                            self.followButtonTitle.setTitle("Follow", for: UIControlState())
+                            self.followButtonTitle.setTitleColor(UIColor(red: 252/255, green: 105/255, blue: 134/255, alpha: 1), for: UIControlState())
+                            self.canFollow = true
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "refresh"), object: nil)
+                        }
+                    })
+                }else{
+                    //error getting object
+                    print(error)
+                }
             })
-            self.followButtonTitle.setTitle("Follow", for: UIControlState())
-            self.followButtonTitle.setTitleColor(UIColor(red: 252/255, green: 105/255, blue: 134/255, alpha: 1), for: UIControlState())
-            self.canFollow = true
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "refresh"), object: nil)
         }
     }
     
@@ -230,21 +240,40 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
         print("load data is called")
         print("username is", self.userUsername)
         
-        let query = LCQuery(className: "Posts")
-        query.whereKey("createdAt", .descending)
-        query.whereKey("addedBy", .equalTo(self.userUsername))
+        let query = AVQuery(className: "Posts")
+        query.order(byDescending: "createdAt")
+        query.whereKey("addedBy", equalTo:self.userUsername)
         
         //query for post images
-        query.find { (result) in
-            if result.isSuccess{
-                if let posts = result.objects as [LCObject]! {
+        /*query.findObjectsInBackground({ (result, error) in
+            if error==nil{
+                if let posts = result as! [AVObject]! {
                 for post in posts {
                     if  post["Image"] == nil{
+                        //nil
                     }else{
                         let imageToLoad = post["Image"]! as! AVFile
                         self.imageFiles.append(imageToLoad)
                     }
+                    }
                 }
+                self.othersCollectionView.reloadData()
+            }else{
+                print(error)
+            }
+        }*/
+        query.findObjectsInBackground { (results, error) in
+            if error==nil{
+                //retrieve data
+                if let posts = results as? [AVObject]{
+                    for post in posts{
+                        if post["Image"] != nil{
+                            let imageToLoad = post["Image"] as! AVFile
+                            self.imageFiles.append(imageToLoad)
+                        }
+                    }
+                }
+                //end of retrieving data
                 self.othersCollectionView.reloadData()
             }
         }
@@ -280,9 +309,9 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
 //        return cell
 //    }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+    /*func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         return CGSize(width: (UIScreen.main.bounds.size.width-4) / 3, height: (UIScreen.main.bounds.size.width-4) / 3)
-    }
+    }*/
     
     
     
@@ -296,5 +325,4 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
      }
      */
     
-    }
 }

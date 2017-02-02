@@ -11,8 +11,7 @@ import UIKit
 //import ParseUI
 //import Bolts
 import AVFoundation
-import LeanCloud
-
+import AVOSCloud
 
 class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, ImageCropViewControllerDelegate {
     

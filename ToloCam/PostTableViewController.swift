@@ -14,7 +14,6 @@ import UIKit
 //import Parse
 //import Bolts
 //import ParseUI
-import LeanCloud
 import AVOSCloud
 
 class PostTableViewController: UITableViewController {
@@ -26,17 +25,18 @@ class PostTableViewController: UITableViewController {
     var imageUsers = [String]()
     var imageLikes = [Int]()
     var imageDictionaryOfLikers = [NSMutableDictionary]()
-    var postObjects = [LCObject]()
+    var postObjects = [AVObject]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(AVUser.current())
         
-        NotificationCenter.default.addObserver(self, selector: #selector(PostTableViewController.refreshPulled), name: NSNotification.Name(rawValue: "refresh"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PostTableViewController.__refreshPulled), name: NSNotification.Name(rawValue: "refresh"), object: nil)
         
         print("viewdidload is called")
         
         self.refreshControl = UIRefreshControl()
-        self.refreshControl!.addTarget(self, action: #selector(PostTableViewController.refreshPulled), for: UIControlEvents.valueChanged)
+        self.refreshControl!.addTarget(self, action: #selector(PostTableViewController.__refreshPulled), for: UIControlEvents.valueChanged)
         self.refreshControl!.isUserInteractionEnabled = true
         
         let attributes = [
@@ -53,27 +53,64 @@ class PostTableViewController: UITableViewController {
         self.tableView.reloadData()
     }
 
-    func refreshPulled() {
+    func __refreshPulled() {
 //        self.loadObjects()
         self.__loadData()
         self.tableView.reloadData()
         self.refreshControl?.endRefreshing()
     }
     
-    func __loadData () {
-        let userQuery = LCQuery(className: "Follow")
-        userQuery.whereKey("followFrom", .equalTo(LCUser.current!))
-        let query = LCQuery(className: "Posts")
-        //            query.whereKey("postedBy", matchesKey: "followingTo", in: userQuery)
-        query.whereKey("postedBy", .matchedQueryAndKey(query: userQuery, key: "followingTo"))
-        query.whereKey("createdAt", .descending)
-        query.find { (result) in
-            if result.isSuccess {
+    /*func __loadData () {
+        let userQuery = AVQuery(className: "Follow")
+        userQuery.whereKey("followFrom", equalTo: AVUser.current()!)
+        let query = AVQuery(className: "Posts")
+        query.whereKey("postedBy", matchesKey: "followingTo", in: userQuery)
+        query.addDescendingOrder("createdAt")
+        query.findObjectsInBackground { (result:[Any]?, error) in
+            if error == nil {
                 // no error
-                if let posts = result.objects {
+                if let posts = result as? [AVObject]{
+                    print(posts)
                     for post in posts {
                         if  post["Image"] == nil{
                             print("    CHECK THIS LOL NIL )")
+                        }else{
+                            let imageToLoad = post["Image"] as! AVFile
+                            self.imageFiles.append(imageToLoad)
+                            self.imageCaptions.append(post["Caption"] as! String)
+                            self.imageDates.append(post["date"] as! String)
+                            self.imageUsers.append(post["addedBy"] as! String)
+                            self.imageLikes.append(post["Likes"] as! Int)
+                            self.imageDictionaryOfLikers.append(post["likedBy"] as! NSMutableDictionary)
+                            self.postObjects.append(post)
+                        }
+                    }
+                    self.tableView.reloadData()
+                }
+            } else {
+                print(error.debugDescription)
+            }
+        }
+    }*/
+    
+    func __loadData(){
+        self.imageFiles = []
+        self.imageCaptions = []
+        self.imageDates = []
+        self.imageUsers = []
+        self.imageLikes = []
+        self.imageDictionaryOfLikers = []
+        self.postObjects = []
+        let userQuery = AVQuery(className: "Follow")
+        userQuery.whereKey("followFrom", equalTo: AVUser.current()!)
+        let query = AVQuery(className: "Posts")
+        query.whereKey("postedBy", matchesKey: "followingTo", in: userQuery)
+        query.addDescendingOrder("createdAt")
+        query.findObjectsInBackground{(results, error: Error?) -> Void in
+            if (error == nil) {
+                if let posts = results as! [AVObject]! {
+                    for post in posts {
+                        if  post["Image"] == nil{
                         }else{
                             let imageToLoad = post["Image"]! as! AVFile
                             self.imageFiles.append(imageToLoad)
@@ -88,20 +125,28 @@ class PostTableViewController: UITableViewController {
                     self.tableView.reloadData()
                 }
             } else {
-                //Error
+                print(error!)
             }
+            
         }
     }
     
     // MARK: - Table view data source
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.imageFiles.count
+    }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath) as! PostTableViewCell
         let imageFile = self.imageFiles[indexPath.row]
-        var image = UIImage()
         imageFile.getDataInBackground({ (data:Data?, error:Error?) in
-            image = UIImage(data: data!)!
+            if error == nil{
+                cell.postImageView.image = UIImage(data: data!)!
+            }else{
+                print(error!)
+            }
         }) { (progress) in
             //progress
         }
@@ -111,12 +156,11 @@ class PostTableViewController: UITableViewController {
         let imageUser = imageUsers[indexPath.row]
         let imageLikes = self.imageLikes[indexPath.row]
         let dictionaryOfLikers:NSMutableDictionary = self.imageDictionaryOfLikers[indexPath.row] 
-        let yourLikes = dictionaryOfLikers[(LCUser.current!.username)!] as? Int
+        let yourLikes = dictionaryOfLikers[(AVUser.current()!.username)!] as? Int
         
         cell.object = self.postObjects[indexPath.row]
         //        print(object)
         
-        cell.postImageView.image = image
         cell.postCaption.text = imageCaption
         cell.addedBy.text = imageUser
         cell.dateLabel.text = imageDate

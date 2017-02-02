@@ -11,7 +11,6 @@ import CoreData
 //import Parse
 //import Bolts
 import PubNub
-import LeanCloud
 import AVOSCloud
 
 @UIApplicationMain
@@ -29,8 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
         
 //        Parse.setApplicationId("cDhho7qZDlMwdZVxvFcXAOlQPoVoLbuyRm84jeud",
 //            clientKey: "pEQEEydmSTWWRb7xTNOGmNlFyWMcrak0nXXFwpSf")
-        
-        LeanCloud.initialize(applicationID: "TCldgsnzV2zm3EjofgYn20U3-gzGzoHsz", applicationKey: "NOTBs0QwYRx242mzzzV7eEv6")
         AVOSCloud.setApplicationId("TCldgsnzV2zm3EjofgYn20U3-gzGzoHsz",clientKey: "NOTBs0QwYRx242mzzzV7eEv6")
         
 //        let post = LCObject(className: "_User")
@@ -42,24 +39,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
-        if (LCUser.current != nil){
+        if (AVUser.current() != nil){
             let vc = TabBarInitializer.getTabBarController()
             self.window!.rootViewController = vc
         }else{
             let vc = storyboard.instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
             self.window!.rootViewController = vc
         }
-        
-//        if PFUser.current() == nil {
-            // login page
-//            let vc = storyboard.instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
-//            self.window!.rootViewController = vc
-//        } else {
-//             home page
-            //let vc = tabB.instantiateViewControllerWithIdentifier("tabController") as! UITabBarController
-//            let vc = TabBarInitializer.getTabBarController()
-//            self.window!.rootViewController = vc
-//        }
         
         self.client?.addListener(self)
         

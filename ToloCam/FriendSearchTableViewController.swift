@@ -11,15 +11,14 @@ import UIKit
 //import Bolts
 //import ParseUI
 import AVOSCloud
-import LeanCloud
 
 class FriendSearchTableViewController: UITableViewController, UISearchBarDelegate {
     
     @IBOutlet weak var friendTableView: UITableView!
     
     var searchActive = false
-    var data:[LCObject]!
-    var filtered:[LCObject]!
+    var data:[AVObject]!
+    var filtered:[AVObject]!
     
     @IBOutlet var searchBar: UISearchBar!
     
@@ -101,16 +100,17 @@ class FriendSearchTableViewController: UITableViewController, UISearchBarDelegat
     
     func loadData () {
 //        let query = PFUser.query()
-        let query = LCQuery(className: "_User")
+        let query = AVQuery(className: "_User")
+        //let query = AVUser.query()
         if searchBar.text != "" {
-            query.whereKey("username", .prefixedBy(searchBar.text!.lowercased()))
-            query.whereKey("username", .notEqualTo(LCUser.current!.username!))
+            query.whereKey("username", hasPrefix: searchBar.text!.lowercased())
+            query.whereKey("username", notEqualTo: AVUser.current()!.username!)
         }else{
-            query.whereKey("username", .equalTo(""))
+            query.whereKey("username", equalTo: "")
         }
-        query.whereKey("username", .ascending)
-        query.find { (result) in
-            if result.isSuccess {
+        query.order(byAscending: "username")
+        /*query.findObjectsInBackground({ (results, error) in
+            if error==nil {
                 // no error
                 if let usernames = result.objects {
                     for oneID in usernames {
@@ -121,9 +121,27 @@ class FriendSearchTableViewController: UITableViewController, UISearchBarDelegat
             } else {
                 //Error
             }
-        }
+        }*/
+        
+        query.findObjectsInBackground({ (results:[Any]?, error:Error?) in
+            if error==nil{
+                if let usernames = results as? [AVObject]{
+                    for oneID in usernames{
+                        self.usernames.append(oneID["username"] as! String)
+                    }
+                }else{
+                    print("no results!!!!")
+                }
+                self.tableView.reloadData()
+            }else{
+                print(error!)
+            }
+        })
     }
     
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.usernames.count
+    }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -144,15 +162,12 @@ class FriendSearchTableViewController: UITableViewController, UISearchBarDelegat
     
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        
         // Dismiss the keyboard
         searchBar.resignFirstResponder()
-        
-        // Force reload of table data
-        self.loadData()
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.usernames = []
         
         // Dismiss the keyboard
         searchBar.resignFirstResponder()
@@ -162,6 +177,7 @@ class FriendSearchTableViewController: UITableViewController, UISearchBarDelegat
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.usernames = []
         
         // Clear any search criteria
         searchBar.text = ""

@@ -10,7 +10,6 @@ import UIKit
 //import Parse
 //import ParseUI
 //import Bolts
-import LeanCloud
 import AVOSCloud
 import PubNub
 import JSQMessagesViewController
@@ -28,7 +27,7 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
     var messagePackets = [JSQMessage]()
     var selfAvatarImg = UIImage()
     var friendAvatarImg = UIImage()
-    var otherUser = LCUser()
+    var otherUser = AVUser()
     
     lazy var outgoingBubbleImageView: JSQMessagesBubbleImage = self.setupOutgoingBubble()
     lazy var incomingBubbleImageView: JSQMessagesBubbleImage = self.setupIncomingBubble()
@@ -38,8 +37,8 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
         self.title = self.username
         appDelegate.client?.addListener(self)
         
-        if LCUser.current?["profileImg"] != nil{
-            let file = LCUser.current?["profileImg"] as? AVFile
+        if AVUser.current()?["profileImg"] != nil{
+            let file = AVUser.current()?["profileImg"] as? AVFile
             file?.getDataInBackground({ (data:Data?, error:Error?) in
                 self.selfAvatarImg = UIImage(data: data!)!
             }, progressBlock: { (progress:Int) in
@@ -61,8 +60,8 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
         }
         
         
-        self.senderId = LCUser.current?.objectId?.stringValue
-        self.senderDisplayName = LCUser.current?.username?.stringValue
+        self.senderId = AVUser.current()?.objectId
+        self.senderDisplayName = AVUser.current()?.username
         
     }
     override func didReceiveMemoryWarning() {
@@ -88,10 +87,6 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
                 print("is a message for this channel")
             }
         }
-    }
-    
-    @IBAction func send(_ sender: Any) {
-        appDelegate.client?.publish([LCUser.current?.objectId?.stringValue, self.textField.text], toChannel: self.username, compressed: false, withCompletion: nil)
     }
     
     private func addMessage(withId id: String, name: String, text: String) {
@@ -156,7 +151,7 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
         
         let currentMessage = messagePackets[indexPath.item]
         var avatarImg:JSQMessagesAvatarImage
-        if currentMessage.senderId == LCUser.current?.objectId?.stringValue{
+        if currentMessage.senderId == AVUser.current()?.objectId{
             let placeholderImg = UIImage(named: "gray")
             avatarImg = JSQMessagesAvatarImage.init(avatarImage: self.selfAvatarImg, highlightedImage: self.selfAvatarImg, placeholderImage: placeholderImg)
         }else{

@@ -45,13 +45,11 @@ class TabBarInitializer {
             exploreVC,
             cameraVC,
             profileVC,
-            settingsVC,
-
+            settingsVC
         ]
         
         tabBarController.viewControllers = controllers
         tabBarController.restorationIdentifier = "tabBarController"
-//        tabBarController.tabBar.translucent = true
         tabBarController.tabBar.barTintColor = UIColor.white
         tabBarController.tabBar.backgroundImage = UIImage.imageWithColor(UIColor.white)
         tabBarController.tabBar.backgroundColor = UIColor.white

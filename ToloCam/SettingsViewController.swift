@@ -9,7 +9,7 @@
 import UIKit
 //import Parse
 //import Bolts
-import LeanCloud
+import AVOSCloud
 
 class SettingsViewController: UIViewController {
 
@@ -32,7 +32,7 @@ class SettingsViewController: UIViewController {
     }
     @IBAction func logOutTapped(_ sender: AnyObject) {
         
-        LCUser.logOut()
+        AVUser.logOut()
         
         print("Successfully logged out")
         

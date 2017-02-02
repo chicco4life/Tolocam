@@ -10,7 +10,6 @@ import UIKit
 //import Parse
 //import Bolts
 //import ParseUI
-import LeanCloud
 import AVOSCloud
 
 class ProfileCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, ImageCropViewControllerDelegate, UINavigationControllerDelegate {
@@ -36,56 +35,65 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         
         self.navigationController?.navigationBar.titleTextAttributes = attributes
         
-        profileName.text = LCUser.current?.username?.stringValue
+        profileName.text = AVUser.current()?.username
         
 //        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
 //        layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
 //        layout.itemSize = CGSize(width: (screenWidth - 4)/3, height: (screenWidth - 4)/3)
         
         
-        let followerQuery = LCQuery(className: "Follow")
-        followerQuery.whereKey("followingTo", .equalTo(LCUser.current!))
+        let followerQuery = AVQuery(className: "Follow")
+        followerQuery.whereKey("followingTo", equalTo:AVUser.current()!)
         var followerCount = Int()
         
-        let followingQuery = LCQuery(className: "Follow")
-        followingQuery.whereKey("followFrom", .equalTo(LCUser.current!))
+        let followingQuery = AVQuery(className: "Follow")
+        followingQuery.whereKey("followFrom", equalTo:AVUser.current()!)
         var followingsCount = Int()
         
-        followerQuery.find { (result) in
-            if result.isSuccess{
-                followerCount = (result.objects?.count)!
+        followerQuery.findObjectsInBackground({ (results, error) in
+            if error==nil{
+                followerCount = results!.count
                 self.followersCount.text = String(followerCount-1)
             }
-        }
+        })
         
-        followingQuery.find { (result) in
-            if result.isSuccess{
-                followingsCount = (result.objects?.count)!
+        followingQuery.findObjectsInBackground({ (results, error) in
+            if error==nil{
+                followingsCount = results!.count
                 self.followingCount.text = String(followingsCount-1)
             }
-        }
+        })
         
         print("collectionviewdidload is called")
-
+    
         __loadData()
-        
-        
-        
     }
     
     override func viewDidLayoutSubviews() {
         
-        if LCUser.current?["profileImg"] != nil{
-            let file = LCUser.current?["profileImg"] as? AVFile
-            file?.getDataInBackground({ (data:Data?, error:Error?) in
-                self.profileImage.image = UIImage(data: data!)
-            }, progressBlock: { (progress:Int) in
-                //progress is a value from 0~100
-            })
-            //            self.profileImage.file = file
-            //            self.profileImage.loadInBackground()
-        }else{
-            self.profileImage.image = UIImage(named: "gray")!
+        let userQuery = AVQuery(className: "_User")
+        userQuery.getObjectInBackground(withId: AVUser.current()!.objectId!) { (result:AVObject?, error:Error?) in
+            if error==nil{
+                if let file = result?["profileIm"] as? AVFile{
+                    file.getDataInBackground({ (data:Data?, error:Error?) in
+                        if error==nil{
+                            self.profileImage.image = UIImage(data: data!)
+                        }else{
+                            //getData error
+                            print(error!)
+                        }
+                    }, progressBlock: { (progress:Int) in
+                        //progress is a value from 0~100
+                    })
+                }else{
+                    //user has no profile image
+                    self.profileImage.image = UIImage(named: "gray")!
+                }
+                //end of getData
+            }else{
+                //getObject's error
+                print(error!)
+            }
         }
         
             self.profileImage.layer.masksToBounds = true
@@ -131,27 +139,25 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         
         self.profileImage.image = croppedImage
         
-        let data = croppedImage.lowQualityJPEGNSData
-        let file = AVFile(data: data) as AVFile!
+        let imageData = croppedImage.lowQualityJPEGNSData
+        //let file = AVFile(data: data) as AVFile!
+        let imageFile = AVFile(data: imageData)
         
         let userObj = AVUser.current()
 //        let profilePic = userObj?.object(forKey: "profileImg") as! PFFile
 //        userObj?.setObject(file!, forKey: "profileImg")
 //        userObj?.set("profileImg", value: file!)
-        userObj?.setObject(file, forKey: "profileIm")
-        
-//        print(profilePic)
+        userObj?.setObject(imageFile, forKey: "profileIm")
 
-        
-//        print(profileImages)
-//        
         userObj?.saveInBackground { (done:Bool, error:Error?) in
             if !done{
+                print("set profile pic failed")
                 self.profileImage.image = UIImage(named: "gray")
                 let alertController = UIAlertController(title: "Error", message: "Profile image upload failed", preferredStyle: UIAlertControllerStyle.alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
                 self.present(alertController, animated: true, completion: nil)
-                
+            }else{
+                print("set profile pic success")
             }
         }
         
@@ -170,7 +176,7 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         
         let query = AVQuery(className: "Posts")
         query.addDescendingOrder("createdAt")
-        let username = LCUser.current!.username!.stringValue!
+        let username = AVUser.current()!.username!
         query.whereKey("addedBy", equalTo: username)
         query.findObjectsInBackground{(results, error: Error?) -> Void in
             if (error == nil) {
@@ -187,25 +193,7 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
             } else {
                 print(error!)
             }
-            
         }
-//        query.find { (result) in
-//            if result.isSuccess{
-//                if let posts = result.objects {
-//                    for post in posts {
-//                        if post["Image"] == nil{
-//                        }else{
-//                            let imageToLoad = post["Image"]!
-//                            print(imageToLoad)
-//                            
-////                            self.imageFiles.append(imageToLoad)
-//                        }
-//                    }
-//                    self.collectionView.reloadData()
-//                }
-//            }
-//        }
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -213,16 +201,8 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         // Dispose of any resources that can be recreated.
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
-    {
-        
-        if self.imageFiles.count > 1
-        {
-            return self.imageFiles.count
-        }else
-        {
-            return 3
-        }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
+        return self.imageFiles.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -230,7 +210,6 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         
         cell.imageToShow.image = UIImage(named: "gray.png")
         if self.imageFiles.count != 0{
-            print(indexPath.row)
             let file = self.imageFiles[indexPath.row]
             file.getDataInBackground({ (data:Data?, error:Error?) in
                 cell.imageToShow.image = UIImage(data: data!)

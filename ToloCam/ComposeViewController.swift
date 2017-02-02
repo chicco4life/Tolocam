@@ -10,7 +10,6 @@ import UIKit
 //import Parse
 //import ParseUI
 //import Bolts
-import LeanCloud
 import AVOSCloud
 
 extension UIImage {
@@ -98,13 +97,13 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
 //            let file: PFFile = PFFile(data:imagedata2) as PFFile!
             let file:AVFile = AVFile(data: imagedata2) as AVFile!
 //            let fileCaption: String = self.captionTextView.text
-            let fileCaption = LCString(self.captionTextView.text)
+            let fileCaption = self.captionTextView.text
             
             let photoToUpload = AVObject(className: "Posts")
             photoToUpload["Image"] = file
-            photoToUpload["Caption"] = fileCaption.stringValue
+            photoToUpload["Caption"] = fileCaption
             photoToUpload["postedBy"] = AVUser.current()
-            photoToUpload["addedBy"] = LCUser.current?.username!.stringValue
+            photoToUpload["addedBy"] = AVUser.current()?.username!
             photoToUpload["date"] = localDate
             photoToUpload["Likes"] = 0
             photoToUpload["likedBy"] = [:]
