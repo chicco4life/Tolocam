@@ -37,8 +37,8 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
         self.title = self.username
         appDelegate.client?.addListener(self)
         
-        if AVUser.current()?["profileImg"] != nil{
-            let file = AVUser.current()?["profileImg"] as? AVFile
+        if AVUser.current()?["profileIm"] != nil{
+            let file = AVUser.current()?["profileIm"] as? AVFile
             file?.getDataInBackground({ (data:Data?, error:Error?) in
                 self.selfAvatarImg = UIImage(data: data!)!
             }, progressBlock: { (progress:Int) in
@@ -48,8 +48,8 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
             self.selfAvatarImg = UIImage(named: "gray")!
         }
         
-        if self.otherUser["profileImg"] != nil{
-            let file = self.otherUser["profileImg"] as? AVFile
+        if self.otherUser["profileIm"] != nil{
+            let file = self.otherUser["profileIm"] as? AVFile
             file?.getDataInBackground({ (data:Data?, error:Error?) in
                 self.friendAvatarImg = UIImage(data: data!)!
             }, progressBlock: { (progress:Int) in
@@ -148,15 +148,17 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
     
     //setup avatar later, nil for now
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
-        
         let currentMessage = messagePackets[indexPath.item]
-        var avatarImg:JSQMessagesAvatarImage
+        let placeholderImg = UIImage(named: "gray")
+        let avatarImg = JSQMessagesAvatarImage.init(avatarImage: nil, highlightedImage: nil, placeholderImage: placeholderImg)
         if currentMessage.senderId == AVUser.current()?.objectId{
-            let placeholderImg = UIImage(named: "gray")
-            avatarImg = JSQMessagesAvatarImage.init(avatarImage: self.selfAvatarImg, highlightedImage: self.selfAvatarImg, placeholderImage: placeholderImg)
+//            avatarImg = JSQMessagesAvatarImage.init(avatarImage: self.selfAvatarImg, highlightedImage: self.selfAvatarImg, placeholderImage: placeholderImg)
+            avatarImg?.avatarImage = JSQMessagesAvatarImageFactory.circularAvatarImage(self.selfAvatarImg, withDiameter:UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
+            avatarImg?.avatarHighlightedImage = JSQMessagesAvatarImageFactory.circularAvatarImage(self.selfAvatarImg, withDiameter:UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
         }else{
-            let placeholderImg = UIImage(named: "gray")
-            avatarImg = JSQMessagesAvatarImage.init(avatarImage: self.friendAvatarImg, highlightedImage: self.friendAvatarImg, placeholderImage: placeholderImg)
+//            avatarImg = JSQMessagesAvatarImage.init(avatarImage: self.friendAvatarImg, highlightedImage: self.friendAvatarImg, placeholderImage: placeholderImg)
+            avatarImg?.avatarImage = JSQMessagesAvatarImageFactory.circularAvatarImage(self.friendAvatarImg, withDiameter: UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
+            avatarImg?.avatarHighlightedImage = JSQMessagesAvatarImageFactory.circularAvatarImage(self.friendAvatarImg, withDiameter: UInt(kJSQMessagesCollectionViewAvatarSizeDefault))
         }
         
         return avatarImg

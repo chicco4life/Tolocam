@@ -139,15 +139,15 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
     
         //profile image
     
-        if self.currentProfilePageUser["profileImg"] != nil{
-            let file = self.currentProfilePageUser["profileImg"] as? AVFile
+        print(self.currentProfilePageUser)
+        
+        if self.currentProfilePageUser["profileIm"] != nil{
+            let file = self.currentProfilePageUser["profileIm"] as? AVFile
             file?.getDataInBackground({ (data:Data?, error:Error?) in
                 self.profileImage.image = UIImage(data: data!)
             }, progressBlock: { (progress:Int) in
                 //progress is a value from 0~100
             })
-//            self.profileImage.file = file
-//            self.profileImage.loadInBackground()
         }else{
             self.profileImage.image = UIImage(named: "gray")!
         }

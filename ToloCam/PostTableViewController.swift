@@ -60,39 +60,6 @@ class PostTableViewController: UITableViewController {
         self.refreshControl?.endRefreshing()
     }
     
-    /*func __loadData () {
-        let userQuery = AVQuery(className: "Follow")
-        userQuery.whereKey("followFrom", equalTo: AVUser.current()!)
-        let query = AVQuery(className: "Posts")
-        query.whereKey("postedBy", matchesKey: "followingTo", in: userQuery)
-        query.addDescendingOrder("createdAt")
-        query.findObjectsInBackground { (result:[Any]?, error) in
-            if error == nil {
-                // no error
-                if let posts = result as? [AVObject]{
-                    print(posts)
-                    for post in posts {
-                        if  post["Image"] == nil{
-                            print("    CHECK THIS LOL NIL )")
-                        }else{
-                            let imageToLoad = post["Image"] as! AVFile
-                            self.imageFiles.append(imageToLoad)
-                            self.imageCaptions.append(post["Caption"] as! String)
-                            self.imageDates.append(post["date"] as! String)
-                            self.imageUsers.append(post["addedBy"] as! String)
-                            self.imageLikes.append(post["Likes"] as! Int)
-                            self.imageDictionaryOfLikers.append(post["likedBy"] as! NSMutableDictionary)
-                            self.postObjects.append(post)
-                        }
-                    }
-                    self.tableView.reloadData()
-                }
-            } else {
-                print(error.debugDescription)
-            }
-        }
-    }*/
-    
     func __loadData(){
         self.imageFiles = []
         self.imageCaptions = []
@@ -162,7 +129,7 @@ class PostTableViewController: UITableViewController {
         //        print(object)
         
         cell.postCaption.text = imageCaption
-        cell.addedBy.text = imageUser
+        cell.addedBy.setTitle(imageUser, for: .normal)
         cell.dateLabel.text = imageDate
         cell.likesLabel.text = "\(imageLikes)"
         if yourLikes == nil{
@@ -170,8 +137,30 @@ class PostTableViewController: UITableViewController {
         }else{
             cell.yourLikesLabel.text = "\(yourLikes!)"
         }
+        
+        cell.addedBy.tag = indexPath.row
+        cell.addedBy.addTarget(self, action: #selector(self.cellUsernameTapped), for: .touchUpInside)
+        
         return cell
     }
+    
+    func cellUsernameTapped(sender:UIButton){
+        let cellRow = sender.tag
+        let path = IndexPath(row: cellRow, section: 0)
+        let cell = tableView.cellForRow(at: path) as! PostTableViewCell
+        
+        let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "OthersCollectionViewController") as! OthersCollectionViewController
+        vc.userUsername = (cell.addedBy.titleLabel?.text)!
+        
+        print("username pass to othervc\(vc.userUsername)")
+        if cell.addedBy.titleLabel?.text != AVUser.current()?.username{
+            self.navigationController!.pushViewController(vc, animated: true)
+        }else{
+            //user tapped on own username
+        }
+    }
+    
     
     /*
      // Override to support conditional editing of the table view.

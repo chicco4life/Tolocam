@@ -18,7 +18,7 @@ class PostTableViewCell: UITableViewCell {
     
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var postCaption: UILabel!
-    @IBOutlet weak var addedBy: UILabel!
+    @IBOutlet weak var addedBy: UIButton!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var likesLabel: UILabel!
 //    var yourLikes = Int()
@@ -30,7 +30,9 @@ class PostTableViewCell: UITableViewCell {
         // Initialization code
         let gesture = UITapGestureRecognizer(target: self, action:#selector(PostTableViewCell.handleLike(_:)))
         gesture.numberOfTapsRequired = 2
-        contentView.addGestureRecognizer(gesture)
+//        contentView.addGestureRecognizer(gesture)
+        postImageView.isUserInteractionEnabled = true
+        postImageView.addGestureRecognizer(gesture)
         
     }
     
@@ -73,7 +75,7 @@ class PostTableViewCell: UITableViewCell {
             }
         }
     }
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         

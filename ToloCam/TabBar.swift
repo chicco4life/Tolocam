@@ -45,7 +45,6 @@ class TabBarInitializer {
             exploreVC,
             cameraVC,
             profileVC,
-            settingsVC
         ]
         
         tabBarController.viewControllers = controllers

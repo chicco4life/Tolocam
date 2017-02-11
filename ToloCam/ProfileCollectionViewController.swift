@@ -135,7 +135,7 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
     
     func imageCropViewControllerSuccess(_ controller: UIViewController!, didFinishCroppingImage croppedImage: UIImage!) {
         
-        UIImageWriteToSavedPhotosAlbum(croppedImage, nil, nil, nil)
+//        UIImageWriteToSavedPhotosAlbum(croppedImage, nil, nil, nil)
         
         self.profileImage.image = croppedImage
         
@@ -158,11 +158,10 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
                 self.present(alertController, animated: true, completion: nil)
             }else{
                 print("set profile pic success")
+                self.navigationController!.popViewController(animated: true)
             }
         }
         
-        
-        self.navigationController!.popViewController(animated: true)
     }
     
     func imageCropViewControllerDidCancel(_ controller: UIViewController!) {
@@ -230,6 +229,9 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         return CGSize(width: (UIScreen.main.bounds.size.width-4) / 3, height: (UIScreen.main.bounds.size.width-4) / 3)
     }
     
+    @IBAction func logoutTapped(_ sender: Any) {
+        AVUser.logOut()
+    }
 
 
     /*

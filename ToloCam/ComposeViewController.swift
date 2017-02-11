@@ -129,7 +129,7 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func imageCropViewControllerSuccess(_ controller: UIViewController!, didFinishCroppingImage croppedImage: UIImage!) {
         
-        UIImageWriteToSavedPhotosAlbum(croppedImage, nil, nil, nil)
+//        UIImageWriteToSavedPhotosAlbum(croppedImage, nil, nil, nil)
         
         self.previewImage.image = croppedImage
         self.navigationController!.popViewController(animated: true)
