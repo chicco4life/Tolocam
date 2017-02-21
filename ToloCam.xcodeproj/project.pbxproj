@@ -450,7 +450,7 @@
 				TargetAttributes = {
 					FFCBBDBB1C6C8D8C00BA0773 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 8ZJPV472J8;
+						DevelopmentTeam = 7LRA4FJCX8;
 						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -752,7 +752,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ToloCam/Zezheng Li.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 8ZJPV472J8;
+				DEVELOPMENT_TEAM = 7LRA4FJCX8;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -777,7 +777,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ToloCam/Zezheng Li.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 8ZJPV472J8;
+				DEVELOPMENT_TEAM = 7LRA4FJCX8;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

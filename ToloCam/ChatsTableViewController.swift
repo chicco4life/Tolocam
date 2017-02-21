@@ -57,8 +57,11 @@ class ChatsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return manager.chattingWith!.count
-//        return 0
+        if manager.chattingWith?.isEmpty == false{
+            return manager.chattingWith!.count
+        }else{
+            return 0
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
