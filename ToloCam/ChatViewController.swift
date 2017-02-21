@@ -7,34 +7,66 @@
 //
 
 import UIKit
-//import Parse
-//import ParseUI
-//import Bolts
 import AVOSCloud
 import PubNub
 import JSQMessagesViewController
 
 class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
-    @IBOutlet weak var table: UITableView!
-    @IBOutlet weak var textField: UITextField!
-    
     var count = 0
 
     let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
     var username = String()
+    var otherUser = AVUser()
     var currentChannel = String()
     var messagePackets = [JSQMessage]()
     var selfAvatarImg = UIImage()
     var friendAvatarImg = UIImage()
-    var otherUser = AVUser()
+    let refreshControl = UIRefreshControl()
+    var firstMessageTimeStamp = NSNumber()
     
     lazy var outgoingBubbleImageView: JSQMessagesBubbleImage = self.setupOutgoingBubble()
     lazy var incomingBubbleImageView: JSQMessagesBubbleImage = self.setupIncomingBubble()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = self.username
+        self.title = otherUser.username
+        
+        //infinite scrolling
+        self.collectionView?.addSubview(refreshControl)
+        self.refreshControl.addTarget(self, action: #selector(ChatViewController.__loadEarlierMessages), for: UIControlEvents.valueChanged)
+        self.refreshControl.isUserInteractionEnabled = true
+        self.collectionView?.alwaysBounceVertical = true
+        
+        self.appDelegate.client?.historyForChannel(currentChannel, start: nil, end: nil, limit: 20, withCompletion: { (result:PNHistoryResult?, error:PNErrorStatus?) in
+            if error == nil{
+                //load a bit of history on initialization of chatVC
+                
+                let arrayOfMessageArrays = result?.data.messages as! [[Any]]
+                //store time stamp of first message
+                if arrayOfMessageArrays.count>0{
+                    self.firstMessageTimeStamp = result!.data.start
+                }
+                for oneMessage in arrayOfMessageArrays{
+                    if  oneMessage[3] as! String == "img"{
+                        let data = NSData(base64Encoded: oneMessage[2] as! String, options: .ignoreUnknownCharacters)
+                        var image = UIImage(data: data as! Data)
+                        //display image
+                    }else{
+                        let senderObjID = oneMessage[0] as! String
+                        let senderName = oneMessage[1] as! String
+                        let theMessage = oneMessage[2] as! String
+                        self.addMessage(withId: senderObjID , name: senderName , text: theMessage)
+                    }
+
+                }
+                
+            }else{
+                print(error!)
+                
+            }
+        })
+        
         appDelegate.client?.addListener(self)
         
         if AVUser.current()?["profileIm"] != nil{
@@ -64,15 +96,13 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
         self.senderDisplayName = AVUser.current()?.username
         
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     func client(_ client: PubNub, didReceiveMessage message: PNMessageResult) {
-//        print("received message")
-//        print(message)
-//        print(message.data.channel) //channel
         var messageArray = message.data.message as! Array<Any>
         if  messageArray[3] as! String == "img"{
             let data = NSData(base64Encoded: messageArray[2] as! String, options: .ignoreUnknownCharacters)
@@ -102,6 +132,15 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
         let messageArray = [senderId,senderDisplayName,text,"notImg"]
         appDelegate.client?.publish(messageArray, toChannel: self.currentChannel, withCompletion: nil)
         self.finishSendingMessage(animated: true)
+        
+        var chattingWithArray = manager.chattingWith
+        if chattingWithArray?.contains(self.otherUser.username!) == false {
+            chattingWithArray?.append(self.otherUser.username!)
+            manager.chattingWith = chattingWithArray
+            UserDefaults.standard.set(chattingWithArray, forKey: "chattingWithArray")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "ChatVCRefresh"), object: nil)
+        }
+        
     }
     
     override func didPressAccessoryButton(_ sender: UIButton!) {
@@ -172,6 +211,76 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
     private func setupIncomingBubble() -> JSQMessagesBubbleImage {
         let bubbleImageFactory = JSQMessagesBubbleImageFactory()
         return bubbleImageFactory!.incomingMessagesBubbleImage(with: UIColor(red: 93/255, green: 215/255, blue: 217/255, alpha: 1))
+    }
+    
+    func __loadEarlierMessages(){
+        //load earlier messages
+        
+        self.appDelegate.client?.historyForChannel(currentChannel, start: self.firstMessageTimeStamp, end: nil, limit: 20, withCompletion: { (result:PNHistoryResult?, error:PNErrorStatus?) in
+            if error == nil{
+                if result?.data.messages.isEmpty == false{
+                    
+                    self.firstMessageTimeStamp = result!.data.start
+                    
+                    CATransaction.begin()
+                    CATransaction.setDisableActions(true)
+                    
+                    let arrayOfMessageArrays = result?.data.messages as! [[Any]]
+
+                    let oldBottomOffset = self.collectionView.contentSize.height - self.collectionView.contentOffset.y
+                    
+                    //-------------- load older messages
+                    
+                    self.collectionView.performBatchUpdates({
+                        // indexPaths for earlier messages
+                        let lastIdx = arrayOfMessageArrays.count - 1
+                        var indexPaths: [AnyObject] = []
+                        for i in 0...lastIdx {
+                            indexPaths.append(IndexPath(item: i, section: 0) as AnyObject)
+                        }
+                        
+                        //Convert the messages
+                        var messages = [JSQMessage]()
+                        for oneMessage in arrayOfMessageArrays {
+                            let senderObjID = oneMessage[0] as! String
+                            let senderName = oneMessage[1] as! String
+                            let theMessage = oneMessage[2] as! String
+                            messages.append(JSQMessage(senderId: senderObjID, displayName: senderName, text: theMessage))
+                        }
+                        
+                        // insert messages and update data source.
+                        var row = 0
+                        for message in messages {
+                            self.messagePackets.insert(message, at: row)
+                            row+=1
+                        }
+                        self.collectionView.insertItems(at: indexPaths as! [IndexPath])
+                        
+                        // invalidate layout
+                        self.collectionView.collectionViewLayout.invalidateLayout(with: JSQMessagesCollectionViewFlowLayoutInvalidationContext())
+                        
+                    }, completion: {(finished) in
+                        
+                        //scroll back to current position
+                        self.finishReceivingMessage(animated: false)
+                        self.collectionView.layoutIfNeeded()
+                        self.collectionView.contentOffset = CGPoint(x: 0, y: self.collectionView.contentSize.height - oldBottomOffset)
+                        CATransaction.commit()
+                        
+//                        self.collectionView.collectionViewLayout.springinessEnabled = true
+                    })
+                    
+                    
+                    //---------------------------end loading
+                }
+            }else{
+                print(error!)
+                
+            }
+        })
+        
+        self.collectionView.reloadData()
+        self.refreshControl.endRefreshing()
     }
 
     /*

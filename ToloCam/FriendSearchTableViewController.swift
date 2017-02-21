@@ -57,6 +57,9 @@ class FriendSearchTableViewController: UITableViewController, UISearchBarDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //stops generating separators
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        
         let attributes = [
             NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
             NSFontAttributeName : UIFont(name: "Coves-Bold", size: 30)! // Note the !
@@ -109,19 +112,6 @@ class FriendSearchTableViewController: UITableViewController, UISearchBarDelegat
             query.whereKey("username", equalTo: "")
         }
         query.order(byAscending: "username")
-        /*query.findObjectsInBackground({ (results, error) in
-            if error==nil {
-                // no error
-                if let usernames = result.objects {
-                    for oneID in usernames {
-                            self.usernames.append((oneID["username"]?.stringValue)!)
-                        }
-                    }
-                    self.tableView.reloadData()
-            } else {
-                //Error
-            }
-        }*/
         
         query.findObjectsInBackground({ (results:[Any]?, error:Error?) in
             if error==nil{
@@ -134,7 +124,11 @@ class FriendSearchTableViewController: UITableViewController, UISearchBarDelegat
                 }
                 self.tableView.reloadData()
             }else{
-                print(error!)
+                if error!.localizedDescription == "The Internet connection appears to be offline."{
+                    let alertController = UIAlertController(title:"Error", message:"The Internet connection appears to be offline. Please try again later.", preferredStyle: UIAlertControllerStyle.alert)
+                    alertController.addAction(UIAlertAction(title:"OK", style: .cancel, handler: nil))
+                    self.present(alertController, animated: true, completion: nil)
+                }
             }
         })
     }

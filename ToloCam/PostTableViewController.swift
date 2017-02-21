@@ -31,7 +31,7 @@ class PostTableViewController: UITableViewController {
         super.viewDidLoad()
         print(AVUser.current())
         
-        NotificationCenter.default.addObserver(self, selector: #selector(PostTableViewController.__refreshPulled), name: NSNotification.Name(rawValue: "refresh"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PostTableViewController.__refreshPulled), name: NSNotification.Name(rawValue: "PostVCRefresh"), object: nil)
         
         print("viewdidload is called")
         
@@ -54,7 +54,6 @@ class PostTableViewController: UITableViewController {
     }
 
     func __refreshPulled() {
-//        self.loadObjects()
         self.__loadData()
         self.tableView.reloadData()
         self.refreshControl?.endRefreshing()
@@ -92,7 +91,11 @@ class PostTableViewController: UITableViewController {
                     self.tableView.reloadData()
                 }
             } else {
-                print(error!)
+                if error!.localizedDescription == "The Internet connection appears to be offline."{
+                    let alertController = UIAlertController(title:"Error", message:"The Internet connection appears to be offline. Please try again later.", preferredStyle: UIAlertControllerStyle.alert)
+                    alertController.addAction(UIAlertAction(title:"OK", style: .cancel, handler: nil))
+                    self.present(alertController, animated: true, completion: nil)
+                }
             }
             
         }

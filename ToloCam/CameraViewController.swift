@@ -19,7 +19,8 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     var stillImageOutput : AVCaptureStillImageOutput?
     var imageCaptured : UIImage!
     var previewLayer : AVCaptureVideoPreviewLayer?
-    var shutterSound:AVAudioPlayer!
+    var soundPath = URL(fileURLWithPath: Bundle.main.path(forResource: "meow", ofType: "wav")!)
+    var shutterSound = AVAudioPlayer()
     
     @IBOutlet weak var cameraView: UIView!
     
@@ -30,6 +31,13 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
             NSFontAttributeName : UIFont(name: "Coves-Bold", size: 30)! // Note the !
         ]
+        
+        do{
+            shutterSound = try AVAudioPlayer(contentsOf: soundPath)
+            shutterSound.prepareToPlay()
+        }catch let error{
+           print(error.localizedDescription)
+        }
         
         self.navigationController?.navigationBar.titleTextAttributes = attributes
         
@@ -118,14 +126,7 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         print("Capturing image")
         
-        //shutter sound
-        do{
-            let player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "meow.mp3", ofType: nil)!))
-            self.shutterSound = player
-            player.play()
-        } catch {
-            print("error")
-        }
+       shutterSound.play()
         
         
         if let videoConnection = stillImageOutput!.connection(withMediaType: AVMediaTypeVideo){

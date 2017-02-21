@@ -95,7 +95,11 @@ class ExploreCollectionViewController: UICollectionViewController,UIViewControll
                     self.collectionView?.reloadData()
                 }
             } else {
-                //Error
+                if error!.localizedDescription == "The Internet connection appears to be offline."{
+                    let alertController = UIAlertController(title:"Error", message:"The Internet connection appears to be offline. Please try again later.", preferredStyle: UIAlertControllerStyle.alert)
+                    alertController.addAction(UIAlertAction(title:"OK", style: .cancel, handler: nil))
+                    self.present(alertController, animated: true, completion: nil)
+                }
             }
             
         })

@@ -24,11 +24,11 @@ class TabBarInitializer {
         cameraVC.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
         cameraVC.tabBarItem.image = UIImage(named: "capture")?.withRenderingMode(.alwaysOriginal)
         cameraVC.tabBarItem.selectedImage = UIImage(named: "capturesel")?.withRenderingMode(.alwaysOriginal)
-        let settingsVC = storyboard.instantiateViewController(withIdentifier: "SettingsNavigationController") as! UINavigationController
-        settingsVC.tabBarItem.title = nil
-        settingsVC.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
-        settingsVC.tabBarItem.image = UIImage(named: "setting")?.withRenderingMode(.alwaysOriginal)
-        settingsVC.tabBarItem.selectedImage = UIImage(named: "settingsel")?.withRenderingMode(.alwaysOriginal)
+        let chatsVC = storyboard.instantiateViewController(withIdentifier: "ChatsNavigationController") as! UINavigationController
+        chatsVC.tabBarItem.title = nil
+        chatsVC.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
+        chatsVC.tabBarItem.image = UIImage(named: "chat")?.withRenderingMode(.alwaysOriginal)
+        chatsVC.tabBarItem.selectedImage = UIImage(named: "chatsel")?.withRenderingMode(.alwaysOriginal)
         let exploreVC = storyboard.instantiateViewController(withIdentifier: "ExploreNavigationController") as! UINavigationController
         exploreVC.tabBarItem.title = nil
         exploreVC.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
@@ -44,7 +44,8 @@ class TabBarInitializer {
             postsVC,
             exploreVC,
             cameraVC,
-            profileVC,
+            chatsVC,
+            profileVC
         ]
         
         tabBarController.viewControllers = controllers
