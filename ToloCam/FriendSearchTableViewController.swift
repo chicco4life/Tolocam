@@ -26,34 +26,6 @@ class FriendSearchTableViewController: UITableViewController, UISearchBarDelegat
     var filteredUsernames = [String]()
     var username = String()
     
-//    override init(style: UITableViewStyle, className: String!) {
-//        super.init(style: style, className: className)
-//    }
-//    
-//    required init(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)!
-//        
-//        // Configure the PFQueryTableView
-//        self.parseClassName = String(describing: PFUser.object())
-//        
-//        self.pullToRefreshEnabled = false
-//        self.paginationEnabled = false
-//    }
-    
-    // Define the query that will provide the data for the table view
-//    override func queryForTable() -> PFQuery<PFObject> {
-//        let query = PFUser.query()
-//        if searchBar.text != "" {
-//            query!.whereKey("username", hasPrefix: searchBar.text!.lowercased())
-//            query!.whereKey("username", notEqualTo: PFUser.current()!.username!)
-//        }else{
-//            query!.whereKey("username", equalTo: "")
-//        }
-//        query!.order(byAscending: "username")
-//        return query!
-//    }
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -62,10 +34,12 @@ class FriendSearchTableViewController: UITableViewController, UISearchBarDelegat
         
         let attributes = [
             NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
-            NSFontAttributeName : UIFont(name: "Coves-Bold", size: 30)! // Note the !
+            NSFontAttributeName : UIFont(name: "PingFangSC-Medium", size: 20)! // Note the !
         ]
         
         self.navigationController?.navigationBar.titleTextAttributes = attributes
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
+        
         searchBar.delegate = self
         //        search()
         

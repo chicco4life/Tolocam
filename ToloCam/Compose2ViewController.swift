@@ -13,18 +13,16 @@ import UIKit
 import AVOSCloud
 import AVFoundation
 
-//extension UIImage {
-//    var uncompressedPNGData: NSData      { return UIImagePNGRepresentation(self)!        }
-//    var highestQualityJPEGNSData: NSData { return UIImageJPEGRepresentation(self, 1.0)!  }
-//    var highQualityJPEGNSData: NSData    { return UIImageJPEGRepresentation(self, 0.75)! }
-//    var mediumQualityJPEGNSData: NSData  { return UIImageJPEGRepresentation(self, 0.5)!  }
-//    var lowQualityJPEGNSData: NSData     { return UIImageJPEGRepresentation(self, 0.25)! }
-//    var lowestQualityJPEGNSData:NSData   { return UIImageJPEGRepresentation(self, 0.0)!  }
-//}
+extension UIImage {
+    var uncompressedPNGData: NSData      { return UIImagePNGRepresentation(self)! as NSData        }
+    var highestQualityJPEGNSData: NSData { return UIImageJPEGRepresentation(self, 1.0)! as NSData  }
+    var highQualityJPEGNSData: NSData    { return UIImageJPEGRepresentation(self, 0.75)! as NSData }
+    var mediumQualityJPEGNSData: NSData  { return UIImageJPEGRepresentation(self, 0.5)! as NSData  }
+    var lowQualityJPEGNSData: NSData     { return UIImageJPEGRepresentation(self, 0.25)! as NSData }
+    var lowestQualityJPEGNSData:NSData   { return UIImageJPEGRepresentation(self, 0.0)! as NSData  }
+}
 
-
-
-class Compose2ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
+class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
     
     
     
@@ -34,6 +32,15 @@ class Compose2ViewController: UIViewController, UIImagePickerControllerDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let attributes = [
+            NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
+            NSFontAttributeName : UIFont(name: "PingFangSC-Medium", size: 20)! // Note the !
+        ]
+        
+        self.title = "发布"
+        self.navigationController?.navigationBar.titleTextAttributes = attributes
+        self.navigationController?.navigationBar.barTintColor = UIColor(red: 35, green: 35, blue: 35, alpha: 1)
         
         self.hideKeyboardWhenTappedAround()
         
@@ -83,7 +90,7 @@ class Compose2ViewController: UIViewController, UIImagePickerControllerDelegate,
             let imagedata2 = imageToBeUploaded.lowQualityJPEGNSData
             
             
-            let file = AVFile(data:imagedata2) as AVFile!
+            let file = AVFile(data:imagedata2 as Data) as AVFile!
             let fileCaption = self.captionTextView.text
             
             let photoToUpload = AVObject(className: "Posts")
@@ -103,7 +110,7 @@ class Compose2ViewController: UIViewController, UIImagePickerControllerDelegate,
                     let vc = TabBarInitializer.getTabBarController()
                     self.present(vc, animated: true, completion: nil)}
                 else{
-                    print(error)
+                    print(error!)
                 }
             })
             

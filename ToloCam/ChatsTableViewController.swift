@@ -25,10 +25,13 @@ class ChatsTableViewController: UITableViewController {
         
         let attributes = [
             NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
-            NSFontAttributeName : UIFont(name: "Coves-Bold", size: 30)! // Note the !
+            NSFontAttributeName : UIFont(name: "PingFangSC-Medium", size: 20)! // Note the !
         ]
         
         self.navigationController?.navigationBar.titleTextAttributes = attributes
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
+        
+        self.tabBarController?.tabBar.backgroundImage = UIImage(named: "#FFFFFF")
         
         self.refreshControl?.addTarget(self, action: #selector(ChatsTableViewController.__refresh), for: UIControlEvents.valueChanged)
         
@@ -39,17 +42,12 @@ class ChatsTableViewController: UITableViewController {
         if manager.chattingWith == nil{
             manager.chattingWith = []
         }
-        
-        print(manager.chattingWith)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.backgroundImage = UIImage(named: "#FFFFFF")
     }
-
-    // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -76,7 +74,6 @@ class ChatsTableViewController: UITableViewController {
     func __refresh(){
         self.tableView?.reloadData()
         self.refreshControl?.endRefreshing()
-        print("refreshed",manager.chattingWith)
     }
 
     /*
@@ -97,32 +94,35 @@ class ChatsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatsCell", for: indexPath) as! ChatsTableViewCell
         
         let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "chatVC") as! ChatViewController
         let ID = manager.chattingWith?[indexPath.row]
         vc.username = ID!
         
-        var userQuery = AVQuery(className: "_User")
+        let userQuery = AVQuery(className: "_User")
         userQuery.whereKey("username", equalTo: ID!)
         userQuery.getFirstObjectInBackground { (result:AVObject?, error:Error?) in
-            var selectedCellUser = result as! AVUser
-            
-            vc.otherUser = selectedCellUser
-            
-            //using object IDs to create a channel name
-            var array = [String]()
-            array.append(selectedCellUser.objectId!)
-            array.append((AVUser.current()?.objectId)!)
-            array.sort()
-            
-            let channelName = "\(array[0])-\(array[1])-channel"
-            print(channelName)
-            vc.currentChannel = channelName
-            
-            self.appDelegate.client?.subscribeToChannels([channelName], withPresence: true)
-            self.navigationController!.pushViewController(vc, animated: true)
+            if error == nil{
+                let selectedCellUser = result as! AVUser
+                
+                vc.otherUser = selectedCellUser
+                
+                //using object IDs to create a channel name
+                var array = [String]()
+                array.append(selectedCellUser.objectId!)
+                array.append((AVUser.current()?.objectId)!)
+                array.sort()
+                
+                let channelName = "\(array[0])-\(array[1])-channel"
+                print(channelName)
+                vc.currentChannel = channelName
+                
+                self.appDelegate.client?.subscribeToChannels([channelName], withPresence: true)
+                self.navigationController!.pushViewController(vc, animated: true)
+            }else{
+                print(error.debugDescription)
+            }
         }
     }
     /*

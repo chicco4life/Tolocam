@@ -40,11 +40,14 @@ float IMAGE_MIN_WIDTH = 400;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.title = @"Crop";
+    self.navigationItem.title = @"裁剪";
+    self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:35/255 green:35/255 blue:35/255 alpha:1];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"#232323"] forBarMetrics:UIBarMetricsDefault];
+    
     if (self){
         UIView *contentView = [[UIView alloc] init];
         contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        contentView.backgroundColor = [UIColor whiteColor];
+        contentView.backgroundColor = [UIColor colorWithRed:35/255 green:35/255 blue:35/255 alpha:1];
         
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
                                                  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel

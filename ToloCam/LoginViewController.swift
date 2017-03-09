@@ -26,7 +26,7 @@ class LoginViewController: UIViewController {
         
         let attributes = [
             NSForegroundColorAttributeName: UIColor.white,
-            NSFontAttributeName : UIFont(name: "Avenir-Book", size: 22)! // Note the !
+            NSFontAttributeName : UIFont(name: "PingFangSC-Light", size: 22)! // Note the !
         ]
         
         registerBtn.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -38,8 +38,8 @@ class LoginViewController: UIViewController {
         self.usernameField.autocorrectionType = UITextAutocorrectionType.no
         self.usernameField.autocapitalizationType = UITextAutocapitalizationType.none
         //setting input text style
-        self.usernameField.font = UIFont(name: "Avenir-Book", size: 22)
-        self.passwordField.font = UIFont(name: "Avenir-Book", size: 22)
+        self.usernameField.font = UIFont(name: "PingFangSC-Light", size: 22)
+        self.passwordField.font = UIFont(name: "PingFangSC-Light", size: 22)
     }
     
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
@@ -64,15 +64,14 @@ class LoginViewController: UIViewController {
         let password = passwordField.text
         print("password \(password)")
         
-
         
         AVUser.logInWithUsername(inBackground: username!, password: password!) { (user, error) in
             if error == nil {
                 let vc = TabBarInitializer.getTabBarController()
                 self.present(vc, animated: true, completion: nil)
             }else{
-                //error
-                let alertController = UIAlertController(title: "Error", message: "Incorrect Username/Password", preferredStyle: UIAlertControllerStyle.alert)
+                //error messages, translate error messages~
+                let alertController = UIAlertController(title: "Error", message: error!.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
                 self.present(alertController, animated: true, completion: nil)
                 

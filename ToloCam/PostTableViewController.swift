@@ -25,32 +25,34 @@ class PostTableViewController: UITableViewController {
     var imageUsers = [String]()
     var imageLikes = [Int]()
     var imageDictionaryOfLikers = [NSMutableDictionary]()
+    var imageProfilePics = [AVFile]()
     var postObjects = [AVObject]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(AVUser.current())
         
         NotificationCenter.default.addObserver(self, selector: #selector(PostTableViewController.__refreshPulled), name: NSNotification.Name(rawValue: "PostVCRefresh"), object: nil)
         
-        print("viewdidload is called")
-        
         self.refreshControl = UIRefreshControl()
+        self.refreshControl?.attributedTitle = NSAttributedString(string: "refreshing", attributes: nil)
         self.refreshControl!.addTarget(self, action: #selector(PostTableViewController.__refreshPulled), for: UIControlEvents.valueChanged)
         self.refreshControl!.isUserInteractionEnabled = true
         
         let attributes = [
             NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
-            NSFontAttributeName : UIFont(name: "Coves-Bold", size: 30)! // Note the !
+            NSFontAttributeName : UIFont(name: "PingFangSC-Medium", size: 20)! // Note the !
         ]
         
         self.navigationController?.navigationBar.titleTextAttributes = attributes
-        
-        //query
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
         
         __loadData()
         
         self.tableView.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.backgroundImage = UIImage(named: "#FFFFFF")
     }
 
     func __refreshPulled() {
@@ -67,6 +69,8 @@ class PostTableViewController: UITableViewController {
         self.imageLikes = []
         self.imageDictionaryOfLikers = []
         self.postObjects = []
+        self.imageProfilePics = []
+        
         let userQuery = AVQuery(className: "Follow")
         userQuery.whereKey("followFrom", equalTo: AVUser.current()!)
         let query = AVQuery(className: "Posts")
@@ -109,6 +113,17 @@ class PostTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        if indexPath.row == 0 {
+            let test=UILabel(frame: CGRect(x: tableView.contentSize.width/2, y: tableView.contentSize.height+180, width: tableView.frame.width, height: 50))
+            test.text="That's all"
+            test.backgroundColor = UIColor.blue
+            self.view.insertSubview(test, belowSubview: tableView)
+//            tableView.addSubview(test)
+            print(self.tableView.contentSize.height)
+            
+        }
+        
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath) as! PostTableViewCell
         let imageFile = self.imageFiles[indexPath.row]
         imageFile.getDataInBackground({ (data:Data?, error:Error?) in
@@ -125,24 +140,49 @@ class PostTableViewController: UITableViewController {
         let imageDate =  imageDates[indexPath.row]
         let imageUser = imageUsers[indexPath.row]
         let imageLikes = self.imageLikes[indexPath.row]
-        let dictionaryOfLikers:NSMutableDictionary = self.imageDictionaryOfLikers[indexPath.row] 
-        let yourLikes = dictionaryOfLikers[(AVUser.current()!.username)!] as? Int
+        let dictionaryOfLikers:NSMutableDictionary = self.imageDictionaryOfLikers[indexPath.row]
+        let object = self.postObjects[indexPath.row] as! AVObject
+        var profilePicFile = AVFile()
+        
+        let pointer = object["postedBy"] as! AVObject
+        let posterObjId = pointer["objectId"] as! String
+        let userQuery = AVQuery(className: "_User")
+        userQuery.whereKey("objectId", equalTo: posterObjId)
+        userQuery.getFirstObjectInBackground { (user:AVObject?, error:Error?) in
+            if error==nil{
+                if user?["profileIm"] != nil{
+                    let profilePicFile = user?["profileIm"] as! AVFile
+                    profilePicFile.getDataInBackground { (data:Data?, error:Error?) in
+                        if error==nil{
+                            cell.profilePicImgView.image = UIImage(data:data!)
+                        }else{
+                            print(error.debugDescription)
+                        }
+                    }
+                }else{
+                        cell.profilePicImgView.image = #imageLiteral(resourceName: "gray.png")
+                }
+            }else{
+                print(error.debugDescription)
+            }
+        }
         
         cell.object = self.postObjects[indexPath.row]
-        //        print(object)
+        
+
         
         cell.postCaption.text = imageCaption
         cell.addedBy.setTitle(imageUser, for: .normal)
         cell.dateLabel.text = imageDate
         cell.likesLabel.text = "\(imageLikes)"
-        if yourLikes == nil{
-            cell.yourLikesLabel.text = "0"
-        }else{
-            cell.yourLikesLabel.text = "\(yourLikes!)"
-        }
         
         cell.addedBy.tag = indexPath.row
         cell.addedBy.addTarget(self, action: #selector(self.cellUsernameTapped), for: .touchUpInside)
+        
+        cell.postCaption.tag = indexPath.row
+        let oneTap = UITapGestureRecognizer(target: self, action:#selector(PostTableViewController.tappedCaption))
+        cell.postCaption.isUserInteractionEnabled = true
+        cell.postCaption.addGestureRecognizer(oneTap)
         
         return cell
     }
@@ -162,6 +202,13 @@ class PostTableViewController: UITableViewController {
         }else{
             //user tapped on own username
         }
+    }
+    
+    func tappedCaption(sender:UITapGestureRecognizer){
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "postDetailVC") as! PostDetailViewController
+        let row = sender.view?.tag
+        vc.postObject = self.postObjects[row!]
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     

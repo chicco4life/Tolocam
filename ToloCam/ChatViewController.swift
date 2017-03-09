@@ -30,6 +30,15 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let attributes = [
+            NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
+            NSFontAttributeName : UIFont(name: "PingFangSC-Medium", size: 20)! // Note the !
+        ]
+        
+        self.navigationController?.navigationBar.titleTextAttributes = attributes
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
+        
         self.title = otherUser.username
         
         //infinite scrolling
@@ -62,7 +71,7 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
                 }
                 
             }else{
-                print(error!)
+                print("error!!!!!!::::",error.debugDescription)
                 
             }
         })
@@ -274,7 +283,7 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
                     //---------------------------end loading
                 }
             }else{
-                print(error!)
+                print("error!!!!!!::::",error.debugDescription)
                 
             }
         })

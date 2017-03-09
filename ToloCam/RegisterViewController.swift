@@ -148,7 +148,6 @@ class RegisterViewController: UIViewController {
                     follow["followFrom"] = user
                     follow["followingTo"] = user
 
-                    //                follow.saveInBackground()
                     follow.saveInBackground()
 
                 } else {
@@ -156,7 +155,9 @@ class RegisterViewController: UIViewController {
 
                     let alertController = UIAlertController(title:"Error", message:"This username/email is already registered!", preferredStyle: UIAlertControllerStyle.alert)
                     alertController.addAction(UIAlertAction(title:"OK", style: .cancel, handler: nil))
-                    self.present(alertController, animated: true, completion: nil)
+                    self.present(alertController, animated: true, completion: { 
+                        self.view.isUserInteractionEnabled = false
+                    })
                     
 
             }

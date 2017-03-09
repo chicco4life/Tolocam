@@ -15,7 +15,7 @@ import AVOSCloud
 
 class PostTableViewCell: UITableViewCell {
     
-    
+    @IBOutlet weak var profilePicImgView: UIImageView!
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var postCaption: UILabel!
     @IBOutlet weak var addedBy: UIButton!
@@ -23,16 +23,23 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var likesLabel: UILabel!
 //    var yourLikes = Int()
     var object: AVObject?
-    @IBOutlet weak var yourLikesLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         let gesture = UITapGestureRecognizer(target: self, action:#selector(PostTableViewCell.handleLike(_:)))
         gesture.numberOfTapsRequired = 2
-//        contentView.addGestureRecognizer(gesture)
         postImageView.isUserInteractionEnabled = true
         postImageView.addGestureRecognizer(gesture)
+        
+        self.profilePicImgView.layer.masksToBounds = true
+        self.profilePicImgView.layer.cornerRadius = self.profilePicImgView.frame.size.width/2
+        self.profilePicImgView.contentMode = .scaleAspectFill
+        
+       //caption displays ellipses if exceeds two lines
+        self.postCaption.numberOfLines = 2
+        self.postCaption.adjustsFontSizeToFitWidth = false
+        self.postCaption.lineBreakMode = .byTruncatingTail
         
     }
     
@@ -60,7 +67,6 @@ class PostTableViewCell: UITableViewCell {
                     let currentUser = AVUser.current()!.username
                     dictionaryOfLikers[currentUser!] = 1
                     object?.setObject(dictionaryOfLikers, forKey: "likedBy")
-                    yourLikesLabel.text = "1"
                 }
                 else{
                     let currentUser = AVUser.current()!.username
@@ -68,7 +74,6 @@ class PostTableViewCell: UITableViewCell {
                     tempYourLikes+=1
                     dictionaryOfLikers[currentUser!] = tempYourLikes
                     object?.setObject(dictionaryOfLikers, forKey: "likedBy")
-                    yourLikesLabel.text = "\(tempYourLikes)"
                 }
                 
                 object!.saveInBackground()

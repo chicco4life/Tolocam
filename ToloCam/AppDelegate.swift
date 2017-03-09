@@ -8,8 +8,6 @@
 
 import UIKit
 import CoreData
-//import Parse
-//import Bolts
 import PubNub
 import AVOSCloud
 
@@ -26,15 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-//        Parse.setApplicationId("cDhho7qZDlMwdZVxvFcXAOlQPoVoLbuyRm84jeud",
-//            clientKey: "pEQEEydmSTWWRb7xTNOGmNlFyWMcrak0nXXFwpSf")
         AVOSCloud.setApplicationId("TCldgsnzV2zm3EjofgYn20U3-gzGzoHsz",clientKey: "NOTBs0QwYRx242mzzzV7eEv6")
-        
-//        let post = LCObject(className: "_User")
-        
-//        post.set("words", value: "Hello World!")
-//        post.save()
-        
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.window = UIWindow(frame: UIScreen.main.bounds)
@@ -51,24 +41,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
         
         self.window!.makeKeyAndVisible()
         
+        //push notifications
+        let notificationTypes: UIUserNotificationType = [.alert, .badge, .sound]
+        let notificationSettings: UIUserNotificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
+        UIApplication.shared.registerUserNotificationSettings(notificationSettings)
+        
         return true
     }
     
-//    func client(_ client: PubNub, didReceiveMessage message: PNMessageResult) {
-//        print(message.data)
-//    }
-//
-//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-//        <#code#>
-//    }
-//    
-//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-//        <#code#>
-//    }
-//    
-//    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-//        <#code#>
-//    }
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        print("deviceToken: ",deviceToken)
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print(error.localizedDescription)
+    }
+    
+    func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
+        //register for remote notifications
+        UIApplication.shared.registerForRemoteNotifications()
+    }
     
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

@@ -5,9 +5,31 @@ import UIKit
 //import ParseUI
 import AVOSCloud
 
-class ExploreCollectionViewController: UICollectionViewController,UIViewControllerPreviewingDelegate {
+extension Sequence {
+    /// Returns an array with the contents of this sequence, shuffled.
+    func shuffled() -> [Iterator.Element] {
+        var result = Array(self)
+        result.shuffle()
+        return result
+    }
+}
 
-    //@IBOutlet weak var collectionView: UICollectionView!
+extension MutableCollection where Indices.Iterator.Element == Index {
+    /// Shuffles the contents of this collection.
+    mutating func shuffle() {
+        let c = count
+        guard c > 1 else { return }
+        
+        for (firstUnshuffled , unshuffledCount) in zip(indices, stride(from: c, to: 1, by: -1)) {
+            let d: IndexDistance = numericCast(arc4random_uniform(numericCast(unshuffledCount)))
+            guard d != 0 else { continue }
+            let i = index(firstUnshuffled, offsetBy: d)
+            swap(&self[firstUnshuffled], &self[i])
+        }
+    }
+}
+
+class ExploreCollectionViewController: UICollectionViewController,UIViewControllerPreviewingDelegate {
 
     var imageFiles = [AVFile]()
     let refreshControl = UIRefreshControl()
@@ -17,10 +39,13 @@ class ExploreCollectionViewController: UICollectionViewController,UIViewControll
         
         let attributes = [
             NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
-            NSFontAttributeName : UIFont(name: "Coves-Bold", size: 30)! // Note the !
+            NSFontAttributeName : UIFont(name: "PingFangSC-Medium", size: 20)! // Note the !
         ]
         
         self.navigationController?.navigationBar.titleTextAttributes = attributes
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
+        
+        self.tabBarController?.tabBar.backgroundImage = UIImage(named: "#FFFFFF")
         
         //pull to refresh
         self.collectionView?.addSubview(refreshControl)
@@ -49,6 +74,10 @@ class ExploreCollectionViewController: UICollectionViewController,UIViewControll
         __loadData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.backgroundImage = UIImage(named: "#FFFFFF")
+    }
+    
     func __refreshPulled() {
         self.__loadData()
         self.collectionView?.reloadData()
@@ -61,7 +90,7 @@ class ExploreCollectionViewController: UICollectionViewController,UIViewControll
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         
         guard let indexPath = collectionView?.indexPathForItem(at: location) else {return nil}
-        guard let cell = collectionView?.cellForItem(at: indexPath) else {return nil}
+        guard (collectionView?.cellForItem(at: indexPath)) != nil else {return nil}
         //        guard let detailVC = storyboard?.instantiateViewControllerWithIdentifier("PostDetailVC") as? PostDetailViewController else {return nil}
         return self
     }
@@ -79,7 +108,7 @@ class ExploreCollectionViewController: UICollectionViewController,UIViewControll
     func __loadData(){
         self.imageFiles = []
         let query = AVQuery(className: "Posts")
-        query.addDescendingOrder("createdAt")
+        query.addDescendingOrder("likes")
         query.findObjectsInBackground({ (results, error) in
             if error==nil {
                 if let posts = results as? [AVObject] {
@@ -92,6 +121,7 @@ class ExploreCollectionViewController: UICollectionViewController,UIViewControll
                             self.imageFiles.append(imageToLoad)
                         }
                     }
+                    self.imageFiles.shuffle()
                     self.collectionView?.reloadData()
                 }
             } else {
@@ -104,7 +134,6 @@ class ExploreCollectionViewController: UICollectionViewController,UIViewControll
             
         })
     }
-    
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.imageFiles.count

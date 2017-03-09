@@ -30,17 +30,15 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         
         let attributes = [
             NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
-            NSFontAttributeName : UIFont(name: "Coves-Bold", size: 30)! // Note the !
+            NSFontAttributeName : UIFont(name: "PingFangSC-Medium", size: 20)! // Note the !
         ]
         
         self.navigationController?.navigationBar.titleTextAttributes = attributes
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
+        
+        self.tabBarController?.tabBar.backgroundImage = UIImage(named: "#FFFFFF")
         
         profileName.text = AVUser.current()?.username
-        
-//        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-//        layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
-//        layout.itemSize = CGSize(width: (screenWidth - 4)/3, height: (screenWidth - 4)/3)
-        
         
         let followerQuery = AVQuery(className: "Follow")
         followerQuery.whereKey("followingTo", equalTo:AVUser.current()!)
@@ -67,6 +65,10 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         print("collectionviewdidload is called")
     
         __loadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.backgroundImage = UIImage(named: "#FFFFFF")
     }
     
     override func viewDidLayoutSubviews() {
@@ -97,18 +99,11 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         }
         
             self.profileImage.layer.masksToBounds = true
-        //        self.profileImage.clipsToBounds = true
             self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width/2
-            print("size.width is ",self.profileImage.frame.size.width)
-            print("width is",self.profileImage.frame.width)
+            self.profileImage.contentMode = .scaleAspectFill
+        
             self.profileImage.layer.borderWidth = 3
             self.profileImage.layer.borderColor = UIColor(red: 93/255, green: 215/255, blue: 217/255, alpha: 1).cgColor
-            self.profileImage.contentMode = .scaleAspectFill
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        print("hey there")
-        
     }
     
     @IBAction func proflieImgBtn(_ sender: Any) {
@@ -117,9 +112,9 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         imagePicker.delegate = self
         imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
         imagePicker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
-        imagePicker.allowsEditing = false
+        imagePicker.allowsEditing = true
         
-        self.present(imagePicker, animated: true, completion: nil)
+//        self.present(imagePicker, animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
@@ -127,28 +122,17 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         let controller = ImageCropViewController.init(image: image)
         controller?.delegate = self
         controller?.blurredBackground = true
-        self.navigationController?.pushViewController(controller!, animated: true)
-        
-        self.dismiss(animated: true, completion: nil)
-        
-    }
-    
-    func imageCropViewControllerSuccess(_ controller: UIViewController!, didFinishCroppingImage croppedImage: UIImage!) {
         
 //        UIImageWriteToSavedPhotosAlbum(croppedImage, nil, nil, nil)
         
-        self.profileImage.image = croppedImage
+        self.profileImage.image = image
         
-        let imageData = croppedImage.lowQualityJPEGNSData
-        //let file = AVFile(data: data) as AVFile!
-        let imageFile = AVFile(data: imageData)
+        let imageData = image.lowQualityJPEGNSData
+        let imageFile = AVFile(data: imageData as Data)
         
         let userObj = AVUser.current()
-//        let profilePic = userObj?.object(forKey: "profileImg") as! PFFile
-//        userObj?.setObject(file!, forKey: "profileImg")
-//        userObj?.set("profileImg", value: file!)
         userObj?.setObject(imageFile, forKey: "profileIm")
-
+        
         userObj?.saveInBackground { (done:Bool, error:Error?) in
             if !done{
                 print("set profile pic failed")
@@ -158,9 +142,15 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
                 self.present(alertController, animated: true, completion: nil)
             }else{
                 print("set profile pic success")
-                self.navigationController!.popViewController(animated: true)
+                self.navigationController?.dismiss(animated: true, completion: nil)
             }
         }
+        
+    }
+    
+    func imageCropViewControllerSuccess(_ controller: UIViewController!, didFinishCroppingImage croppedImage: UIImage!) {
+        
+
         
     }
     
@@ -235,18 +225,20 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
     
     @IBAction func logoutTapped(_ sender: Any) {
         AVUser.logOut()
+        let vc = storyboard?.instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
+        self.present(vc, animated: false, completion: nil)
     }
 
 
-    /*
+    
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func tappedSettings(_ sender: Any) {
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "settingsVC") as! SettingsTableViewController
+        vc.tempProfilePic = self.profileImage.image!
+        self.navigationController?.pushViewController(vc, animated: true)
     }
-    */
+ 
 
     
 }

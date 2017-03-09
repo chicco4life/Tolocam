@@ -11,6 +11,8 @@
 		B62A3EA21CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A3EA11CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift */; };
 		B6549F141E51764200F443B2 /* ChatsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6549F131E51764200F443B2 /* ChatsTableViewController.swift */; };
 		B6549F161E51766F00F443B2 /* ChatsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6549F151E51766F00F443B2 /* ChatsTableViewCell.swift */; };
+		B67127B91E6A315900CFA527 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67127B81E6A315900CFA527 /* SettingsTableViewController.swift */; };
+		B67127BB1E6A72C800CFA527 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67127BA1E6A72C800CFA527 /* PostDetailViewController.swift */; };
 		B691DA341D7016E700AF1EF6 /* Coves Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B691DA321D7016A700AF1EF6 /* Coves Bold.otf */; };
 		B691DA351D7016E700AF1EF6 /* Coves Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B691DA331D7016A700AF1EF6 /* Coves Light.otf */; };
 		B6B4942A1DBF210400E3D60A /* ImageCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6B494291DBF210400E3D60A /* ImageCropView.m */; };
@@ -28,7 +30,6 @@
 		FF06E7A71C75C91F00920007 /* ExploreCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */; };
 		FF7CFC211CD76DAC0091E11E /* Compose2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7CFC201CD76DAC0091E11E /* Compose2ViewController.swift */; };
 		FF7CFC231CD76F1F0091E11E /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7CFC221CD76F1F0091E11E /* CameraViewController.swift */; };
-		FFA914E41C74A68200121EE2 /* imageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA914E31C74A68200121EE2 /* imageTableViewCell.swift */; };
 		FFCBBDC01C6C8D8D00BA0773 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCBBDBF1C6C8D8D00BA0773 /* AppDelegate.swift */; };
 		FFCBBDC21C6C8D8D00BA0773 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCBBDC11C6C8D8D00BA0773 /* LoginViewController.swift */; };
 		FFCBBDC51C6C8D8D00BA0773 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFCBBDC31C6C8D8D00BA0773 /* Main.storyboard */; };
@@ -53,7 +54,6 @@
 		FFD788501C6CB14300ACDB65 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD7884F1C6CB14300ACDB65 /* PostTableViewCell.swift */; };
 		FFD788521C6CB1BB00ACDB65 /* PostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD788511C6CB1BB00ACDB65 /* PostTableViewController.swift */; };
 		FFD788541C6CB55D00ACDB65 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFD788531C6CB55D00ACDB65 /* ParseUI.framework */; };
-		FFD788561C6CB89A00ACDB65 /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD788551C6CB89A00ACDB65 /* ComposeViewController.swift */; };
 		FFD788581C731EBF00ACDB65 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD788571C731EBE00ACDB65 /* RegisterViewController.swift */; };
 		FFE37A641C775BAD00C1670F /* ProfileCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE37A631C775BAD00C1670F /* ProfileCollectionViewController.swift */; };
 		FFE37A661C775BCE00C1670F /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE37A651C775BCE00C1670F /* ProfileCollectionViewCell.swift */; };
@@ -85,6 +85,8 @@
 		B6549F101E516E7600F443B2 /* Zezheng Li.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Zezheng Li.entitlements"; sourceTree = "<group>"; };
 		B6549F131E51764200F443B2 /* ChatsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsTableViewController.swift; sourceTree = "<group>"; };
 		B6549F151E51766F00F443B2 /* ChatsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsTableViewCell.swift; sourceTree = "<group>"; };
+		B67127B81E6A315900CFA527 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		B67127BA1E6A72C800CFA527 /* PostDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		B691DA321D7016A700AF1EF6 /* Coves Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Coves Bold.otf"; sourceTree = "<group>"; };
 		B691DA331D7016A700AF1EF6 /* Coves Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Coves Light.otf"; sourceTree = "<group>"; };
 		B6B494271DBF210300E3D60A /* ToloCam-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ToloCam-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -104,7 +106,6 @@
 		FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewController.swift; sourceTree = "<group>"; };
 		FF7CFC201CD76DAC0091E11E /* Compose2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Compose2ViewController.swift; sourceTree = "<group>"; };
 		FF7CFC221CD76F1F0091E11E /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
-		FFA914E31C74A68200121EE2 /* imageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = imageTableViewCell.swift; sourceTree = "<group>"; };
 		FFCBBDBC1C6C8D8D00BA0773 /* Zezheng Li.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Zezheng Li.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFCBBDBF1C6C8D8D00BA0773 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FFCBBDC11C6C8D8D00BA0773 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -135,7 +136,6 @@
 		FFD7884F1C6CB14300ACDB65 /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		FFD788511C6CB1BB00ACDB65 /* PostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewController.swift; sourceTree = "<group>"; };
 		FFD788531C6CB55D00ACDB65 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
-		FFD788551C6CB89A00ACDB65 /* ComposeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; };
 		FFD788571C731EBE00ACDB65 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		FFE37A631C775BAD00C1670F /* ProfileCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewController.swift; sourceTree = "<group>"; };
 		FFE37A651C775BCE00C1670F /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -194,8 +194,8 @@
 		B6B855731E541C5A00CDD4A1 /* Others */ = {
 			isa = PBXGroup;
 			children = (
-				B6C4FF371CD52B4D008548A2 /* OthersCollectionViewCell.swift */,
 				B6C4FF391CD5F4C9008548A2 /* OthersCollectionViewController.swift */,
+				B6C4FF371CD52B4D008548A2 /* OthersCollectionViewCell.swift */,
 			);
 			name = Others;
 			sourceTree = "<group>";
@@ -225,7 +225,7 @@
 			children = (
 				FFD788511C6CB1BB00ACDB65 /* PostTableViewController.swift */,
 				FFD7884F1C6CB14300ACDB65 /* PostTableViewCell.swift */,
-				FFA914E31C74A68200121EE2 /* imageTableViewCell.swift */,
+				B67127BA1E6A72C800CFA527 /* PostDetailViewController.swift */,
 			);
 			name = Posts;
 			sourceTree = "<group>";
@@ -233,8 +233,8 @@
 		B6D48DE51D617FA900BDEDB3 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				FFE37A651C775BCE00C1670F /* ProfileCollectionViewCell.swift */,
 				FFE37A631C775BAD00C1670F /* ProfileCollectionViewController.swift */,
+				FFE37A651C775BCE00C1670F /* ProfileCollectionViewCell.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -251,7 +251,6 @@
 		B6D48DE81D617FF200BDEDB3 /* Compose */ = {
 			isa = PBXGroup;
 			children = (
-				FFD788551C6CB89A00ACDB65 /* ComposeViewController.swift */,
 				FF7CFC201CD76DAC0091E11E /* Compose2ViewController.swift */,
 			);
 			name = Compose;
@@ -260,8 +259,8 @@
 		B6DD9C451E56E64C004CE66B /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				B62A3EA11CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift */,
 				B62A3E9F1CD3D157006C1F74 /* FriendSearchTableViewController.swift */,
+				B62A3EA11CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -326,6 +325,7 @@
 				B6B855731E541C5A00CDD4A1 /* Others */,
 				B6DD9C451E56E64C004CE66B /* Search */,
 				B6E67FCD1E059A680005824B /* ChatViewController.swift */,
+				B67127B81E6A315900CFA527 /* SettingsTableViewController.swift */,
 				FF7CFC221CD76F1F0091E11E /* CameraViewController.swift */,
 				B6C50B171DCACF8F004E200D /* libraries */,
 				B6B494271DBF210300E3D60A /* ToloCam-Bridging-Header.h */,
@@ -580,6 +580,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6B4942A1DBF210400E3D60A /* ImageCropView.m in Sources */,
+				B67127BB1E6A72C800CFA527 /* PostDetailViewController.swift in Sources */,
 				B6549F161E51766F00F443B2 /* ChatsTableViewCell.swift in Sources */,
 				FF7CFC211CD76DAC0091E11E /* Compose2ViewController.swift in Sources */,
 				FF7CFC231CD76F1F0091E11E /* CameraViewController.swift in Sources */,
@@ -592,7 +593,6 @@
 				FF06E7A71C75C91F00920007 /* ExploreCollectionViewController.swift in Sources */,
 				FFD788581C731EBF00ACDB65 /* RegisterViewController.swift in Sources */,
 				FFCBBDC81C6C8D8D00BA0773 /* ToloCam.xcdatamodeld in Sources */,
-				FFD788561C6CB89A00ACDB65 /* ComposeViewController.swift in Sources */,
 				FFE37A641C775BAD00C1670F /* ProfileCollectionViewController.swift in Sources */,
 				B6C4FF381CD52B4D008548A2 /* OthersCollectionViewCell.swift in Sources */,
 				FFCBBDC01C6C8D8D00BA0773 /* AppDelegate.swift in Sources */,
@@ -600,8 +600,8 @@
 				B6E67FCE1E059A680005824B /* ChatViewController.swift in Sources */,
 				FF06E7A51C75C84000920007 /* ExploreCollectionViewCell.swift in Sources */,
 				FFE37A661C775BCE00C1670F /* ProfileCollectionViewCell.swift in Sources */,
-				FFA914E41C74A68200121EE2 /* imageTableViewCell.swift in Sources */,
 				B62A3EA21CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift in Sources */,
+				B67127B91E6A315900CFA527 /* SettingsTableViewController.swift in Sources */,
 				FF06E79B1C75BE8F00920007 /* TabBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -676,7 +676,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: leo4life2@163.com (42PESW7DT6)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: leo4life2@163.com (42PESW7DT6)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -698,6 +699,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -722,6 +725,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -737,6 +741,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
@@ -762,6 +768,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.federicoli.tolocam;
 				PRODUCT_NAME = "Zezheng Li";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ToloCam/ToloCam-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -787,6 +794,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.federicoli.tolocam;
 				PRODUCT_NAME = "Zezheng Li";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ToloCam/ToloCam-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};

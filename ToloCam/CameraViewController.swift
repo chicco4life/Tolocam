@@ -29,50 +29,22 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
 
         let attributes = [
             NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
-            NSFontAttributeName : UIFont(name: "Coves-Bold", size: 30)! // Note the !
+            NSFontAttributeName : UIFont(name: "PingFangSC-Medium", size: 20)! // Note the !
         ]
         
-        do{
-            shutterSound = try AVAudioPlayer(contentsOf: soundPath)
-            shutterSound.prepareToPlay()
-        }catch let error{
-           print(error.localizedDescription)
-        }
-        
         self.navigationController?.navigationBar.titleTextAttributes = attributes
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named:"#232323"), for: .default)
         
-        // Do any additional setup after loading the view.
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        previewLayer?.frame = cameraView.bounds
-        
-//        var instanceOfImageCropView: ImageCropView = ImageCropView()
-        
-        
-    }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
+        self.view.backgroundColor = UIColor(red: 35/255, green: 35/255, blue: 35/255, alpha: 1)
+        self.view.isOpaque = false
         
         captureSession = AVCaptureSession()
-        print("starts from here\n\n")
-        
         
         //avcapture framework bug -- conditionalized code
-//        #if TARGET_IPHONE_SIMULATOR
-//        #else
+        //        #if TARGET_IPHONE_SIMULATOR
+        //        #else
         #if TARGET_OS_IPHONE
-        self.captureSession?.sessionPreset = AVCaptureSessionPreset1920x1080
+            self.captureSession?.sessionPreset = AVCaptureSessionPreset1920x1080
         #endif
         
         let backCamera = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
@@ -116,17 +88,62 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             
         }
         
+
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        previewLayer?.frame = cameraView.bounds
         
+//        var instanceOfImageCropView: ImageCropView = ImageCropView()
+        
+        
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.tabBar.backgroundImage = (UIImage(named:"#232323"))
+        self.tabBarController?.tabBar.isTranslucent = false
     }
     
     @IBOutlet weak var tempImageView: UIImageView!
     
+    @IBAction func didPressPhotoBtn(_ sender: Any) {
+        let imagePicker = UIImagePickerController()
+        
+        imagePicker.delegate = self
+        imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        imagePicker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
+        imagePicker.allowsEditing = true
+        imagePicker.navigationItem.title = "照片"
+        imagePicker.navigationBar.titleTextAttributes = [
+            NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
+            NSFontAttributeName : UIFont(name: "PingFangSC-Medium", size: 20)! // Note the !
+        ]
+        
+        self.present(imagePicker, animated: true, completion: nil)
+    }
     
     @IBAction func takePicture(_ sender: AnyObject) {
         
         print("Capturing image")
         
-       shutterSound.play()
+//        do{
+//            shutterSound = try AVAudioPlayer(contentsOf: soundPath)
+//            shutterSound.prepareToPlay()
+//        }catch let error{
+//            print(error.localizedDescription)
+//        }
+//        
+//       shutterSound.play()
         
         
         if let videoConnection = stillImageOutput!.connection(withMediaType: AVMediaTypeVideo){
@@ -159,23 +176,36 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         UIImageWriteToSavedPhotosAlbum(croppedImage, nil, nil, nil)
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "Compose2ViewController") as! Compose2ViewController
+        let vc = storyboard.instantiateViewController(withIdentifier: "Compose2ViewController") as! ComposeViewController
         vc.newImage = croppedImage
         self.navigationController!.pushViewController(vc, animated: true)
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        viewController.navigationItem.title = "照片"
+        viewController.navigationController?.navigationBar.barTintColor = UIColor(red: 35/255, green: 35/255, blue: 35/255, alpha: 1)
+        viewController.navigationController?.navigationBar.isTranslucent = false
+        viewController.view.backgroundColor = UIColor(red: 35/255, green: 35/255, blue: 35/255, alpha: 1)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+        
+//        let controller = ImageCropViewController.init(image: image)
+//        controller?.delegate = self
+//        controller?.blurredBackground = true
+//        self.navigationController?.pushViewController(controller!, animated: true)
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "Compose2ViewController") as! ComposeViewController
+        vc.newImage = image
+        self.navigationController!.pushViewController(vc, animated: true)
+        
+        self.dismiss(animated: true, completion: nil)
+        
     }
     
     func imageCropViewControllerDidCancel(_ controller: UIViewController!) {
         self.navigationController!.popViewController(animated: true)
     }
-    
-    //    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    //
-    //        if segue.identifier == "toCompose" {
-    //            let dvc = segue.sourceViewController as! Compose2ViewController
-    //            dvc.newImage = self.imageCaptured
-    //        }
-    //    }
-    //    
-    
     
 }
