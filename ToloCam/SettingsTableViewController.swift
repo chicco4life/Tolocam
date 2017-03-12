@@ -77,10 +77,17 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         userObj?.saveInBackground { (done:Bool, error:Error?) in
             if !done{
                 print("set profile pic failed")
-                self.profilePic.image = UIImage(named: "gray")
-                let alertController = UIAlertController(title: "Error", message: "Profile image upload failed", preferredStyle: UIAlertControllerStyle.alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
-                self.present(alertController, animated: true, completion: nil)
+                self.navigationController?.dismiss(animated: true, completion: { 
+                    self.profilePic.image = UIImage(named: "gray")
+                    let alertController = UIAlertController(title: "Error", message: "Profile image upload failed", preferredStyle: UIAlertControllerStyle.alert)
+                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
+                    alertController.addTextField(configurationHandler: { (field:UITextField) in
+                        
+                    })
+                    alertController.addAction(UIAlertAction(title: "resend", style: .default, handler: nil))
+                    alertController.addAction(UIAlertAction(title: "done", style: .default, handler: nil))
+                    self.present(alertController, animated: true, completion: nil)
+                })
             }else{
                 print("set profile pic success")
                 self.navigationController?.dismiss(animated: true, completion: nil)

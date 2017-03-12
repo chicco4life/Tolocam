@@ -46,6 +46,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
         let notificationSettings: UIUserNotificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
         UIApplication.shared.registerUserNotificationSettings(notificationSettings)
         
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 1)
+        
+        UINavigationBar.appearance().tintColor = UIColor(red: 152/255, green: 152/255, blue: 152/255, alpha: 1)
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: "PingFangSC-Light", size: 17)!], for: .normal)
         return true
     }
     

@@ -9,7 +9,7 @@
 import UIKit
 import AVOSCloud
 
-class likerLikesPair {
+class LikerLikesPair {
     var liker = String()
     var likes = Int()
 }
@@ -18,14 +18,18 @@ class PostDetailViewController: UIViewController {
     var postObject = AVObject()
     
     @IBOutlet weak var postImage: UIImageView!
-    @IBOutlet weak var posterProfileImage: UIImageView!
-    @IBOutlet weak var posterUsername: UILabel!
-    @IBOutlet weak var postDate: UILabel!
     @IBOutlet weak var postLikes: UILabel!
-    @IBOutlet weak var kingOfTheLikesProfilePic: UIImageView!
-    @IBOutlet weak var tagsLabel: UILabel!
     @IBOutlet weak var captionView: UILabel!
+    @IBOutlet weak var crownImg: UIImageView!
     
+    @IBOutlet var tagCollection: [UIButton]!
+    @IBOutlet weak var fourthTagLeading: NSLayoutConstraint!
+    @IBOutlet weak var fourthTagTop: NSLayoutConstraint!
+    @IBOutlet weak var fifthTagLeading: NSLayoutConstraint!
+    @IBOutlet weak var fifthTagTop: NSLayoutConstraint!
+    
+    
+    @IBOutlet var likerCollection: [UIButton]!
     @IBOutlet weak var liker1: UIButton!
     @IBOutlet weak var liker2: UIButton!
     @IBOutlet weak var liker3: UIButton!
@@ -44,6 +48,73 @@ class PostDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if tagCollection[0].frame.width+tagCollection[1].frame.width+tagCollection[2].frame.width+tagCollection[3].frame.width < self.view.frame.width-30{
+            fourthTagLeading = NSLayoutConstraint(item: tagCollection[3], attribute: .leading, relatedBy: .equal, toItem: tagCollection[2], attribute: .trailing, multiplier: 1, constant: 18)
+            fourthTagTop = NSLayoutConstraint(item: tagCollection[3], attribute: .top, relatedBy: .equal, toItem: tagCollection[2], attribute: .top, multiplier: 1, constant: 0)
+        }
+        
+        
+        //title view config
+        var titleView = UIView()
+        titleView.frame.size.height = 37
+        self.navigationItem.titleView = titleView
+        
+        var posterProfileImageView = UIImageView(image: #imageLiteral(resourceName: "gray"))
+        posterProfileImageView.frame.size.height = 36
+        posterProfileImageView.frame.size.width = 36
+        posterProfileImageView.layer.masksToBounds = true
+        posterProfileImageView.layer.cornerRadius = posterProfileImageView.frame.size.width/2
+        posterProfileImageView.contentMode = .scaleAspectFill
+        titleView.addSubview(posterProfileImageView)
+        
+        let posterProfImageTopConstraint = NSLayoutConstraint(item: posterProfileImageView, attribute: .top, relatedBy: .equal, toItem: titleView, attribute: .top, multiplier: 1, constant: 0)
+        titleView.addConstraint(posterProfImageTopConstraint)
+        
+        let posterProfImageLeadingConstraint = NSLayoutConstraint(item: posterProfileImageView, attribute: .leading, relatedBy: .equal, toItem: titleView, attribute: .leading, multiplier: 1, constant: 0)
+        titleView.addConstraint(posterProfImageLeadingConstraint)
+        
+        let posterProfImageBottomConstraint = NSLayoutConstraint(item: posterProfileImageView, attribute: .bottom, relatedBy: .equal, toItem: titleView, attribute: .bottom, multiplier: 1, constant: 0)
+        titleView.addConstraint(posterProfImageBottomConstraint)
+        
+        var postDateLabel = UILabel()
+        postDateLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleView.addSubview(postDateLabel)
+        let postDateLabelAttributes = [
+            NSForegroundColorAttributeName: UIColor(red: 151/255, green: 147/255, blue: 147/255, alpha: 1),
+            NSFontAttributeName : UIFont(name: "Avenir-Roman", size: 12)! // Note the !
+        ]
+        postDateLabel.attributedText = NSAttributedString(string: postObject["date"] as! String, attributes: postDateLabelAttributes)
+        postDateLabel.sizeToFit()
+        
+        let postDateLabelLeadingConstraint = NSLayoutConstraint(item: postDateLabel, attribute: .leading, relatedBy: .equal, toItem: posterProfileImageView, attribute: .trailing, multiplier: 1, constant: 9)
+        titleView.addConstraint(postDateLabelLeadingConstraint)
+        
+        let postDateLabelBottomConstraint = NSLayoutConstraint(item: postDateLabel, attribute: .bottom, relatedBy: .equal, toItem: titleView, attribute: .bottom, multiplier: 1, constant: 0)
+        titleView.addConstraint(postDateLabelBottomConstraint)
+        
+        var posterNameLabel = UILabel()
+        posterNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleView.addSubview(posterNameLabel)
+        let attributes = [
+            NSForegroundColorAttributeName: UIColor(red: 80/255, green: 79/255, blue: 79/255, alpha: 1),
+            NSFontAttributeName : UIFont(name: "PingFangSC-Medium", size: 14)! // Note the !
+        ]
+        posterNameLabel.attributedText = NSAttributedString(string: postObject["addedBy"] as! String, attributes: attributes)
+        posterNameLabel.sizeToFit()
+        
+        let posterNameBottomConstraint = NSLayoutConstraint(item: postDateLabel, attribute: .top, relatedBy: .equal, toItem: posterNameLabel, attribute: .bottom, multiplier: 1, constant: 1)
+        titleView.addConstraint(posterNameBottomConstraint)
+        let posterNameLeadingConstraint = NSLayoutConstraint(item: posterNameLabel, attribute: .leading, relatedBy: .equal, toItem: posterProfileImageView, attribute: .trailing, multiplier: 1, constant: 9)
+        
+        titleView.addConstraint(posterNameLeadingConstraint)
+        
+        if postDateLabel.frame.width>=posterNameLabel.frame.width{
+            titleView.frame.size.width = posterProfileImageView.frame.width+9+postDateLabel.frame.width
+        }else{
+            titleView.frame.size.width = posterProfileImageView.frame.width+9+posterNameLabel.frame.width
+        }
+        
+        
         //poster profilePic
         var profilePicFile = AVFile()
         let pointer = postObject["postedBy"] as! AVObject
@@ -54,130 +125,129 @@ class PostDetailViewController: UIViewController {
         userQuery.getFirstObjectInBackground { (user:AVObject?, error:Error?) in
             if error==nil{
                 /*--------------------Poster's profile image query--------------------*/
-                profilePicFile = user?["profileIm"] as! AVFile
-                profilePicFile.getDataInBackground { (data:Data?, error:Error?) in
-                    if error==nil{
-                        self.posterProfileImage.image = UIImage(data:data!)
-                        
-                        /*--------------------Post image query--------------------*/
-                        var postImageFile = self.postObject["Image"] as! AVFile
-                        postImageFile.getDataInBackground { (data:Data?, error:Error?) in
-                            if error==nil{
-                                self.postImage.image = UIImage(data:data!)
-                                
-                                /*--------------------Top 10 Liker's profile image query--------------------*/
-                                //Likers Leaderboard
-                                //Getting all likers and likes
-//                                let likedBy = self.postObject["likedBy"] as! AVObject
-//                                let dictionaryOfLikers = likedBy.dictionaryForObject()
-                                let dictionaryOfLikers = self.postObject["likedBy"] as? NSMutableDictionary
-                                var likersLeaderboard = [likerLikesPair]()
-                                for pair in dictionaryOfLikers!{
-                                    let pairOfLikerLikes = likerLikesPair()
-                                    pairOfLikerLikes.liker = pair.key as! String
-                                    pairOfLikerLikes.likes = pair.value as! Int
-                                    likersLeaderboard.append(pairOfLikerLikes)
-                                }
-                                //Sorting by likes
-                                likersLeaderboard.sort(by: { $0.likes > $1.likes })
-                                
-                                //getting top 10 likers
-                                var topLikers = [String]()
-                                if likersLeaderboard.count>0{
-                                    for likerRank in 0...likersLeaderboard.count-1 {
-                                        topLikers.append(likersLeaderboard[likerRank].liker)
+                if user?["profileIm"] != nil{
+                    profilePicFile = user?["profileIm"] as! AVFile
+                    profilePicFile.getDataInBackground { (data:Data?, error:Error?) in
+                        if error==nil{
+                            posterProfileImageView.image = UIImage(data:data!)
+                            
+                            /*--------------------Post image query--------------------*/
+                            var postImageFile = self.postObject["Image"] as! AVFile
+                            postImageFile.getDataInBackground { (data:Data?, error:Error?) in
+                                if error==nil{
+                                    self.postImage.image = UIImage(data:data!)
+                                    
+                                    /*--------------------Top 10 Liker's profile image query--------------------*/
+                                    //Likers Leaderboard
+                                    //Getting all likers and likes
+                                    let dictionaryOfLikers = self.postObject["likedBy"] as? NSMutableDictionary
+                                    var likersLeaderboard = [LikerLikesPair]()
+                                    for pair in dictionaryOfLikers!{
+                                        let pairOfLikerLikes = LikerLikesPair()
+                                        pairOfLikerLikes.liker = pair.key as! String
+                                        pairOfLikerLikes.likes = pair.value as! Int
+                                        likersLeaderboard.append(pairOfLikerLikes)
                                     }
-                                }
-                                
-                                var top10LikerProfilePics = [UIImage]()
-                                for liker in topLikers{
-                                    let query = AVQuery(className: "_User")
-                                    query.whereKey("username", equalTo: liker)
-                                    query.getFirstObjectInBackground({ (result:AVObject?, error:Error?) in
-                                        if error == nil{
-                                            if result?["profileIm"] != nil{
-                                                let profileImgFile = result?["profileIm"] as? AVFile
-                                                profileImgFile?.getDataInBackground({ (data:Data?, error:Error?) in
-                                                    top10LikerProfilePics.append(UIImage(data: data!)!)
-                                                    
-                                                })
+                                    //Sorting by likes
+                                    likersLeaderboard.sort(by: { $0.likes > $1.likes })
+                                    
+                                    //getting top 10 likers
+                                    var topLikers = [String]()
+                                    if likersLeaderboard.count>0{
+                                        for likerRank in 0...likersLeaderboard.count-1 {
+                                            topLikers.append(likersLeaderboard[likerRank].liker)
+                                        }
+                                    }
+                                    
+                                    var top10LikerProfilePics = [UIImage]()
+                                    var myGroup = DispatchGroup()
+                                    
+                                    for liker in topLikers{
+                                        myGroup.enter()
+                                        
+                                        let query = AVQuery(className: "_User")
+                                        query.whereKey("username", equalTo: liker)
+                                        query.getFirstObjectInBackground({ (result:AVObject?, error:Error?) in
+                                            if error == nil{
+                                                if result?["profileIm"] != nil{
+                                                    let profileImgFile = result?["profileIm"] as? AVFile
+                                                    profileImgFile?.getDataInBackground({ (data:Data?, error:Error?) in
+                                                        print("Loaded a user profile pic")
+                                                        myGroup.leave()
+                                                        top10LikerProfilePics.append(UIImage(data: data!)!)
+                                                        
+                                                    })
+                                                }else{
+                                                    //no profile image
+                                                    top10LikerProfilePics.append(#imageLiteral(resourceName: "gray.png"))
+                                                }
                                             }else{
-                                                //no profile image
-                                                top10LikerProfilePics.append(#imageLiteral(resourceName: "gray.png"))
+                                                print(error?.localizedDescription)
+                                                
                                             }
-                                        }else{
-                                            print(error?.localizedDescription)
+                                        })
+                                    }
+                                    
+                                    //sets images after data requests are finished
+                                    myGroup.notify(queue: .main, execute: {
+                                        //hide crown if no likers
+                                        if top10LikerProfilePics.count != 0{
+                                            self.crownImg.alpha = 1
+                                        }
+                                        
+                                        //if less than 10 likers, append clear images
+                                        if top10LikerProfilePics.count<10{
+                                            print(top10LikerProfilePics.count)
+                                            
+                                            for _ in 1...10-top10LikerProfilePics.count{
+                                                top10LikerProfilePics.append(#imageLiteral(resourceName: "clearImg"))
+                                                
+                                            }
                                             
                                         }
-                                    })
-                                }
-                                //if less than 10 likers, append clear images
-                                if top10LikerProfilePics.count<10{
-                                    print(top10LikerProfilePics.count)
-                                    
-                                    for _ in 1...10-top10LikerProfilePics.count{
-                                        top10LikerProfilePics.append(#imageLiteral(resourceName: "clearImg"))
                                         
-                                    }
+                                        //setting the profile pics for profile buttons
+                                        self.liker1.setBackgroundImage(top10LikerProfilePics[0], for: .normal)
+                                        self.liker2.setBackgroundImage(top10LikerProfilePics[1], for: .normal)
+                                        self.liker3.setBackgroundImage(top10LikerProfilePics[2], for: .normal)
+                                        self.liker4.setBackgroundImage(top10LikerProfilePics[3], for: .normal)
+                                        self.liker5.setBackgroundImage(top10LikerProfilePics[4], for: .normal)
+                                        self.liker6.setBackgroundImage(top10LikerProfilePics[5], for: .normal)
+                                        self.liker7.setBackgroundImage(top10LikerProfilePics[6], for: .normal)
+                                        self.liker8.setBackgroundImage(top10LikerProfilePics[7], for: .normal)
+                                        self.liker9.setBackgroundImage(top10LikerProfilePics[8], for: .normal)
+                                        self.liker10.setBackgroundImage(top10LikerProfilePics[9], for: .normal)
+                                        
+                                        for button in self.likerCollection{
+                                            button.layer.masksToBounds = true
+                                            button.layer.cornerRadius = button.frame.size.width/2
+                                            button.contentMode = .scaleAspectFill
+                                        }
+                                    })
                                     
+                                    /*--------------------Top 10 Liker's profile image query--------------------*/
+                                    
+                                }else{
+                                    print(error.debugDescription)
                                 }
-                                
-                                print(top10LikerProfilePics.count)
-                                
-                                //setting the profile pics for profile buttons
-                                self.liker1.setImage(top10LikerProfilePics[0], for: .normal)
-                                self.liker2.setImage(top10LikerProfilePics[1], for: .normal)
-                                self.liker3.setImage(top10LikerProfilePics[2], for: .normal)
-                                self.liker4.setImage(top10LikerProfilePics[3], for: .normal)
-                                self.liker5.setImage(top10LikerProfilePics[4], for: .normal)
-                                self.liker6.setImage(top10LikerProfilePics[5], for: .normal)
-                                self.liker7.setImage(top10LikerProfilePics[6], for: .normal)
-                                self.liker8.setImage(top10LikerProfilePics[7], for: .normal)
-                                self.liker9.setImage(top10LikerProfilePics[8], for: .normal)
-                                self.liker10.setImage(top10LikerProfilePics[9], for: .normal)
-                                
-                                //king of the likes profile pic
-                                self.kingOfTheLikesProfilePic.image = top10LikerProfilePics[0]
-                                
-                                /*--------------------Top 10 Liker's profile image query--------------------*/
-                                
-                            }else{
-                                print(error.debugDescription)
                             }
+                            /*--------------------Post image query--------------------*/
+                        }else{
+                            print(error.debugDescription)
                         }
-                        /*--------------------Post image query--------------------*/
-                    }else{
-                        print(error.debugDescription)
                     }
+                    /*--------------------Poster's profile image query--------------------*/
+                }else{
+                    print(error.debugDescription)
                 }
-                /*--------------------Poster's profile image query--------------------*/
             }else{
-                print(error.debugDescription)
+                posterProfileImageView.image = #imageLiteral(resourceName: "gray")
             }
             /*--------------------Poster's profile  query--------------------*/
         }
         
-        //poster details
-        self.posterUsername.text = postObject["addedBy"] as? String
-        self.posterProfileImage.layer.masksToBounds = true
-        self.posterProfileImage.layer.cornerRadius = self.posterProfileImage.frame.size.width/2
-        self.posterProfileImage.contentMode = .scaleAspectFill
-        self.postDate.text = postObject["date"] as? String
-        var tagsLabelText = ""
-        if postObject["tags"] != nil{
-            let tags = postObject["tags"] as? Array<String>
-            var tagNumber = 0
-            for tag in tags!{
-                tagNumber+=1
-                if tagNumber != 5{
-                    //if not last tag add tag with 5 spaces after it
-                    tagsLabelText+="\(tag)     "
-                }else{
-                    tagsLabelText+=tag
-                }
-            }
-            self.tagsLabel.text = tagsLabelText
-        }
+        
+        
         
         self.postLikes.text = String(describing: postObject["Likes"] as! Int)
         self.captionView.text = postObject["Caption"] as? String

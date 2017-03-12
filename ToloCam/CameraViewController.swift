@@ -123,11 +123,11 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
         imagePicker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
         imagePicker.allowsEditing = true
-        imagePicker.navigationItem.title = "照片"
-        imagePicker.navigationBar.titleTextAttributes = [
-            NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
-            NSFontAttributeName : UIFont(name: "PingFangSC-Medium", size: 20)! // Note the !
-        ]
+//        imagePicker.navigationItem.title = "照片"
+//        imagePicker.navigationBar.titleTextAttributes = [
+//            NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
+//            NSFontAttributeName : UIFont(name: "PingFangSC-Medium", size: 20)! // Note the !
+//        ]
         
         self.present(imagePicker, animated: true, completion: nil)
     }
@@ -182,10 +182,10 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        viewController.navigationItem.title = "照片"
-        viewController.navigationController?.navigationBar.barTintColor = UIColor(red: 35/255, green: 35/255, blue: 35/255, alpha: 1)
-        viewController.navigationController?.navigationBar.isTranslucent = false
-        viewController.view.backgroundColor = UIColor(red: 35/255, green: 35/255, blue: 35/255, alpha: 1)
+//        viewController.navigationItem.title = "照片"
+//        viewController.navigationController?.navigationBar.barTintColor = UIColor(red: 35/255, green: 35/255, blue: 35/255, alpha: 1)
+//        viewController.navigationController?.navigationBar.isTranslucent = false
+//        viewController.view.backgroundColor = UIColor(red: 35/255, green: 35/255, blue: 35/255, alpha: 1)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {

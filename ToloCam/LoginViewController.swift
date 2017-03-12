@@ -40,6 +40,9 @@ class LoginViewController: UIViewController {
         //setting input text style
         self.usernameField.font = UIFont(name: "PingFangSC-Light", size: 22)
         self.passwordField.font = UIFont(name: "PingFangSC-Light", size: 22)
+        //cursor color
+        self.usernameField.tintColor = UIColor.white
+        self.passwordField.tintColor = UIColor.white
     }
     
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
@@ -70,8 +73,17 @@ class LoginViewController: UIViewController {
                 let vc = TabBarInitializer.getTabBarController()
                 self.present(vc, animated: true, completion: nil)
             }else{
-                //error messages, translate error messages~
-                let alertController = UIAlertController(title: "Error", message: error!.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
+                var alertController = UIAlertController()
+                switch error!.localizedDescription{
+                case "The username and password mismatch.":
+                    alertController = UIAlertController(title: "错误", message: "密码不正确", preferredStyle: UIAlertControllerStyle.alert)
+                case "Could not find user":
+                    alertController = UIAlertController(title: "错误", message: "用户不存在", preferredStyle: UIAlertControllerStyle.alert)
+                default:
+                    alertController = UIAlertController(title: "错误", message: "未知错误", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                }
+                print(error!.localizedDescription)
                 alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
                 self.present(alertController, animated: true, completion: nil)
                 

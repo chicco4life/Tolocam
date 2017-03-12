@@ -235,7 +235,9 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
 
     @IBAction func tappedSettings(_ sender: Any) {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "settingsVC") as! SettingsTableViewController
-        vc.tempProfilePic = self.profileImage.image!
+        if self.profileImage.image != nil{
+            vc.tempProfilePic = self.profileImage.image!
+        }
         self.navigationController?.pushViewController(vc, animated: true)
     }
  

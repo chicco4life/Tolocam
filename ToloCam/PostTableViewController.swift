@@ -31,6 +31,8 @@ class PostTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: 1))
+        
         NotificationCenter.default.addObserver(self, selector: #selector(PostTableViewController.__refreshPulled), name: NSNotification.Name(rawValue: "PostVCRefresh"), object: nil)
         
         self.refreshControl = UIRefreshControl()
@@ -114,10 +116,9 @@ class PostTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.row == 0 {
-            let test=UILabel(frame: CGRect(x: tableView.contentSize.width/2, y: tableView.contentSize.height+180, width: tableView.frame.width, height: 50))
-            test.text="That's all"
-            test.backgroundColor = UIColor.blue
-            self.view.insertSubview(test, belowSubview: tableView)
+            let thatsAll = UIImageView(image: #imageLiteral(resourceName: "thatsAll"))
+            thatsAll.frame = CGRect(x: 0, y: self.tableView.contentSize.height+10, width: self.view.frame.width, height: self.view.frame.width*0.1208)
+            self.view.insertSubview(thatsAll, belowSubview: tableView)
 //            tableView.addSubview(test)
             print(self.tableView.contentSize.height)
             

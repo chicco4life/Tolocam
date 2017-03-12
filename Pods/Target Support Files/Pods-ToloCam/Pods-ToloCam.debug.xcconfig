@@ -1,11 +1,9 @@
-ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
-EMBEDDED_CONTENT_CONTAINS_SWIFT = YES
-FRAMEWORK_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/AVOSCloud" "$PODS_CONFIGURATION_BUILD_DIR/AVOSCloudCrashReporting" "$PODS_CONFIGURATION_BUILD_DIR/AVOSCloudIM" "$PODS_CONFIGURATION_BUILD_DIR/Alamofire" "$PODS_CONFIGURATION_BUILD_DIR/JSQMessagesViewController" "$PODS_CONFIGURATION_BUILD_DIR/JSQSystemSoundPlayer" "$PODS_CONFIGURATION_BUILD_DIR/LeanCloud" "$PODS_CONFIGURATION_BUILD_DIR/PubNub"
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO
+FRAMEWORK_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/AVOSCloud" "$PODS_CONFIGURATION_BUILD_DIR/AVOSCloudCrashReporting" "$PODS_CONFIGURATION_BUILD_DIR/AVOSCloudIM" "$PODS_CONFIGURATION_BUILD_DIR/JSQMessagesViewController" "$PODS_CONFIGURATION_BUILD_DIR/JSQSystemSoundPlayer" "$PODS_CONFIGURATION_BUILD_DIR/PubNub"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_CFLAGS = $(inherited) -iquote "$PODS_CONFIGURATION_BUILD_DIR/AVOSCloud/AVOSCloud.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/AVOSCloudCrashReporting/AVOSCloudCrashReporting.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/AVOSCloudIM/AVOSCloudIM.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/Alamofire/Alamofire.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/JSQMessagesViewController/JSQMessagesViewController.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/JSQSystemSoundPlayer/JSQSystemSoundPlayer.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/LeanCloud/LeanCloud.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/PubNub/PubNub.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -ObjC -framework "AVOSCloud" -framework "AVOSCloudCrashReporting" -framework "AVOSCloudIM" -framework "Alamofire" -framework "JSQMessagesViewController" -framework "JSQSystemSoundPlayer" -framework "LeanCloud" -framework "PubNub"
-OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
+OTHER_CFLAGS = $(inherited) -iquote "$PODS_CONFIGURATION_BUILD_DIR/AVOSCloud/AVOSCloud.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/AVOSCloudCrashReporting/AVOSCloudCrashReporting.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/AVOSCloudIM/AVOSCloudIM.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/JSQMessagesViewController/JSQMessagesViewController.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/JSQSystemSoundPlayer/JSQSystemSoundPlayer.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/PubNub/PubNub.framework/Headers"
+OTHER_LDFLAGS = $(inherited) -ObjC -framework "AVOSCloud" -framework "AVOSCloudCrashReporting" -framework "AVOSCloudIM" -framework "JSQMessagesViewController" -framework "JSQSystemSoundPlayer" -framework "PubNub"
 PODS_BUILD_DIR = $BUILD_DIR
 PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_ROOT = ${SRCROOT}/Pods

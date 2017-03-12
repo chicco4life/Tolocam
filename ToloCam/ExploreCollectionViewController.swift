@@ -29,9 +29,13 @@ extension MutableCollection where Indices.Iterator.Element == Index {
     }
 }
 
-class ExploreCollectionViewController: UICollectionViewController,UIViewControllerPreviewingDelegate {
+class ExploreCollectionViewController: UICollectionViewController {
 
-    var imageFiles = [AVFile]()
+    var postImages = [AVFile]()
+    var postObjects = [AVObject]()
+    
+    var objectImagePair = [(AVObject, AVFile)]()
+    
     let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
@@ -67,9 +71,6 @@ class ExploreCollectionViewController: UICollectionViewController,UIViewControll
 //        _ = UICollectionView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight), collectionViewLayout: layout)
         
         print("collectionviewdidload is called")
-        if (traitCollection.forceTouchCapability == .available){
-            registerForPreviewing(with: self, sourceView: view)
-        }
         
         __loadData()
     }
@@ -84,17 +85,6 @@ class ExploreCollectionViewController: UICollectionViewController,UIViewControll
         self.refreshControl.endRefreshing()
     }
     
-    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
-    }
-    
-    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        
-        guard let indexPath = collectionView?.indexPathForItem(at: location) else {return nil}
-        guard (collectionView?.cellForItem(at: indexPath)) != nil else {return nil}
-        //        guard let detailVC = storyboard?.instantiateViewControllerWithIdentifier("PostDetailVC") as? PostDetailViewController else {return nil}
-        return self
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         print("hey there")
         
@@ -106,7 +96,7 @@ class ExploreCollectionViewController: UICollectionViewController,UIViewControll
     }
     
     func __loadData(){
-        self.imageFiles = []
+        self.postImages = []
         let query = AVQuery(className: "Posts")
         query.addDescendingOrder("likes")
         query.findObjectsInBackground({ (results, error) in
@@ -116,12 +106,14 @@ class ExploreCollectionViewController: UICollectionViewController,UIViewControll
                         if  post["Image"] == nil{
                             print("    CHECK THIS LOL NIL )")
                         }else{
-                            print("    CHECK THIS LOL \(post["Image"])")
-                            let imageToLoad = post["Image"]! as! AVFile
-                            self.imageFiles.append(imageToLoad)
+                            self.postImages.append(post["Image"] as! AVFile)
+                            self.postObjects.append(post)
+                            
+                            self.objectImagePair.append((post,post["Image"] as! AVFile))
                         }
                     }
-                    self.imageFiles.shuffle()
+                    self.postImages.shuffle()
+                    self.objectImagePair.shuffle()
                     self.collectionView?.reloadData()
                 }
             } else {
@@ -136,22 +128,34 @@ class ExploreCollectionViewController: UICollectionViewController,UIViewControll
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.imageFiles.count
+        return self.postImages.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: "exploreCollectionViewCell", for: indexPath) as! ExploreCollectionViewCell
-        let imageFile = self.imageFiles[indexPath.row]
-        imageFile.getDataInBackground({ (data:Data?, error:Error?) in
-            if error == nil{
-                cell.imageToShow.image = UIImage(data: data!)!
+
+        let object = self.objectImagePair[indexPath.row].0
+        cell.postObject = object
+        
+        let file = self.objectImagePair[indexPath.row].1
+        file.getDataInBackground { (data:Data?, error:Error?) in
+            if error==nil{
+                cell.imageToShow.image = UIImage(data: data!)
             }else{
-                print(error!)
+                print(error!.localizedDescription)
             }
-        }) { (progress) in
-            //progress
         }
+        
         return cell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = self.collectionView?.cellForItem(at: indexPath) as! ExploreCollectionViewCell
+        let object = cell.postObject
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "postDetailVC") as! PostDetailViewController
+        vc.postObject = object
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     /*override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
