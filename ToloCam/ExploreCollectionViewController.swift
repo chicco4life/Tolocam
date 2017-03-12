@@ -30,9 +30,6 @@ extension MutableCollection where Indices.Iterator.Element == Index {
 }
 
 class ExploreCollectionViewController: UICollectionViewController {
-
-    var postImages = [AVFile]()
-    var postObjects = [AVObject]()
     
     var objectImagePair = [(AVObject, AVFile)]()
     
@@ -96,7 +93,7 @@ class ExploreCollectionViewController: UICollectionViewController {
     }
     
     func __loadData(){
-        self.postImages = []
+        self.objectImagePair = []
         let query = AVQuery(className: "Posts")
         query.addDescendingOrder("likes")
         query.findObjectsInBackground({ (results, error) in
@@ -106,13 +103,9 @@ class ExploreCollectionViewController: UICollectionViewController {
                         if  post["Image"] == nil{
                             print("    CHECK THIS LOL NIL )")
                         }else{
-                            self.postImages.append(post["Image"] as! AVFile)
-                            self.postObjects.append(post)
-                            
                             self.objectImagePair.append((post,post["Image"] as! AVFile))
                         }
                     }
-                    self.postImages.shuffle()
                     self.objectImagePair.shuffle()
                     self.collectionView?.reloadData()
                 }
@@ -128,7 +121,7 @@ class ExploreCollectionViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.postImages.count
+        return self.objectImagePair.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

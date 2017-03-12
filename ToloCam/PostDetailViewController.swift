@@ -23,23 +23,10 @@ class PostDetailViewController: UIViewController {
     @IBOutlet weak var crownImg: UIImageView!
     
     @IBOutlet var tagCollection: [UIButton]!
-    @IBOutlet weak var fourthTagLeading: NSLayoutConstraint!
-    @IBOutlet weak var fourthTagTop: NSLayoutConstraint!
-    @IBOutlet weak var fifthTagLeading: NSLayoutConstraint!
-    @IBOutlet weak var fifthTagTop: NSLayoutConstraint!
     
+    @IBOutlet weak var captionViewTop: NSLayoutConstraint!
     
     @IBOutlet var likerCollection: [UIButton]!
-    @IBOutlet weak var liker1: UIButton!
-    @IBOutlet weak var liker2: UIButton!
-    @IBOutlet weak var liker3: UIButton!
-    @IBOutlet weak var liker4: UIButton!
-    @IBOutlet weak var liker5: UIButton!
-    @IBOutlet weak var liker6: UIButton!
-    @IBOutlet weak var liker7: UIButton!
-    @IBOutlet weak var liker8: UIButton!
-    @IBOutlet weak var liker9: UIButton!
-    @IBOutlet weak var liker10: UIButton!
     
     @IBOutlet weak var contentViewHeight: NSLayoutConstraint!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -48,18 +35,78 @@ class PostDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if tagCollection[0].frame.width+tagCollection[1].frame.width+tagCollection[2].frame.width+tagCollection[3].frame.width < self.view.frame.width-30{
-            fourthTagLeading = NSLayoutConstraint(item: tagCollection[3], attribute: .leading, relatedBy: .equal, toItem: tagCollection[2], attribute: .trailing, multiplier: 1, constant: 18)
-            fourthTagTop = NSLayoutConstraint(item: tagCollection[3], attribute: .top, relatedBy: .equal, toItem: tagCollection[2], attribute: .top, multiplier: 1, constant: 0)
+        if postObject["tags"] != nil{
+            let tagArray = postObject["tags"] as! [String]
+            for i in 0...tagArray.count-1{
+                self.tagCollection[i].setTitle(tagArray[i], for: .normal)
+                self.tagCollection[i].sizeToFit()
+            }
+        }
+        
+        self.postLikes.text = String(describing: postObject["Likes"] as! Int)
+        self.captionView.text = postObject["Caption"] as? String
+        
+        tagCollection[3].translatesAutoresizingMaskIntoConstraints = false
+        tagCollection[4].translatesAutoresizingMaskIntoConstraints = false
+        
+        var fourthTagIsOnFirstLine = false
+
+        //if the fourth tag's width + the previous 3 tags' width is smaller than superview's width minus all spacing in between, don't put tag on second line
+        if tagCollection[0].frame.width+tagCollection[1].frame.width+tagCollection[2].frame.width+tagCollection[3].frame.width < self.view.frame.width-84{
+            let fourthTagLeading = NSLayoutConstraint(item: tagCollection[3], attribute: .leading, relatedBy: .equal, toItem: tagCollection[2], attribute: .trailing, multiplier: 1, constant: 18)
+            self.view.addConstraint(fourthTagLeading)
+            let fourthTagTop = NSLayoutConstraint(item: tagCollection[3], attribute: .top, relatedBy: .equal, toItem: tagCollection[2], attribute: .top, multiplier: 1, constant: 0)
+            self.view.addConstraint(fourthTagTop)
+            
+            fourthTagIsOnFirstLine = true
+            captionViewTop.constant = 13
+        }else{
+            //if the first 4 tags are longer than view.width, move to second line
+            let fourthTagLeading = NSLayoutConstraint(item: tagCollection[3], attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 15)
+            self.view.addConstraint(fourthTagLeading)
+            let fourthTagTop = NSLayoutConstraint(item: tagCollection[3], attribute: .top, relatedBy: .equal, toItem: tagCollection[2], attribute: .bottom, multiplier: 1, constant: 0)
+            self.view.addConstraint(fourthTagTop)
+            //set caption view's y position to 13pt below lowest tag
+            captionViewTop.constant = tagCollection[0].frame.height+13
+        }
+        
+        //if the fifth tag's width + the previous 4 tags' width is smaller than superview's width minus all spacing in between, don't put tag on second line
+        if tagCollection[0].frame.width+tagCollection[1].frame.width+tagCollection[2].frame.width+tagCollection[3].frame.width+tagCollection[4].frame.width < self.view.frame.width-102{
+            
+            print("tags width: ", tagCollection[0].frame.width+tagCollection[1].frame.width+tagCollection[2].frame.width+tagCollection[3].frame.width+tagCollection[4].frame.width)
+            
+            print("frame width: ", self.view.frame.width)
+            
+            let fifthTagLeading = NSLayoutConstraint(item: tagCollection[4], attribute: .leading, relatedBy: .equal, toItem: tagCollection[3], attribute: .trailing, multiplier: 1, constant: 18)
+            self.view.addConstraint(fifthTagLeading)
+            let fifthTagTop = NSLayoutConstraint(item: tagCollection[4], attribute: .top, relatedBy: .equal, toItem: tagCollection[3], attribute: .top, multiplier: 1, constant: 0)
+            self.view.addConstraint(fifthTagTop)
+        }else if fourthTagIsOnFirstLine == true{
+            //if fourth tag is one first line, move fith to second line's first spot
+            let fifthTagLeading = NSLayoutConstraint(item: tagCollection[4], attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 15)
+            self.view.addConstraint(fifthTagLeading)
+            let fifthTagTop = NSLayoutConstraint(item: tagCollection[4], attribute: .top, relatedBy: .equal, toItem: tagCollection[2], attribute: .bottom, multiplier: 1, constant: 0)
+            self.view.addConstraint(fifthTagTop)
+        }else if fourthTagIsOnFirstLine == false{
+            //if fifth tag is already on second line, move to behind fourth tag
+            let fifthTagLeading = NSLayoutConstraint(item: tagCollection[4], attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 18)
+            self.view.addConstraint(fifthTagLeading)
+            let fifthTagTop = NSLayoutConstraint(item: tagCollection[4], attribute: .top, relatedBy: .equal, toItem: tagCollection[3], attribute: .top, multiplier: 1, constant: 0)
+            self.view.addConstraint(fifthTagTop)
+        }
+        
+        if postObject["tags"] == nil{
+            //if no tags captionView replaces tags' spot
+            captionViewTop.constant = 0-tagCollection[0].frame.height
         }
         
         
         //title view config
-        var titleView = UIView()
+        let titleView = UIView()
         titleView.frame.size.height = 37
         self.navigationItem.titleView = titleView
         
-        var posterProfileImageView = UIImageView(image: #imageLiteral(resourceName: "gray"))
+        let posterProfileImageView = UIImageView(image: #imageLiteral(resourceName: "gray"))
         posterProfileImageView.frame.size.height = 36
         posterProfileImageView.frame.size.width = 36
         posterProfileImageView.layer.masksToBounds = true
@@ -76,7 +123,7 @@ class PostDetailViewController: UIViewController {
         let posterProfImageBottomConstraint = NSLayoutConstraint(item: posterProfileImageView, attribute: .bottom, relatedBy: .equal, toItem: titleView, attribute: .bottom, multiplier: 1, constant: 0)
         titleView.addConstraint(posterProfImageBottomConstraint)
         
-        var postDateLabel = UILabel()
+        let postDateLabel = UILabel()
         postDateLabel.translatesAutoresizingMaskIntoConstraints = false
         titleView.addSubview(postDateLabel)
         let postDateLabelAttributes = [
@@ -92,7 +139,7 @@ class PostDetailViewController: UIViewController {
         let postDateLabelBottomConstraint = NSLayoutConstraint(item: postDateLabel, attribute: .bottom, relatedBy: .equal, toItem: titleView, attribute: .bottom, multiplier: 1, constant: 0)
         titleView.addConstraint(postDateLabelBottomConstraint)
         
-        var posterNameLabel = UILabel()
+        let posterNameLabel = UILabel()
         posterNameLabel.translatesAutoresizingMaskIntoConstraints = false
         titleView.addSubview(posterNameLabel)
         let attributes = [
@@ -132,7 +179,7 @@ class PostDetailViewController: UIViewController {
                             posterProfileImageView.image = UIImage(data:data!)
                             
                             /*--------------------Post image query--------------------*/
-                            var postImageFile = self.postObject["Image"] as! AVFile
+                            let postImageFile = self.postObject["Image"] as! AVFile
                             postImageFile.getDataInBackground { (data:Data?, error:Error?) in
                                 if error==nil{
                                     self.postImage.image = UIImage(data:data!)
@@ -160,7 +207,7 @@ class PostDetailViewController: UIViewController {
                                     }
                                     
                                     var top10LikerProfilePics = [UIImage]()
-                                    var myGroup = DispatchGroup()
+                                    let myGroup = DispatchGroup()
                                     
                                     for liker in topLikers{
                                         myGroup.enter()
@@ -182,7 +229,7 @@ class PostDetailViewController: UIViewController {
                                                     top10LikerProfilePics.append(#imageLiteral(resourceName: "gray.png"))
                                                 }
                                             }else{
-                                                print(error?.localizedDescription)
+                                                print(error!.localizedDescription)
                                                 
                                             }
                                         })
@@ -207,16 +254,9 @@ class PostDetailViewController: UIViewController {
                                         }
                                         
                                         //setting the profile pics for profile buttons
-                                        self.liker1.setBackgroundImage(top10LikerProfilePics[0], for: .normal)
-                                        self.liker2.setBackgroundImage(top10LikerProfilePics[1], for: .normal)
-                                        self.liker3.setBackgroundImage(top10LikerProfilePics[2], for: .normal)
-                                        self.liker4.setBackgroundImage(top10LikerProfilePics[3], for: .normal)
-                                        self.liker5.setBackgroundImage(top10LikerProfilePics[4], for: .normal)
-                                        self.liker6.setBackgroundImage(top10LikerProfilePics[5], for: .normal)
-                                        self.liker7.setBackgroundImage(top10LikerProfilePics[6], for: .normal)
-                                        self.liker8.setBackgroundImage(top10LikerProfilePics[7], for: .normal)
-                                        self.liker9.setBackgroundImage(top10LikerProfilePics[8], for: .normal)
-                                        self.liker10.setBackgroundImage(top10LikerProfilePics[9], for: .normal)
+                                        for i in 0...9{
+                                            self.likerCollection[i].setBackgroundImage(top10LikerProfilePics[i], for: .normal)
+                                        }
                                         
                                         for button in self.likerCollection{
                                             button.layer.masksToBounds = true
@@ -245,12 +285,6 @@ class PostDetailViewController: UIViewController {
             }
             /*--------------------Poster's profile  query--------------------*/
         }
-        
-        
-        
-        
-        self.postLikes.text = String(describing: postObject["Likes"] as! Int)
-        self.captionView.text = postObject["Caption"] as? String
     }
     
     override func viewDidAppear(_ animated: Bool) {
