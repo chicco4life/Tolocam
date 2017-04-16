@@ -13,7 +13,7 @@ import UIKit
 import AVFoundation
 import AVOSCloud
 
-class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, ImageCropViewControllerDelegate {
+class CameraViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
     
     var captureSession : AVCaptureSession?
     var stillImageOutput : AVCaptureStillImageOutput?
@@ -37,6 +37,20 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         self.view.backgroundColor = UIColor(red: 35/255, green: 35/255, blue: 35/255, alpha: 1)
         self.view.isOpaque = false
+        
+//        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+//            
+//            let picker = UIImagePickerController()
+//            picker.delegate = self
+//            picker.allowsEditing = true;  //是否可编辑
+//            //摄像头
+//            picker.sourceType = UIImagePickerControllerSourceType.camera
+//            self.present(picker, animated: true, completion: nil)
+//        }else{
+//            //如果没有提示用户
+////            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"你没有摄像头" delegate:nil cancelButtonTitle:@"Drat!" otherButtonTitles:nil];
+////            [alert show];
+//        }
         
         captureSession = AVCaptureSession()
         
@@ -64,25 +78,18 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
             
             stillImageOutput = AVCaptureStillImageOutput()
             stillImageOutput?.outputSettings = [AVVideoCodecKey : AVVideoCodecJPEG]
-            
-            
-            
+
             if (captureSession?.canAddOutput(stillImageOutput) != nil){
                 captureSession?.addOutput(stillImageOutput)
                 
                 previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
                 
-                
-                
                 previewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
-                
                 
                 previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.portrait
                 cameraView.layer.addSublayer(previewLayer!)
                 captureSession?.startRunning()
-                
-                
-                
+                 
             }
             
             
@@ -156,10 +163,11 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                 
                 self.imageCaptured = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.right)
                 
-                let controller = ImageCropViewController.init(image: self.imageCaptured)
-                controller?.delegate = self
-                controller?.blurredBackground = true
-                self.navigationController?.pushViewController(controller!, animated: true)
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+                imagePicker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
+                imagePicker.allowsEditing = true
                 
                 print("passing image view")
                 

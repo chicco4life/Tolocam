@@ -8,14 +8,18 @@
 
 import UIKit
 import AVOSCloud
+import AVOSCloudIM
+import AVOSCloudCrashReporting
 import PubNub
 import JSQMessagesViewController
 
-class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVIMClientDelegate{
     
     var count = 0
 
     let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+    var client = AVIMClient(clientId: (AVUser.current()?.objectId)!)
+    var conversation = AVIMConversation()
     var username = String()
     var otherUser = AVUser()
     var currentChannel = String()
@@ -30,6 +34,8 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let query = self.client.conversationQuery()
         
         let attributes = [
             NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
@@ -47,36 +53,21 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
         self.refreshControl.isUserInteractionEnabled = true
         self.collectionView?.alwaysBounceVertical = true
         
-        self.appDelegate.client?.historyForChannel(currentChannel, start: nil, end: nil, limit: 20, withCompletion: { (result:PNHistoryResult?, error:PNErrorStatus?) in
-            if error == nil{
-                //load a bit of history on initialization of chatVC
-                
-                let arrayOfMessageArrays = result?.data.messages as! [[Any]]
-                //store time stamp of first message
-                if arrayOfMessageArrays.count>0{
-                    self.firstMessageTimeStamp = result!.data.start
+        self.client.delegate = self
+        self.client.open { (done:Bool, error:Error?) in
+            let query = self.client.conversationQuery()
+            query.whereKey("c", equalTo: AVUser.current()!.objectId!)
+            query.whereKey("name", equalTo: self.otherUser.objectId!)
+            query.findConversations(callback: { (results:[Any]?, error:Error?) in
+                if results?.count != 0{
+                    self.conversation = results?[0] as! AVIMConversation
+                }else{
+                    self.client.createConversation(withName: self.otherUser.objectId!, clientIds: [], callback: { (conversation:AVIMConversation?, error:Error?) in
+                        self.conversation = conversation!
+                    })
                 }
-                for oneMessage in arrayOfMessageArrays{
-                    if  oneMessage[3] as! String == "img"{
-                        let data = NSData(base64Encoded: oneMessage[2] as! String, options: .ignoreUnknownCharacters)
-                        var image = UIImage(data: data as! Data)
-                        //display image
-                    }else{
-                        let senderObjID = oneMessage[0] as! String
-                        let senderName = oneMessage[1] as! String
-                        let theMessage = oneMessage[2] as! String
-                        self.addMessage(withId: senderObjID , name: senderName , text: theMessage)
-                    }
-
-                }
-                
-            }else{
-                print("error!!!!!!::::",error.debugDescription)
-                
-            }
-        })
-        
-        appDelegate.client?.addListener(self)
+            })
+        }
         
         if AVUser.current()?["profileIm"] != nil{
             let file = AVUser.current()?["profileIm"] as? AVFile
@@ -104,11 +95,36 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
         self.senderId = AVUser.current()?.objectId
         self.senderDisplayName = AVUser.current()?.username
         
+        //custom back button
+//        self.navigationItem.hidesBackButton = true
+//        let newBackButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ChatViewController.back(sender:)))
+//        self.navigationItem.leftBarButtonItem = newBackButton
+        
+    }
+    
+//    func back(sender: UIBarButtonItem) {
+//        self.conversation
+//        _ = navigationController?.popViewController(animated: true)
+//    }
+    
+    func __sendMessage(message:String){
+        self.conversation.send(AVIMTextMessage.init(text: message, attributes: nil), callback: { (sent:Bool, error:Error?) in
+            if !sent{
+                print(error!.localizedDescription)
+            }else{
+                self.addMessage(withId: (AVUser.current()?.objectId)!, name: (AVUser.current()?.username!)!, text: message)
+            }
+        })
+
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func conversation(_ conversation: AVIMConversation, didReceiveCommonMessage message: AVIMMessage) {
+        addMessage(withId: self.otherUser.objectId!, name: self.otherUser.username!, text: message.content!)
     }
     
     func client(_ client: PubNub, didReceiveMessage message: PNMessageResult) {
@@ -138,8 +154,9 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
     
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
         print("send")
-        let messageArray = [senderId,senderDisplayName,text,"notImg"]
-        appDelegate.client?.publish(messageArray, toChannel: self.currentChannel, withCompletion: nil)
+//        let messageArray = [senderId,senderDisplayName,text,"notImg"]
+//        appDelegate.client?.publish(messageArray, toChannel: self.currentChannel, withCompletion: nil)
+        __sendMessage(message: text)
         self.finishSendingMessage(animated: true)
         
         var chattingWithArray = manager.chattingWith

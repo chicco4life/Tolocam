@@ -7,10 +7,9 @@
 //
 
 import UIKit
-//import Parse
-//import Bolts
-//import ParseUI
 import AVOSCloud
+import AVOSCloudIM
+import AVOSCloudCrashReporting
 
 class OthersCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     @available(iOS 6.0, *)
@@ -55,10 +54,12 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var followerCount: UILabel!
     @IBOutlet weak var followingCount: UILabel!
+    @IBOutlet weak var chatBtn: UIButton!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.chatBtn.isHidden = true
         
         //nav bar title attributes
         let attributes = [
@@ -76,6 +77,7 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
         userQuery.getFirstObjectInBackground({ (result, error) in
             if error==nil{
                 self.currentProfilePageUser = result as! AVUser
+                self.chatBtn.isHidden=false
                 //use result of query here
                 
                 //query for follow
@@ -173,17 +175,18 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
         vc.username = ID
         vc.otherUser = self.currentProfilePageUser
         
-        //using object IDs to create a channel name
-        var array = [String]()
-        array.append((self.currentProfilePageUser.objectId)!)
-        array.append((AVUser.current()?.objectId)!)
-        array.sort()
+//        //using object IDs to create a channel name
+//        var array = [String]()
+//        array.append((self.currentProfilePageUser.objectId)!)
+//        array.append((AVUser.current()?.objectId)!)
+//        array.sort()
+//        
+//        let channelName = "\(array[0])-\(array[1])-channel"
+//        print(channelName)
+//        vc.currentChannel = channelName
+//
+//        appDelegate.client?.subscribeToChannels([channelName], withPresence: true)
         
-        let channelName = "\(array[0])-\(array[1])-channel"
-        print(channelName)
-        vc.currentChannel = channelName
-        
-        appDelegate.client?.subscribeToChannels([channelName], withPresence: true)
         self.navigationController!.pushViewController(vc, animated: true)
     }
     
@@ -263,51 +266,5 @@ class OthersCollectionViewController: UIViewController, UICollectionViewDelegate
             }
         }
     }
-    
-//    func didReceiveMemoryWarning() {
-//        super.didReceiveMemoryWarning()
-//        // Dispose of any resources that can be recreated.
-//    }
-    
-//    func collectionView(_ collectionView: UICollectionView!, numberOfItemsInSection section: Int!) -> Int!{
-//        if self.imageFiles.count > 0{
-//            return self.imageFiles.count
-//        }else{
-//            return 0
-//        }
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView!, cellForItemAt indexPath: IndexPath!) -> UICollectionViewCell! {
-//        
-//        let cell = self.othersCollectionView.dequeueReusableCell(withReuseIdentifier: "othersCell", for: indexPath) as! OthersCollectionViewCell
-//        
-//        cell.imageToShow.image = UIImage(named: "gray.png")
-//        let file = self.imageFiles[indexPath.row]
-//        file.getDataInBackground({ (data:Data?, error:Error?) in
-//            cell.imageToShow.image = UIImage(data: data!)
-//        }, progressBlock: { (progress:Int) in
-//            //progress is a value from 0~100
-//        })
-//
-//        cell.contentView.frame = cell.bounds
-//
-//        return cell
-//    }
-    
-    /*func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (UIScreen.main.bounds.size.width-4) / 3, height: (UIScreen.main.bounds.size.width-4) / 3)
-    }*/
-    
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }

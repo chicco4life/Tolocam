@@ -7,8 +7,6 @@
 //
 
 import UIKit
-//import Parse
-//import Bolts
 import Foundation
 import AVOSCloud
 

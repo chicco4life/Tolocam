@@ -11,6 +11,19 @@ import CoreData
 import PubNub
 import AVOSCloud
 
+extension UIImage {
+    func resizeImage(newWidth: CGFloat) -> UIImage {
+        
+        let scale = newWidth / self.size.width
+        let newHeight = self.size.height * scale
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
+        self.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    } }
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
 
@@ -31,6 +44,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
         
         if (AVUser.current() != nil){
             let vc = TabBarInitializer.getTabBarController()
+            var image = UIImage(named: "takePicture")
+//            image = image?.resizeImage(newWidth: 81)
+            DispatchQueue.main.async {
+                vc.addCenterButton(unselectedImage: image!, selectedImage: image!, target: self, action: #selector(self.__showCameraView), allowSwitch: true)
+            }
+            
             self.window!.rootViewController = vc
         }else{
             let vc = storyboard.instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
@@ -46,11 +65,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
         let notificationSettings: UIUserNotificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
         UIApplication.shared.registerUserNotificationSettings(notificationSettings)
         
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 1)
+//        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 1)
         
         UINavigationBar.appearance().tintColor = UIColor(red: 152/255, green: 152/255, blue: 152/255, alpha: 1)
         UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: "PingFangSC-Light", size: 17)!], for: .normal)
         return true
+    }
+    
+    func __showCameraView(){
+        if let rootViewController = window?.rootViewController {
+            let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "cameraController") as! CameraViewController
+            rootViewController.present(viewController, animated: true, completion: nil)
+        }
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {

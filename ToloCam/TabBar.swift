@@ -8,35 +8,36 @@
 
 import Foundation
 import UIKit
+import HELargeCenterTabBarController
 
 class TabBarInitializer {
-    static func getTabBarController() -> UITabBarController {
+    static func getTabBarController() -> HELargeCenterTabBarController {
         
         let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let tabBarController = UITabBarController()
+        let tabBarController = HELargeCenterTabBarController()
         let postsVC = storyboard.instantiateViewController(withIdentifier: "PostsNavigationController") as! UINavigationController
-        postsVC.tabBarItem.title = nil
-        postsVC.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
+        postsVC.tabBarItem.title = "关注"
+//        postsVC.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
         postsVC.tabBarItem.image = UIImage(named: "home")?.withRenderingMode(.alwaysOriginal)
         postsVC.tabBarItem.selectedImage = UIImage(named: "homesel")?.withRenderingMode(.alwaysOriginal)
         let cameraVC = storyboard.instantiateViewController(withIdentifier: "CameraNavigationController") as! UINavigationController
         cameraVC.tabBarItem.title = nil
-        cameraVC.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
-        cameraVC.tabBarItem.image = UIImage(named: "capture")?.withRenderingMode(.alwaysOriginal)
-        cameraVC.tabBarItem.selectedImage = UIImage(named: "capturesel")?.withRenderingMode(.alwaysOriginal)
+//        cameraVC.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
+//        cameraVC.tabBarItem.image = UIImage(named: "capture")?.withRenderingMode(.alwaysOriginal)
+//        cameraVC.tabBarItem.selectedImage = UIImage(named: "capturesel")?.withRenderingMode(.alwaysOriginal)
         let chatsVC = storyboard.instantiateViewController(withIdentifier: "ChatsNavigationController") as! UINavigationController
-        chatsVC.tabBarItem.title = nil
-        chatsVC.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
+        chatsVC.tabBarItem.title = "消息"
+//        chatsVC.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
         chatsVC.tabBarItem.image = UIImage(named: "chat")?.withRenderingMode(.alwaysOriginal)
         chatsVC.tabBarItem.selectedImage = UIImage(named: "chatsel")?.withRenderingMode(.alwaysOriginal)
         let exploreVC = storyboard.instantiateViewController(withIdentifier: "ExploreNavigationController") as! UINavigationController
-        exploreVC.tabBarItem.title = nil
-        exploreVC.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
+        exploreVC.tabBarItem.title = "发现"
+//        exploreVC.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
         exploreVC.tabBarItem.image = UIImage(named: "explore")?.withRenderingMode(.alwaysOriginal)
         exploreVC.tabBarItem.selectedImage = UIImage(named: "exploresel")?.withRenderingMode(.alwaysOriginal)
         let profileVC = storyboard.instantiateViewController(withIdentifier: "ProfileNavigationController") as! UINavigationController
-        profileVC.tabBarItem.title = nil
-        profileVC.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
+        profileVC.tabBarItem.title = "我的"
+//        profileVC.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
         profileVC.tabBarItem.image = UIImage(named: "profile")?.withRenderingMode(.alwaysOriginal)
         profileVC.tabBarItem.selectedImage = UIImage(named: "profilesel")?.withRenderingMode(.alwaysOriginal)
         

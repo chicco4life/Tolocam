@@ -18,28 +18,29 @@ PODS:
     - AVOSCloudIM/_NOARC (= 3.8.1)
   - AVOSCloudIM/_NOARC (3.8.1):
     - AVOSCloud (= 3.8.1)
+  - HELargeCenterTabBarController (2.0.0)
   - JSQMessagesViewController (7.3.4):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
-  - PubNub (4.5.9):
-    - PubNub/Core (= 4.5.9)
-  - PubNub/Core (4.5.9)
+  - RSKImageCropper (1.5.2)
 
 DEPENDENCIES:
   - AVOSCloud
   - AVOSCloudCrashReporting
   - AVOSCloudIM
+  - HELargeCenterTabBarController
   - JSQMessagesViewController
-  - PubNub (~> 4)
+  - RSKImageCropper
 
 SPEC CHECKSUMS:
   AVOSCloud: aa4b75bd7de2f62431ec7acbf357a25a66499427
   AVOSCloudCrashReporting: e4507d3d9eadb8aaf06dad51fd9401c9d54d5d87
   AVOSCloudIM: 5ce9c6d38dfb60347aecfa2666829d73335b4541
+  HELargeCenterTabBarController: 3186bdc15b76b3af2e5ca9918716e88f3f0ceb65
   JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
-  PubNub: fbcd3f98bced45b7d61de79cf3cd6822ee8c1858
+  RSKImageCropper: 27d0e7efa800b509720163c3561fe08a04853780
 
-PODFILE CHECKSUM: 717646f480bb5b225f1dd436c818027ef74612cc
+PODFILE CHECKSUM: 603b69f501879d3d729600b70771a7581d9772b0
 
 COCOAPODS: 1.1.1

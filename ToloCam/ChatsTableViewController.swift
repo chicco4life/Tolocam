@@ -118,7 +118,7 @@ class ChatsTableViewController: UITableViewController {
                 print(channelName)
                 vc.currentChannel = channelName
                 
-                self.appDelegate.client?.subscribeToChannels([channelName], withPresence: true)
+//                self.appDelegate.client?.subscribeToChannels([channelName], withPresence: true)
                 self.navigationController!.pushViewController(vc, animated: true)
             }else{
                 print(error.debugDescription)

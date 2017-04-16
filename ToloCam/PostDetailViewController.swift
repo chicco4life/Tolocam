@@ -22,6 +22,7 @@ class PostDetailViewController: UIViewController {
     @IBOutlet weak var captionView: UILabel!
     @IBOutlet weak var crownImg: UIImageView!
     
+    @IBOutlet weak var postActions: UIButton!
     @IBOutlet var tagCollection: [UIButton]!
     
     @IBOutlet weak var captionViewTop: NSLayoutConstraint!
@@ -34,6 +35,10 @@ class PostDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if (self.postObject["addedBy"] as! String) != AVUser.current()?.username{
+            self.postActions.isHidden == true
+        }
         
         if postObject["tags"] != nil{
             let tagArray = postObject["tags"] as! [String]
@@ -177,116 +182,151 @@ class PostDetailViewController: UIViewController {
                     profilePicFile.getDataInBackground { (data:Data?, error:Error?) in
                         if error==nil{
                             posterProfileImageView.image = UIImage(data:data!)
-                            
-                            /*--------------------Post image query--------------------*/
-                            let postImageFile = self.postObject["Image"] as! AVFile
-                            postImageFile.getDataInBackground { (data:Data?, error:Error?) in
-                                if error==nil{
-                                    self.postImage.image = UIImage(data:data!)
-                                    
-                                    /*--------------------Top 10 Liker's profile image query--------------------*/
-                                    //Likers Leaderboard
-                                    //Getting all likers and likes
-                                    let dictionaryOfLikers = self.postObject["likedBy"] as? NSMutableDictionary
-                                    var likersLeaderboard = [LikerLikesPair]()
-                                    for pair in dictionaryOfLikers!{
-                                        let pairOfLikerLikes = LikerLikesPair()
-                                        pairOfLikerLikes.liker = pair.key as! String
-                                        pairOfLikerLikes.likes = pair.value as! Int
-                                        likersLeaderboard.append(pairOfLikerLikes)
-                                    }
-                                    //Sorting by likes
-                                    likersLeaderboard.sort(by: { $0.likes > $1.likes })
-                                    
-                                    //getting top 10 likers
-                                    var topLikers = [String]()
-                                    if likersLeaderboard.count>0{
-                                        for likerRank in 0...likersLeaderboard.count-1 {
-                                            topLikers.append(likersLeaderboard[likerRank].liker)
-                                        }
-                                    }
-                                    
-                                    var top10LikerProfilePics = [UIImage]()
-                                    let myGroup = DispatchGroup()
-                                    
-                                    for liker in topLikers{
-                                        myGroup.enter()
-                                        
-                                        let query = AVQuery(className: "_User")
-                                        query.whereKey("username", equalTo: liker)
-                                        query.getFirstObjectInBackground({ (result:AVObject?, error:Error?) in
-                                            if error == nil{
-                                                if result?["profileIm"] != nil{
-                                                    let profileImgFile = result?["profileIm"] as? AVFile
-                                                    profileImgFile?.getDataInBackground({ (data:Data?, error:Error?) in
-                                                        print("Loaded a user profile pic")
-                                                        myGroup.leave()
-                                                        top10LikerProfilePics.append(UIImage(data: data!)!)
-                                                        
-                                                    })
-                                                }else{
-                                                    //no profile image
-                                                    top10LikerProfilePics.append(#imageLiteral(resourceName: "gray.png"))
-                                                }
-                                            }else{
-                                                print(error!.localizedDescription)
-                                                
-                                            }
-                                        })
-                                    }
-                                    
-                                    //sets images after data requests are finished
-                                    myGroup.notify(queue: .main, execute: {
-                                        //hide crown if no likers
-                                        if top10LikerProfilePics.count != 0{
-                                            self.crownImg.alpha = 1
-                                        }
-                                        
-                                        //if less than 10 likers, append clear images
-                                        if top10LikerProfilePics.count<10{
-                                            print(top10LikerProfilePics.count)
-                                            
-                                            for _ in 1...10-top10LikerProfilePics.count{
-                                                top10LikerProfilePics.append(#imageLiteral(resourceName: "clearImg"))
-                                                
-                                            }
-                                            
-                                        }
-                                        
-                                        //setting the profile pics for profile buttons
-                                        for i in 0...9{
-                                            self.likerCollection[i].setBackgroundImage(top10LikerProfilePics[i], for: .normal)
-                                        }
-                                        
-                                        for button in self.likerCollection{
-                                            button.layer.masksToBounds = true
-                                            button.layer.cornerRadius = button.frame.size.width/2
-                                            button.contentMode = .scaleAspectFill
-                                        }
-                                    })
-                                    
-                                    /*--------------------Top 10 Liker's profile image query--------------------*/
-                                    
-                                }else{
-                                    print(error.debugDescription)
-                                }
-                            }
-                            /*--------------------Post image query--------------------*/
+                            self.__getData()
                         }else{
                             print(error.debugDescription)
+                            self.__getData()
                         }
                     }
                     /*--------------------Poster's profile image query--------------------*/
                 }else{
                     print(error.debugDescription)
+                    self.__getData()
                 }
             }else{
                 posterProfileImageView.image = #imageLiteral(resourceName: "gray")
+                self.__getData()
             }
             /*--------------------Poster's profile  query--------------------*/
         }
     }
     
+    func __getData(){
+        /*--------------------Post image query--------------------*/
+        let postImageFile = self.postObject["Image"] as! AVFile
+        postImageFile.getDataInBackground { (data:Data?, error:Error?) in
+            if error==nil{
+                self.postImage.image = UIImage(data:data!)
+                
+                /*--------------------Top 10 Likers' profile image query--------------------*/
+                //Likers Leaderboard
+                //Getting all likers and likes
+                let dictionaryOfLikers = self.postObject["likedBy"] as? NSMutableDictionary
+                var likersLeaderboard = [LikerLikesPair]()
+                for pair in dictionaryOfLikers!{
+                    let pairOfLikerLikes = LikerLikesPair()
+                    pairOfLikerLikes.liker = pair.key as! String
+                    pairOfLikerLikes.likes = pair.value as! Int
+                    likersLeaderboard.append(pairOfLikerLikes)
+                }
+                //Sorting by likes
+                likersLeaderboard.sort(by: { $0.likes > $1.likes })
+                
+                //getting top 10 likers
+                var topLikers = [String]()
+                if likersLeaderboard.count>0{
+                    for likerRank in 0...likersLeaderboard.count-1 {
+                        topLikers.append(likersLeaderboard[likerRank].liker)
+                    }
+                }
+                
+                var top10LikerProfilePics = [UIImage]()
+                let myGroup = DispatchGroup()
+                
+                for liker in topLikers{
+                    myGroup.enter()
+                    
+                    let query = AVQuery(className: "_User")
+                    query.whereKey("username", equalTo: liker)
+                    query.getFirstObjectInBackground({ (result:AVObject?, error:Error?) in
+                        if error == nil{
+                            if result?["profileIm"] != nil{
+                                let profileImgFile = result?["profileIm"] as? AVFile
+                                profileImgFile?.getDataInBackground({ (data:Data?, error:Error?) in
+                                    print("Loaded a user profile pic")
+                                    myGroup.leave()
+                                    top10LikerProfilePics.append(UIImage(data: data!)!)
+                                })
+                            }else{
+                                //no profile image
+                                top10LikerProfilePics.append(#imageLiteral(resourceName: "gray.png"))
+                                myGroup.leave()
+                            }
+                        }else{
+                            print(error!.localizedDescription)
+                        }
+                    })
+                }
+                
+                //sets images after data requests are finished
+                myGroup.notify(queue: .main, execute: {
+                    //hide crown if no likers
+                    if top10LikerProfilePics.count != 0{
+                        self.crownImg.alpha = 1
+                    }
+                    
+                    //if less than 10 likers, append clear images
+                    if top10LikerProfilePics.count<10{
+                        print(top10LikerProfilePics.count)
+                        
+                        for _ in 1...10-top10LikerProfilePics.count{
+                            top10LikerProfilePics.append(#imageLiteral(resourceName: "clearImg"))
+                            
+                        }
+                        
+                    }
+                    
+                    //setting the profile pics for profile buttons
+                    for i in 0...9{
+                        self.likerCollection[i].setBackgroundImage(top10LikerProfilePics[i], for: .normal)
+                    }
+                    
+                    for button in self.likerCollection{
+                        button.layer.masksToBounds = true
+                        button.layer.cornerRadius = button.frame.size.width/2
+                        button.contentMode = .scaleAspectFill
+                    }
+                })
+                
+                /*--------------------Top 10 Liker's profile image query--------------------*/
+                
+            }else{
+                print(error.debugDescription)
+            }
+        }
+        /*--------------------Post image query--------------------*/
+
+    }
+    @IBAction func postActions(_ sender: Any) {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "删除", style: .destructive, handler: { (action:UIAlertAction) in
+            let query = AVQuery(className: "Posts")
+            query.getObjectInBackground(withId: self.postObject.objectId!, block: { (object:AVObject?, error:Error?) in
+                if error == nil{
+                    object?.deleteInBackground({ (done:Bool, error:Error?) in
+                        if error != nil{
+                            print(error)
+                        }else{
+                            //fix dismiss
+                            self.dismiss(animated: true, completion: nil)
+                        }
+                    })
+                }else{
+                    print(error!)
+                }
+            })
+        }))
+        actionSheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        self.present(actionSheet, animated: true) { 
+            
+        }
+    }
+    
+    @IBAction func showLikerLeaderboard(_ sender: Any) {
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "likerTableVC") as! LikerTableViewController
+        vc.postObject = self.postObject
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     override func viewDidAppear(_ animated: Bool) {
         //size of content view depending on label height
         let bottom = self.captionView.frame.maxY+89

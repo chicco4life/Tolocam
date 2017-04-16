@@ -21,7 +21,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchscreen.png" translatesAutoresizingMaskIntoConstraints="NO" id="fPb-p0-PON">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchscreen" translatesAutoresizingMaskIntoConstraints="NO" id="fPb-p0-PON">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
                         </subviews>
@@ -62,6 +62,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="launchscreen.png" width="414" height="736"/>
+        <image name="launchscreen" width="1242" height="2208"/>
     </resources>
 </document>

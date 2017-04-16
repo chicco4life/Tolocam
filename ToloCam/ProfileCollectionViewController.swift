@@ -12,7 +12,7 @@ import UIKit
 //import ParseUI
 import AVOSCloud
 
-class ProfileCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, ImageCropViewControllerDelegate, UINavigationControllerDelegate {
+class ProfileCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var followersCount: UILabel!
@@ -64,6 +64,13 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         
         print("collectionviewdidload is called")
     
+        let tap = UITapGestureRecognizer(target: self, action: #selector(expandFollowerView))
+        self.followersCount.addGestureRecognizer(tap)
+        
+        let tap2 = UITapGestureRecognizer(target: self, action: #selector(expandFollowingView))
+        self.followingCount.addGestureRecognizer(tap2)
+        /*--- -- - - -- - - -- - -  bookmark!! - - - - - - - - - - - - - -- - - - - */
+
         __loadData()
     }
     
@@ -117,46 +124,36 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
 //        self.present(imagePicker, animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
-        
-        let controller = ImageCropViewController.init(image: image)
-        controller?.delegate = self
-        controller?.blurredBackground = true
-        
-//        UIImageWriteToSavedPhotosAlbum(croppedImage, nil, nil, nil)
-        
-        self.profileImage.image = image
-        
-        let imageData = image.lowQualityJPEGNSData
-        let imageFile = AVFile(data: imageData as Data)
-        
-        let userObj = AVUser.current()
-        userObj?.setObject(imageFile, forKey: "profileIm")
-        
-        userObj?.saveInBackground { (done:Bool, error:Error?) in
-            if !done{
-                print("set profile pic failed")
-                self.profileImage.image = UIImage(named: "gray")
-                let alertController = UIAlertController(title: "Error", message: "Profile image upload failed", preferredStyle: UIAlertControllerStyle.alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
-                self.present(alertController, animated: true, completion: nil)
-            }else{
-                print("set profile pic success")
-                self.navigationController?.dismiss(animated: true, completion: nil)
-            }
-        }
-        
-    }
-    
-    func imageCropViewControllerSuccess(_ controller: UIViewController!, didFinishCroppingImage croppedImage: UIImage!) {
-        
-
-        
-    }
-    
-    func imageCropViewControllerDidCancel(_ controller: UIViewController!) {
-        self.navigationController!.popViewController(animated: true)
-    }
+//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+//        
+//        let controller = ImageCropViewController.init(image: image)
+//        controller?.delegate = self
+//        controller?.blurredBackground = true
+//        
+////        UIImageWriteToSavedPhotosAlbum(croppedImage, nil, nil, nil)
+//        
+//        self.profileImage.image = image
+//        
+//        let imageData = image.lowQualityJPEGNSData
+//        let imageFile = AVFile(data: imageData as Data)
+//        
+//        let userObj = AVUser.current()
+//        userObj?.setObject(imageFile, forKey: "profileIm")
+//        
+//        userObj?.saveInBackground { (done:Bool, error:Error?) in
+//            if !done{
+//                print("set profile pic failed")
+//                self.profileImage.image = UIImage(named: "gray")
+//                let alertController = UIAlertController(title: "Error", message: "Profile image upload failed", preferredStyle: UIAlertControllerStyle.alert)
+//                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
+//                self.present(alertController, animated: true, completion: nil)
+//            }else{
+//                print("set profile pic success")
+//                self.navigationController?.dismiss(animated: true, completion: nil)
+//            }
+//        }
+//        
+//    }
     
     func __loadData(){
         
@@ -189,9 +186,14 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func expandFollowerView(){
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FollowTableVC") as! FollowTableViewController
+        //pass in array of followers?
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func expandFollowingView(){
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
@@ -222,14 +224,6 @@ class ProfileCollectionViewController: UIViewController, UICollectionViewDelegat
     {
         return CGSize(width: (UIScreen.main.bounds.size.width-4) / 3, height: (UIScreen.main.bounds.size.width-4) / 3)
     }
-    
-    @IBAction func logoutTapped(_ sender: Any) {
-        AVUser.logOut()
-        let vc = storyboard?.instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
-        self.present(vc, animated: false, completion: nil)
-    }
-
-
     
     // MARK: - Navigation
 

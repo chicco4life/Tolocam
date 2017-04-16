@@ -24,8 +24,7 @@ extension UIImage {
 
 class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate{
     
-    
-    
+    @IBOutlet var tagCollection: [UILabel]!
     @IBOutlet weak var captionTextView: UITextView!
     @IBOutlet weak var previewImage: UIImageView!
     var newImage = UIImage()
@@ -44,36 +43,47 @@ class ComposeViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         self.hideKeyboardWhenTappedAround()
         
+        //---------------------------------------------------------left inset is weird
+        captionTextView.textContainerInset = UIEdgeInsets(top: 18, left: 16, bottom: 0, right: 0)
         captionTextView.delegate = self
         
         print("loading compose2 preview image")
         previewImage.image = newImage
         print("compose2 preview image loaded")
         
-        
-        
-        // Do any additional setup after loading the view.
     }
     
-    //    override func viewDidAppear(animated: Bool) {
-    //        super.viewDidAppear(animated)
-    //        previewImage.image = newImage
-    //
-    //        // Do any additional setup after loading the view.
-    //    }
     
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.tabBar.backgroundImage = (UIImage(named:"#232323"))
+        self.tabBarController?.tabBar.isTranslucent = false
     }
     
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == "写点什么..." {
+            textView.text = ""
+        }
+        textView.becomeFirstResponder()
+    }
     
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         captionTextView.resignFirstResponder()
         return true;
     }
     
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text == "" {
+            textView.text = "写点什么..."
+        }
+        textView.resignFirstResponder()
+    }
+    
+    @IBAction func appendTag(_ sender: Any) {
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "tagViewController") as! TagsViewController
+//        self.navigationController?.pushViewController(vc, animated: true)
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
