@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreData
-import PubNub
 import AVOSCloud
 
 extension UIImage {
@@ -25,14 +24,15 @@ extension UIImage {
     } }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    /*
     lazy var client: PubNub? = {
         let config = PNConfiguration(publishKey: "pub-c-c1a7e022-9392-43b4-ba4c-f3f95a3602f9", subscribeKey: "sub-c-d0482650-c0cc-11e6-9dca-02ee2ddab7fe")
         let pub = PubNub.clientWithConfiguration(config)
         return pub
-    }()
+    }()*/
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -56,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
             self.window!.rootViewController = vc
         }
         
-        self.client?.addListener(self)
+//        self.client?.addListener(self)
         
         self.window!.makeKeyAndVisible()
         

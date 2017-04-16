@@ -10,10 +10,9 @@ import UIKit
 import AVOSCloud
 import AVOSCloudIM
 import AVOSCloudCrashReporting
-import PubNub
 import JSQMessagesViewController
 
-class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVIMClientDelegate{
+class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVIMClientDelegate{
     
     var count = 0
 
@@ -56,13 +55,21 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
         self.client.delegate = self
         self.client.open { (done:Bool, error:Error?) in
             let query = self.client.conversationQuery()
-            query.whereKey("c", equalTo: AVUser.current()!.objectId!)
             query.whereKey("name", equalTo: self.otherUser.objectId!)
             query.findConversations(callback: { (results:[Any]?, error:Error?) in
                 if results?.count != 0{
                     self.conversation = results?[0] as! AVIMConversation
+                    self.conversation.queryMessages(withLimit: 20, callback: { (results:[Any]?, error:Error?) in
+                        if error==nil{
+                            let messages = results as! [AVIMMessage]
+                            for message in messages{
+                                print(message.clientId)
+                                self.addMessage(withId: self.otherUser.objectId!, name: self.otherUser.username!, text: message.content!)
+                            }
+                        }
+                    })
                 }else{
-                    self.client.createConversation(withName: self.otherUser.objectId!, clientIds: [], callback: { (conversation:AVIMConversation?, error:Error?) in
+                    self.client.createConversation(withName: self.otherUser.objectId!, clientIds: [self.otherUser.objectId!], callback: { (conversation:AVIMConversation?, error:Error?) in
                         self.conversation = conversation!
                     })
                 }
@@ -127,6 +134,7 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
         addMessage(withId: self.otherUser.objectId!, name: self.otherUser.username!, text: message.content!)
     }
     
+    /*
     func client(_ client: PubNub, didReceiveMessage message: PNMessageResult) {
         var messageArray = message.data.message as! Array<Any>
         if  messageArray[3] as! String == "img"{
@@ -142,7 +150,7 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
                 print("is a message for this channel")
             }
         }
-    }
+    }*/
     
     private func addMessage(withId id: String, name: String, text: String) {
         if let message = JSQMessage(senderId: id, displayName: name, text: text) {
@@ -242,7 +250,7 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
     func __loadEarlierMessages(){
         //load earlier messages
         
-        self.appDelegate.client?.historyForChannel(currentChannel, start: self.firstMessageTimeStamp, end: nil, limit: 20, withCompletion: { (result:PNHistoryResult?, error:PNErrorStatus?) in
+        /*self.appDelegate.client?.historyForChannel(currentChannel, start: self.firstMessageTimeStamp, end: nil, limit: 20, withCompletion: { (result:PNHistoryResult?, error:PNErrorStatus?) in
             if error == nil{
                 if result?.data.messages.isEmpty == false{
                     
@@ -303,7 +311,7 @@ class ChatViewController: JSQMessagesViewController, PNObjectEventListener, UIIm
                 print("error!!!!!!::::",error.debugDescription)
                 
             }
-        })
+        })*/
         
         self.collectionView.reloadData()
         self.refreshControl.endRefreshing()
