@@ -22,7 +22,6 @@ PODS:
   - JSQMessagesViewController (7.3.4):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
-  - RSKImageCropper (1.5.2)
 
 DEPENDENCIES:
   - AVOSCloud
@@ -30,7 +29,6 @@ DEPENDENCIES:
   - AVOSCloudIM
   - HELargeCenterTabBarController
   - JSQMessagesViewController
-  - RSKImageCropper
 
 SPEC CHECKSUMS:
   AVOSCloud: aa4b75bd7de2f62431ec7acbf357a25a66499427
@@ -39,8 +37,7 @@ SPEC CHECKSUMS:
   HELargeCenterTabBarController: 3186bdc15b76b3af2e5ca9918716e88f3f0ceb65
   JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
-  RSKImageCropper: 27d0e7efa800b509720163c3561fe08a04853780
 
-PODFILE CHECKSUM: 603b69f501879d3d729600b70771a7581d9772b0
+PODFILE CHECKSUM: 9bedf02c9cdeb4fb2433c63bb6f69f74e9192010
 
 COCOAPODS: 1.1.1

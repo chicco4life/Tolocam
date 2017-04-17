@@ -55,7 +55,7 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
         self.client.delegate = self
         self.client.open { (done:Bool, error:Error?) in
             let query = self.client.conversationQuery()
-            query.whereKey("name", equalTo: self.otherUser.objectId!)
+            query.whereKey("m", containsAllObjectsIn: [self.otherUser.objectId!, AVUser.current()!.objectId!])
             query.findConversations(callback: { (results:[Any]?, error:Error?) in
                 if results?.count != 0{
                     self.conversation = results?[0] as! AVIMConversation
@@ -63,8 +63,11 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
                         if error==nil{
                             let messages = results as! [AVIMMessage]
                             for message in messages{
-                                print(message.clientId)
-                                self.addMessage(withId: self.otherUser.objectId!, name: self.otherUser.username!, text: message.content!)
+                                if message.clientId == self.otherUser.objectId{
+                                    self.addMessage(withId: self.otherUser.objectId!, name: self.otherUser.username!, text: (message as! AVIMTypedMessage).text!)
+                                }else{
+                                    self.addMessage(withId: AVUser.current()!.objectId!, name: AVUser.current()!.username!, text: (message as! AVIMTypedMessage).text!)
+                                }
                             }
                         }
                     })
@@ -131,7 +134,8 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
     }
     
     func conversation(_ conversation: AVIMConversation, didReceiveCommonMessage message: AVIMMessage) {
-        addMessage(withId: self.otherUser.objectId!, name: self.otherUser.username!, text: message.content!)
+        let text = message as! AVIMTypedMessage
+        addMessage(withId: self.otherUser.objectId!, name: self.otherUser.username!, text: text.text!)
     }
     
     /*
