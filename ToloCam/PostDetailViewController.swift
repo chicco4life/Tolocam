@@ -9,11 +9,6 @@
 import UIKit
 import AVOSCloud
 
-class LikerLikesPair {
-    var liker = String()
-    var likes = Int()
-}
-
 class PostDetailViewController: UIViewController {
     var postObject = AVObject()
     
@@ -37,7 +32,7 @@ class PostDetailViewController: UIViewController {
         super.viewDidLoad()
         
         if (self.postObject["addedBy"] as! String) != AVUser.current()?.username{
-            self.postActions.isHidden == true
+            self.postActions.isHidden = true
         }
         
         if postObject["tags"] != nil{
@@ -212,21 +207,19 @@ class PostDetailViewController: UIViewController {
                 //Likers Leaderboard
                 //Getting all likers and likes
                 let dictionaryOfLikers = self.postObject["likedBy"] as? NSMutableDictionary
-                var likersLeaderboard = [LikerLikesPair]()
+                var likersLeaderboard = [(String,Int)]()
                 for pair in dictionaryOfLikers!{
-                    let pairOfLikerLikes = LikerLikesPair()
-                    pairOfLikerLikes.liker = pair.key as! String
-                    pairOfLikerLikes.likes = pair.value as! Int
+                    let pairOfLikerLikes = ((pair.key as! String),(pair.value as! Int))
                     likersLeaderboard.append(pairOfLikerLikes)
                 }
                 //Sorting by likes
-                likersLeaderboard.sort(by: { $0.likes > $1.likes })
+                likersLeaderboard.sort(by: { $0.1 > $1.1 })
                 
                 //getting top 10 likers
                 var topLikers = [String]()
                 if likersLeaderboard.count>0{
                     for likerRank in 0...likersLeaderboard.count-1 {
-                        topLikers.append(likersLeaderboard[likerRank].liker)
+                        topLikers.append(likersLeaderboard[likerRank].0)
                     }
                 }
                 

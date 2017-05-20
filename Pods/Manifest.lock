@@ -18,7 +18,6 @@ PODS:
     - AVOSCloudIM/_NOARC (= 3.8.1)
   - AVOSCloudIM/_NOARC (3.8.1):
     - AVOSCloud (= 3.8.1)
-  - HELargeCenterTabBarController (2.0.0)
   - JSQMessagesViewController (7.3.4):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
@@ -27,17 +26,15 @@ DEPENDENCIES:
   - AVOSCloud
   - AVOSCloudCrashReporting
   - AVOSCloudIM
-  - HELargeCenterTabBarController
   - JSQMessagesViewController
 
 SPEC CHECKSUMS:
   AVOSCloud: aa4b75bd7de2f62431ec7acbf357a25a66499427
   AVOSCloudCrashReporting: e4507d3d9eadb8aaf06dad51fd9401c9d54d5d87
   AVOSCloudIM: 5ce9c6d38dfb60347aecfa2666829d73335b4541
-  HELargeCenterTabBarController: 3186bdc15b76b3af2e5ca9918716e88f3f0ceb65
   JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
 
-PODFILE CHECKSUM: 9bedf02c9cdeb4fb2433c63bb6f69f74e9192010
+PODFILE CHECKSUM: 509eff7054eeae541d367d718e1af0a8deadd28f
 
 COCOAPODS: 1.1.1

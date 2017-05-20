@@ -125,6 +125,18 @@ class PostTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        let view = UIImageView(image: #imageLiteral(resourceName: "postVCEmpty"))
+        view.frame = CGRect(x: 25, y: 37, width: 364, height: 73)
+        self.tableView.backgroundView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
+        self.tableView.backgroundView?.addSubview(view)
+        
+        if self.imageFiles.count != 0{
+            self.tableView.backgroundView?.isHidden = true
+        }else{
+            self.tableView.backgroundView?.isHidden = false
+        }
+        
         return self.imageFiles.count
     }
 
@@ -164,20 +176,26 @@ class PostTableViewController: UITableViewController {
         let pointer = thisPostObject["postedBy"] as! AVObject
         let posterObjId = pointer["objectId"] as! String
         let userQuery = AVQuery(className: "_User")
+        
+        var myGroup = DispatchGroup()
+        
         userQuery.whereKey("objectId", equalTo: posterObjId)
         userQuery.getFirstObjectInBackground { (user:AVObject?, error:Error?) in
+            myGroup.enter()
             if error==nil{
                 if user?["profileIm"] != nil{
                     let profilePicFile = user?["profileIm"] as! AVFile
                     profilePicFile.getDataInBackground { (data:Data?, error:Error?) in
                         if error==nil{
                             cell.profilePicImgView.image = UIImage(data:data!)
+                            myGroup.leave()
                         }else{
                             print(error.debugDescription)
                         }
                     }
                 }else{
-                        cell.profilePicImgView.image = #imageLiteral(resourceName: "gray.png")
+                    cell.profilePicImgView.image = #imageLiteral(resourceName: "gray.png")
+                    myGroup.leave()
                 }
             }else{
                 print(error.debugDescription)
@@ -186,18 +204,49 @@ class PostTableViewController: UITableViewController {
         
         cell.object = self.postObjects[indexPath.row]
         
-
-        
         cell.postCaption.text = imageCaption
         cell.postCaption.text = cell.postCaption.text!.components(separatedBy: CharacterSet.newlines).joined(separator: " ")
         cell.addedBy.setTitle(imageUser, for: .normal)
         cell.dateLabel.text = imageDate
         cell.likesLabel.text = "\(imageLikes)"
         
-        if imageHasLiker{
-            cell.crownImg.image = #imageLiteral(resourceName: "crown")
-        }else{
-            cell.crownImg.image = #imageLiteral(resourceName: "clearImg")
+        myGroup.notify(queue: .main) {
+            cell.kingOfTheLikesImg.image = nil
+            if imageHasLiker{
+                cell.crownImg.image = #imageLiteral(resourceName: "crown")
+                let dictionaryOfLikers = thisPostObject["likedBy"] as? NSMutableDictionary
+                var likersLeaderboard = [(String,Int)]()
+                for pair in dictionaryOfLikers!{
+                    let pairOfLikerLikes = ((pair.key as! String),(pair.value as! Int))
+                    likersLeaderboard.append(pairOfLikerLikes)
+                }
+                //Sorting by likes
+                likersLeaderboard.sort(by: { $0.1 > $1.1 })
+                
+                //getting top 10 likers
+                var topLiker = String()
+                if likersLeaderboard.count>0{
+                    topLiker = likersLeaderboard[0].0
+                    let query = AVQuery(className: "_User")
+                    query.whereKey("username", equalTo: topLiker)
+                    query.getFirstObjectInBackground({ (result:AVObject?, error:Error?) in
+                        if error == nil{
+                            if result?["profileIm"] != nil{
+                                let profileImgFile = result?["profileIm"] as? AVFile
+                                profileImgFile?.getDataInBackground({ (data:Data?, error:Error?) in
+                                    print("Loaded a user profile pic")
+                                    cell.kingOfTheLikesImg.image = UIImage(data: data!)!
+                                })
+                            }else{
+                                //no profile image
+                                cell.kingOfTheLikesImg.image = #imageLiteral(resourceName: "gray.png")
+                            }
+                        }
+                    })
+                }
+            }else{
+                cell.crownImg.image = #imageLiteral(resourceName: "clearImg")
+            }
         }
         
         print("Row: ",indexPath.row)
@@ -219,6 +268,8 @@ class PostTableViewController: UITableViewController {
                 cell.tagCollection[i].sizeToFit()
             }
         }
+        
+        cell.separator.isHidden = false
         
         if indexPath.row == self.postObjects.count-1{
             cell.separator.isHidden = true

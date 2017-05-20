@@ -4,4 +4,3 @@
 
 #import <JSQMessagesViewController/JSQMessages.h>
 #import <AVOSCloud/AVOSCloud.h>
-#import <HELargeCenterTabBarController/HELargeCenterTabBarController.h>

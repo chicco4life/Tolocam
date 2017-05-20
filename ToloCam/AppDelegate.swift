@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import AVOSCloud
+import UserNotifications
 
 extension UIImage {
     func resizeImage(newWidth: CGFloat) -> UIImage {
@@ -24,15 +25,9 @@ extension UIImage {
     } }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    
     var window: UIWindow?
-    /*
-    lazy var client: PubNub? = {
-        let config = PNConfiguration(publishKey: "pub-c-c1a7e022-9392-43b4-ba4c-f3f95a3602f9", subscribeKey: "sub-c-d0482650-c0cc-11e6-9dca-02ee2ddab7fe")
-        let pub = PubNub.clientWithConfiguration(config)
-        return pub
-    }()*/
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -44,19 +39,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if (AVUser.current() != nil){
             let vc = TabBarInitializer.getTabBarController()
-            var image = UIImage(named: "takePicture")
-//            image = image?.resizeImage(newWidth: 81)
-            DispatchQueue.main.async {
-                vc.addCenterButton(unselectedImage: image!, selectedImage: image!, target: self, action: #selector(self.__showCameraView), allowSwitch: true)
-            }
-            
             self.window!.rootViewController = vc
         }else{
             let vc = storyboard.instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
             self.window!.rootViewController = vc
         }
-        
-//        self.client?.addListener(self)
         
         self.window!.makeKeyAndVisible()
         
@@ -65,11 +52,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let notificationSettings: UIUserNotificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
         UIApplication.shared.registerUserNotificationSettings(notificationSettings)
         
-//        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 1)
-        
+        self.__registerForRemoteNotifications()
+
         UINavigationBar.appearance().tintColor = UIColor(red: 152/255, green: 152/255, blue: 152/255, alpha: 1)
         UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: "PingFangSC-Light", size: 17)!], for: .normal)
+        UITabBar.appearance().tintColor = UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 1)
         return true
+    }
+    
+    func __registerForRemoteNotifications(){
+        if Double(UIDevice.current.systemVersion)! >= 10.0 {
+            // 使用 UNUserNotificationCenter 来管理通知
+            let uncenter = UNUserNotificationCenter.current()
+            // 监听回调事件
+            uncenter.delegate = self
+            //iOS10 使用以下方法注册，才能得到授权
+            uncenter.requestAuthorization(options: [.alert,.badge,.sound], completionHandler: { (done:Bool, error:Error?) in
+                UIApplication.shared.registerForRemoteNotifications()
+                done ? print("authorized") : print("not authorized")
+            })
+            // 获取当前的通知授权状态, UNNotificationSettings
+            uncenter.getNotificationSettings(completionHandler: { (settings:UNNotificationSettings) in
+                if settings.authorizationStatus == UNAuthorizationStatus.notDetermined{
+                    print("authorization status undetermined")
+                }else if settings.authorizationStatus == UNAuthorizationStatus.denied{
+                    print("authorization status denied")
+                }else if settings.authorizationStatus == UNAuthorizationStatus.authorized{
+                    print("authorization status authorized")
+                }
+            })
+        }
     }
     
     func __showCameraView(){
@@ -79,12 +91,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        
-    }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("deviceToken: ",deviceToken)
+        AVOSCloud.handleRemoteNotifications(withDeviceToken: deviceToken)
+        print(deviceToken)
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -94,6 +107,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
         //register for remote notifications
         UIApplication.shared.registerForRemoteNotifications()
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        //remote
+        let userInfo = notification.request.content.userInfo
+        if (notification.request.trigger?.isKind(of: UNPushNotificationTrigger.superclass()!))!{
+        }else{
+            //local pushes
+        }
+        completionHandler(UNNotificationPresentationOptions.badge)
+        
+    }
+    
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        if (response.notification.request.trigger?.isKind(of: UNPushNotificationTrigger.superclass()!))!{
+        }else{
+            //local
+        }
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -184,4 +217,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
-

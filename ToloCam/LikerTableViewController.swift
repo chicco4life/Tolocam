@@ -12,20 +12,18 @@ import AVOSCloud
 class LikerTableViewController: UITableViewController {
     
     var postObject = AVObject()
-    var likersLeaderboard = [LikerLikesPair]()
+    var likersLeaderboard = [(String,Int)]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         let dictionaryOfLikers = self.postObject["likedBy"] as? NSMutableDictionary
         for pair in dictionaryOfLikers!{
-            let pairOfLikerLikes = LikerLikesPair()
-            pairOfLikerLikes.liker = pair.key as! String
-            pairOfLikerLikes.likes = pair.value as! Int
+            let pairOfLikerLikes = ((pair.key as! String),(pair.value as! Int))
             likersLeaderboard.append(pairOfLikerLikes)
         }
         //Sorting by likes
-        likersLeaderboard.sort(by: { $0.likes > $1.likes })
+        likersLeaderboard.sort(by: { $0.1 > $1.1 })
         
         self.tableView.reloadData()
         
@@ -51,8 +49,8 @@ class LikerTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "likerCell", for: indexPath) as! LikerTableViewCell
         
         let pair = self.likersLeaderboard[indexPath.row]
-        let name = pair.liker
-        let likes = pair.likes
+        let name = pair.0
+        let likes = pair.1
         
         cell.likeName.text = name
         cell.likes.text = String(likes)

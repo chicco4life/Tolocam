@@ -57,6 +57,22 @@ class LoginViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    @IBAction func forgotPW(_ sender: Any) {
+        let alert = UIAlertController(title: nil, message: "选择身份验证方式", preferredStyle: UIAlertControllerStyle.actionSheet)
+        alert.addAction(UIAlertAction.init(title: "邮箱", style: .default, handler: { (action:UIAlertAction) in
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "resetPWMailVC") as! ResetPWMailViewController
+            self.show(vc, sender: nil)
+        }))
+        alert.addAction(UIAlertAction.init(title: "手机", style: .default, handler: { (action:UIAlertAction) in
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "resetPWPhoneVC") as! ResetPWPhoneViewController
+            self.show(vc, sender: nil)
+        }))
+        alert.addAction(UIAlertAction.init(title: "取消", style: UIAlertActionStyle.cancel, handler: nil))
+        self.present(alert, animated: true) {
+        }
+    }
+    
     @IBAction func logInTapped(_ sender: AnyObject) {
         
         self.view.isUserInteractionEnabled = false

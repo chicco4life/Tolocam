@@ -34,8 +34,6 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let query = self.client.conversationQuery()
-        
         let attributes = [
             NSForegroundColorAttributeName: UIColor(red: 253/255, green: 104/255, blue: 134/255, alpha: 0.9),
             NSFontAttributeName : UIFont(name: "PingFangSC-Medium", size: 20)! // Note the !

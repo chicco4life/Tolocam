@@ -28,6 +28,8 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var separator: UIView!
     @IBOutlet var tagCollection: [UIButton]!
     var combo = 0
+    var timer = Timer()
+    var timerOn = false
     
 //    var yourLikes = Int()
     var object: AVObject?
@@ -49,10 +51,18 @@ class PostTableViewCell: UITableViewCell {
         self.postCaption.adjustsFontSizeToFitWidth = false
         self.postCaption.lineBreakMode = .byTruncatingTail
         
+        self.kingOfTheLikesImg.layer.masksToBounds = true
+        self.kingOfTheLikesImg.layer.cornerRadius = self.kingOfTheLikesImg.frame.size.width/2
+        self.kingOfTheLikesImg.contentMode = .scaleAspectFill
+        
     }
     
     func handleLike(_ sender:AnyObject){
         print("like button pressed")
+        
+        timer.invalidate()
+        timerOn = true
+        combo+=1
         
         //animate heart
         UIView.animate(withDuration: 0.8, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.0, options: [], animations: { () -> Void in
@@ -64,9 +74,11 @@ class PostTableViewCell: UITableViewCell {
         }) { (Bool) -> Void in
         }
         //start timer, show combo label
-//        let timer = Timer(timeInterval: 2, repeats: false) { (timer:Timer) in
-//            <#code#>
-//        }
+        timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { (timer:Timer) in
+            self.timerOn = false
+            self.combo = 0
+            self.comboLabel.text = ""
+        })
         comboLabel.text = "COMBOS: \(combo)"
         
         if (object != nil){
@@ -75,7 +87,6 @@ class PostTableViewCell: UITableViewCell {
                 
                 //2. Set total likes to total likes+1, and upload.
                 likes += 1
-//                object!.setObject(likes!, forKey: "Likes")
                 object!.setObject(likes, forKey: "Likes")
                 
                 //Reset the text of the total likes label.
@@ -103,6 +114,10 @@ class PostTableViewCell: UITableViewCell {
                 object!.saveInBackground()
             }
         }
+    }
+    
+    func __delayedAction(){
+        print("timer fired")
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

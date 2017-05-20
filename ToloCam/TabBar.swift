@@ -8,23 +8,22 @@
 
 import Foundation
 import UIKit
-import HELargeCenterTabBarController
 
 class TabBarInitializer {
-    static func getTabBarController() -> HELargeCenterTabBarController {
+    static func getTabBarController() -> UITabBarController {
         
         let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let tabBarController = HELargeCenterTabBarController()
+        let tabBarController = UITabBarController()
         let postsVC = storyboard.instantiateViewController(withIdentifier: "PostsNavigationController") as! UINavigationController
         postsVC.tabBarItem.title = "关注"
 //        postsVC.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
         postsVC.tabBarItem.image = UIImage(named: "home")?.withRenderingMode(.alwaysOriginal)
         postsVC.tabBarItem.selectedImage = UIImage(named: "homesel")?.withRenderingMode(.alwaysOriginal)
         let cameraVC = storyboard.instantiateViewController(withIdentifier: "CameraNavigationController") as! UINavigationController
-        cameraVC.tabBarItem.title = nil
-//        cameraVC.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
-//        cameraVC.tabBarItem.image = UIImage(named: "capture")?.withRenderingMode(.alwaysOriginal)
-//        cameraVC.tabBarItem.selectedImage = UIImage(named: "capturesel")?.withRenderingMode(.alwaysOriginal)
+        cameraVC.tabBarItem.title = "拍摄"
+//        cameraVC.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
+        cameraVC.tabBarItem.image = UIImage(named: "takePicture")?.withRenderingMode(.alwaysOriginal)
+        cameraVC.tabBarItem.selectedImage = UIImage(named: "takePictureSel")?.withRenderingMode(.alwaysOriginal)
         let chatsVC = storyboard.instantiateViewController(withIdentifier: "ChatsNavigationController") as! UINavigationController
         chatsVC.tabBarItem.title = "消息"
 //        chatsVC.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
@@ -37,7 +36,7 @@ class TabBarInitializer {
         exploreVC.tabBarItem.selectedImage = UIImage(named: "exploresel")?.withRenderingMode(.alwaysOriginal)
         let profileVC = storyboard.instantiateViewController(withIdentifier: "ProfileNavigationController") as! UINavigationController
         profileVC.tabBarItem.title = "我的"
-//        profileVC.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)
+        profileVC.tabBarItem.imageInsets = UIEdgeInsets(top: 1, left: 0, bottom: -1, right: 0)
         profileVC.tabBarItem.image = UIImage(named: "profile")?.withRenderingMode(.alwaysOriginal)
         profileVC.tabBarItem.selectedImage = UIImage(named: "profilesel")?.withRenderingMode(.alwaysOriginal)
         

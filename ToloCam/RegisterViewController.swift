@@ -104,6 +104,7 @@ class RegisterViewController: UIViewController {
         user.username = usernameTextField.text?.lowercased()
         user.password = passwordTextField.text!
         user.email = emailTextField.text!
+        user["nickname"] = user.username
         //            user["followingWho"] = ["admin","chicco", "leo", usernameTextField.text!.lowercaseString]
 //        user.signUp { (success:LCBooleanResult) in
 //            if success.isSuccess {
@@ -132,7 +133,6 @@ class RegisterViewController: UIViewController {
 //                self.present(alertController, animated: true, completion: nil)
 //                
 //            }
-        
             user.signUpInBackground { (success, error) in
                 if error == nil{
                     //no error
@@ -153,7 +153,7 @@ class RegisterViewController: UIViewController {
                 } else {
                     // There is an error while signing up
 
-                    let alertController = UIAlertController(title:"Error", message:"This username/email is already registered!", preferredStyle: UIAlertControllerStyle.alert)
+                    let alertController = UIAlertController(title:"Error", message:error?.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
                     alertController.addAction(UIAlertAction(title:"OK", style: .cancel, handler: nil))
                     self.present(alertController, animated: true, completion: { 
                         self.view.isUserInteractionEnabled = false
