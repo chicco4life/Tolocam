@@ -28,10 +28,10 @@
 		B6C4FF3A1CD5F4C9008548A2 /* OthersCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C4FF391CD5F4C9008548A2 /* OthersCollectionViewController.swift */; };
 		B6CA60551EA87C94000FCD35 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6CA60541EA87C94000FCD35 /* UserNotifications.framework */; };
 		B6CA60571EA87CA5000FCD35 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6CA60561EA87CA5000FCD35 /* CoreTelephony.framework */; };
-		B6D48DDE1D617AF200BDEDB3 /* brice.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B6D48DDD1D617AD000BDEDB3 /* brice.ttf */; };
 		B6DC542D1DABF12600E50276 /* gray.png in Resources */ = {isa = PBXBuildFile; fileRef = B6DC542C1DABF12600E50276 /* gray.png */; };
 		B6E647521E7CEB08007BF2E0 /* TagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E647511E7CEB08007BF2E0 /* TagsViewController.swift */; };
 		B6E67FCE1E059A680005824B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E67FCD1E059A680005824B /* ChatViewController.swift */; };
+		B6F6ED491ED1FC1D008C13D0 /* Launch Screen@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B6F6ED481ED1FC1D008C13D0 /* Launch Screen@3x.png */; };
 		FB5377080AA7238B9FFEDCF6 /* Pods_ToloCam.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CEA4F539AF8D95079101BB0 /* Pods_ToloCam.framework */; };
 		FF06E79B1C75BE8F00920007 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E79A1C75BE8F00920007 /* TabBar.swift */; };
 		FF06E7A51C75C84000920007 /* ExploreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */; };
@@ -108,10 +108,10 @@
 		B6C4FF391CD5F4C9008548A2 /* OthersCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OthersCollectionViewController.swift; sourceTree = "<group>"; };
 		B6CA60541EA87C94000FCD35 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		B6CA60561EA87CA5000FCD35 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		B6D48DDD1D617AD000BDEDB3 /* brice.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = brice.ttf; path = ../brice.ttf; sourceTree = "<group>"; };
 		B6DC542C1DABF12600E50276 /* gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gray.png; path = ../gray.png; sourceTree = "<group>"; };
 		B6E647511E7CEB08007BF2E0 /* TagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsViewController.swift; sourceTree = "<group>"; };
 		B6E67FCD1E059A680005824B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		B6F6ED481ED1FC1D008C13D0 /* Launch Screen@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Launch Screen@3x.png"; sourceTree = "<group>"; };
 		FF06E79A1C75BE8F00920007 /* TabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewCell.swift; sourceTree = "<group>"; };
 		FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewController.swift; sourceTree = "<group>"; };
@@ -300,10 +300,10 @@
 			isa = PBXGroup;
 			children = (
 				B6DC542C1DABF12600E50276 /* gray.png */,
+				B6F6ED481ED1FC1D008C13D0 /* Launch Screen@3x.png */,
 				B6BBD0CF1E513CB600FBEC84 /* meow.wav */,
 				B691DA321D7016A700AF1EF6 /* Coves Bold.otf */,
 				B691DA331D7016A700AF1EF6 /* Coves Light.otf */,
-				B6D48DDD1D617AD000BDEDB3 /* brice.ttf */,
 			);
 			name = "Supporting Files";
 			path = Images;
@@ -525,10 +525,10 @@
 			files = (
 				B691DA341D7016E700AF1EF6 /* Coves Bold.otf in Resources */,
 				B691DA351D7016E700AF1EF6 /* Coves Light.otf in Resources */,
-				B6D48DDE1D617AF200BDEDB3 /* brice.ttf in Resources */,
 				FFCBBDCD1C6C8D8D00BA0773 /* LaunchScreen.storyboard in Resources */,
 				B6BBD0D01E513CB600FBEC84 /* meow.wav in Resources */,
 				FFCBBDCA1C6C8D8D00BA0773 /* Assets.xcassets in Resources */,
+				B6F6ED491ED1FC1D008C13D0 /* Launch Screen@3x.png in Resources */,
 				B6DC542D1DABF12600E50276 /* gray.png in Resources */,
 				FFCBBDC51C6C8D8D00BA0773 /* Main.storyboard in Resources */,
 			);
@@ -784,6 +784,7 @@
 			baseConfigurationReference = 395F1D28B703793C52048A8C /* Pods-ToloCam.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "ToloCam/Zezheng Li.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -807,6 +808,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "ToloCam/ToloCam-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -815,6 +817,7 @@
 			baseConfigurationReference = 844A0FDB61607EFC2764E1C9 /* Pods-ToloCam.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "ToloCam/Zezheng Li.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -837,6 +840,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ToloCam/ToloCam-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

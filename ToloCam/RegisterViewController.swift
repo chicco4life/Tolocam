@@ -11,39 +11,47 @@ import UIKit
 //import Bolts
 import AVOSCloud
 
-class RegisterViewController: UIViewController {
+class RegisterViewController: UIViewController, UITextFieldDelegate {
+    @IBOutlet weak var backgroundImg: UIImageView!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var registerBtn: UIButton!
     @IBOutlet weak var loginVCBtn: UIButton!
+    
+    var blurEffectView = UIVisualEffectView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.modalTransitionStyle = .crossDissolve
         
-        let attributes = [
-            NSForegroundColorAttributeName: UIColor.white,
-            NSFontAttributeName : UIFont(name: "Avenir-Book", size: 22)! // Note the !
-        ]
-        
         loginVCBtn.titleLabel?.adjustsFontSizeToFitWidth = true
         
-        //Customizing placeholder text style
-        self.usernameTextField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: attributes)
-        self.passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: attributes)
-        self.emailTextField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: attributes)
-        //disabling username field autocorrect
-        self.usernameTextField.autocorrectionType = UITextAutocorrectionType.no
-        self.usernameTextField.autocapitalizationType = UITextAutocapitalizationType.none
-        self.emailTextField.autocorrectionType = .no
-        self.emailTextField.autocapitalizationType = .none
-        //setting input text style
-        self.usernameTextField.font = UIFont(name: "Avenir-Book", size: 22)
-        self.passwordTextField.font = UIFont(name: "Avenir-Book", size: 22)
-        self.emailTextField.font = UIFont(name: "Avenir-Book", size: 22)
+        self.registerBtn.layer.cornerRadius = self.registerBtn.frame.height/2
+        self.registerBtn.layer.borderWidth = 4
+        self.registerBtn.layer.borderColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 0.3).cgColor
+        self.registerBtn.addTarget(self, action: #selector(__buttonHighlight), for: .touchDown)
+        self.registerBtn.addTarget(self, action: #selector(__buttonNormal), for: .touchUpInside)
+        self.registerBtn.addTarget(self, action: #selector(__buttonNormal), for: .touchUpOutside)
         
-        // Do any additional setup after loading the view.
+        self.usernameTextField.tag = 0
+        self.emailTextField.tag = 1
+        self.passwordTextField.tag = 2
+        
+        self.usernameTextField.delegate = self
+        self.passwordTextField.delegate = self
+        self.emailTextField.delegate = self
+        
+        self.blurEffectView = UIVisualEffectView()
+        self.blurEffectView.frame = self.view.bounds
+        self.blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.backgroundImg.addSubview(self.blurEffectView)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        self.hideKeyboardWhenTappedAround()
     }
     
     @IBAction func dismissVC(_ sender: AnyObject) {
@@ -53,7 +61,20 @@ class RegisterViewController: UIViewController {
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         usernameTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
-        return true;
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Try to find next responder
+        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
+            nextField.becomeFirstResponder()
+        } else {
+            // Not found, so remove keyboard.
+            textField.resignFirstResponder()
+            registerTapped(self)
+        }
+        // Do not add a line break
+        return false
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -70,32 +91,48 @@ class RegisterViewController: UIViewController {
         self.view.isUserInteractionEnabled = false
         
         if usernameTextField.text == "" {
-            let alertController = UIAlertController(title:"Error", message:"Please input a username.", preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title:"错误", message:"请输入用户名", preferredStyle: UIAlertControllerStyle.alert)
             alertController.addAction(UIAlertAction(title:"OK", style: .cancel, handler: nil))
             self.present(alertController, animated: true, completion: nil)
+            self.view.isUserInteractionEnabled = true
             return
         }
         
         if passwordTextField.text == "" {
-            let alertController = UIAlertController(title:"Error", message:"Please input a password.", preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title:"错误", message:"请输入密码", preferredStyle: UIAlertControllerStyle.alert)
             alertController.addAction(UIAlertAction(title:"OK", style: .cancel, handler: nil))
             self.present(alertController, animated: true, completion: nil)
+            self.view.isUserInteractionEnabled = true
             return
         }
         
         if emailTextField.text == "" {
-            let alertController = UIAlertController(title:"Error", message:"Please input an email address.", preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title:"错误", message:"请输入邮箱地址", preferredStyle: UIAlertControllerStyle.alert)
             alertController.addAction(UIAlertAction(title:"OK", style: .cancel, handler: nil))
             self.present(alertController, animated: true, completion: nil)
+            self.view.isUserInteractionEnabled = true
             return
+        }
+        
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        if emailTest.evaluate(with: emailTextField.text) == false{
+            let alertController = UIAlertController(title:"错误", message:"请输入正确的邮箱地址", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title:"OK", style: .cancel, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            self.view.isUserInteractionEnabled = true
+            return
+
         }
         
         let regex = try! NSRegularExpression(pattern: ".*[^A-Za-z0-9].*", options: NSRegularExpression.Options())
         if regex.firstMatch(in: usernameTextField.text!, options: NSRegularExpression.MatchingOptions(), range:NSMakeRange(0, usernameTextField.text!.characters.count)) != nil {
             print("could not handle special characters")
-            let alertController = UIAlertController(title:"Error", message:"Please don't use any special characters.", preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title:"错误", message:"请不要使用特殊字符", preferredStyle: UIAlertControllerStyle.alert)
             alertController.addAction(UIAlertAction(title:"OK", style: .cancel, handler: nil))
             self.present(alertController, animated: true, completion: nil)
+            self.view.isUserInteractionEnabled = true
             
             
         }
@@ -152,28 +189,54 @@ class RegisterViewController: UIViewController {
 
                 } else {
                     // There is an error while signing up
-
-                    let alertController = UIAlertController(title:"Error", message:error?.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
-                    alertController.addAction(UIAlertAction(title:"OK", style: .cancel, handler: nil))
-                    self.present(alertController, animated: true, completion: { 
-                        self.view.isUserInteractionEnabled = false
-                    })
                     
-
+                    if error?.localizedDescription == "Username has already been taken"{
+                        let alertController = UIAlertController(title:"错误", message:"用户名已被占用", preferredStyle: UIAlertControllerStyle.alert)
+                        alertController.addAction(UIAlertAction(title:"确定", style: .cancel, handler: nil))
+                        self.present(alertController, animated: true, completion: {
+                            self.view.isUserInteractionEnabled = true
+                        })
+                    }else{
+                        let alertController = UIAlertController(title:"错误", message:error?.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
+                        alertController.addAction(UIAlertAction(title:"确定", style: .cancel, handler: nil))
+                        self.present(alertController, animated: true, completion: { 
+                            self.view.isUserInteractionEnabled = true
+                        })
+                    }
             }
         
         }
+    }
     
-        
-        /*
-         // MARK: - Navigation
-         
-         // In a storyboard-based application, you will often want to do a little preparation before navigation
-         override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-         // Get the new view controller using segue.destinationViewController.
-         // Pass the selected object to the new view controller.
-         }
-         */
-        
+    func __buttonHighlight(){
+        self.registerBtn.backgroundColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 0.3)
+        self.registerBtn.layer.borderWidth = 0
+    }
+    
+    func __buttonNormal(){
+        self.registerBtn.backgroundColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 0)
+        self.registerBtn.layer.borderWidth = 4
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0{
+                self.view.frame.origin.y -= keyboardSize.height
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.blurEffectView.effect = UIBlurEffect(style: .light)
+                })
+            }
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y != 0{
+                self.view.frame.origin.y += keyboardSize.height
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.blurEffectView.effect = nil
+                })
+            }
+        }
     }
 }

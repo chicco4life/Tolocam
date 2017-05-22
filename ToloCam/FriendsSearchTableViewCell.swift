@@ -7,14 +7,19 @@
 //
 
 import UIKit
-//import Parse
-//import Bolts
-//import ParseUI
 
 class FriendsSearchTableviewCell: UITableViewCell {
     
     var cellUsername = String()
 
-    @IBOutlet weak var friendUsername: UILabel!
+    @IBOutlet weak var friendPicture: UIImageView!
+    @IBOutlet weak var friendNickname: UILabel!
+    
+    override func awakeFromNib() {
+        self.friendPicture.layer.masksToBounds = true
+        self.friendPicture.layer.cornerRadius = self.friendPicture.frame.width/2
+        self.friendPicture.contentMode = .scaleAspectFill
+        
+    }
     
 }

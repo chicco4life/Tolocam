@@ -10,47 +10,47 @@ import UIKit
 import Foundation
 import AVOSCloud
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController,UITextFieldDelegate {
     
     
+    @IBOutlet weak var backgroundImg: UIImageView!
     @IBOutlet weak var registerBtn: UIButton!
-    
     @IBOutlet var usernameField: UITextField!
-    
     @IBOutlet var passwordField: UITextField!
+    @IBOutlet weak var loginBtn: UIButton!
+    
+    var blurEffectView = UIVisualEffectView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let attributes = [
-            NSForegroundColorAttributeName: UIColor.white,
-            NSFontAttributeName : UIFont(name: "PingFangSC-Light", size: 22)! // Note the !
-        ]
-        
         registerBtn.titleLabel?.adjustsFontSizeToFitWidth = true
         
-        //Customizing placeholder text style
-        self.usernameField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: attributes)
-        self.passwordField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: attributes)
-        //disabling username field autocorrect
-        self.usernameField.autocorrectionType = UITextAutocorrectionType.no
-        self.usernameField.autocapitalizationType = UITextAutocapitalizationType.none
-        //setting input text style
-        self.usernameField.font = UIFont(name: "PingFangSC-Light", size: 22)
-        self.passwordField.font = UIFont(name: "PingFangSC-Light", size: 22)
+        self.loginBtn.layer.cornerRadius = self.loginBtn.frame.height/2
+        self.loginBtn.layer.borderWidth = 4
+        self.loginBtn.layer.borderColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 0.3).cgColor
+        self.loginBtn.addTarget(self, action: #selector(__buttonHighlight), for: .touchDown)
+        self.loginBtn.addTarget(self, action: #selector(__buttonNormal), for: .touchUpInside)
+        self.loginBtn.addTarget(self, action: #selector(__buttonNormal), for: .touchUpOutside)
+
         //cursor color
         self.usernameField.tintColor = UIColor.white
         self.passwordField.tintColor = UIColor.white
-    }
-    
-    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-        usernameField.resignFirstResponder()
-        passwordField.resignFirstResponder()
-        return true;
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
+        self.usernameField.tag = 0
+        self.passwordField.tag = 1
+        self.usernameField.delegate = self
+        self.passwordField.delegate = self
+        
+        self.blurEffectView = UIVisualEffectView()
+        self.blurEffectView.frame = self.view.bounds
+        self.blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.backgroundImg.addSubview(self.blurEffectView)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        self.hideKeyboardWhenTappedAround()
     }
     
     override func didReceiveMemoryWarning() {
@@ -74,6 +74,12 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func logInTapped(_ sender: AnyObject) {
+        if self.usernameField.text == "" || self.passwordField.text == "" {
+            let alert = UIAlertController(title: "错误", message: "账号或密码不可为空", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "确定", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
         
         self.view.isUserInteractionEnabled = false
         
@@ -94,7 +100,7 @@ class LoginViewController: UIViewController {
                 case "Could not find user":
                     alertController = UIAlertController(title: "错误", message: "用户不存在", preferredStyle: UIAlertControllerStyle.alert)
                 default:
-                    alertController = UIAlertController(title: "错误", message: "未知错误", preferredStyle: UIAlertControllerStyle.alert)
+                    alertController = UIAlertController(title: "错误", message: error!.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
                     
                 }
                 print(error!.localizedDescription)
@@ -104,7 +110,52 @@ class LoginViewController: UIViewController {
                 self.view.isUserInteractionEnabled = true
             }
         }
-        
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Try to find next responder
+        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
+            nextField.becomeFirstResponder()
+        } else {
+            // Not found, so remove keyboard.
+            textField.resignFirstResponder()
+            logInTapped(self)
+        }
+        // Do not add a line break
+        return true
+    }
+    
+    func __buttonHighlight(){
+        self.loginBtn.backgroundColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 0.3)
+        self.loginBtn.layer.borderWidth = 0
+    }
+    
+    func __buttonNormal(){
+        self.loginBtn.backgroundColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 0)
+        self.loginBtn.layer.borderWidth = 4
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0{
+                //only move views except background
+                self.view.frame.origin.y -= keyboardSize.height
+                UIView.animate(withDuration: 0.5, animations: { 
+                    self.blurEffectView.effect = UIBlurEffect(style: .regular)
+                })
+            }
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y != 0{
+                self.view.frame.origin.y += keyboardSize.height
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.blurEffectView.effect = nil
+                })
+            }
+        }
     }
     
 }

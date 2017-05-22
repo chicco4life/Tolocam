@@ -18,6 +18,8 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
     @IBOutlet weak var phone: UITextField!
     @IBOutlet weak var suggestionsField: UITextField!
     @IBOutlet weak var logoutBtn: UIButton!
+    var timer = Timer()
+    var timerCount = 60
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,14 +38,17 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         self.phone.text = AVUser.current()?.mobilePhoneNumber
         self.nickname.delegate = self
         self.nickname.tag = 0
+        self.nickname.borderStyle = .none
         self.email.delegate = self
         self.email.tag = 1
         self.phone.delegate = self
         self.phone.tag = 2
-        self.suggestionsField.delegate= self
+        self.suggestionsField.delegate = self
         self.suggestionsField.tag = 3
         
         self.tableView.separatorColor = UIColor(colorLiteralRed: 249/255, green: 249/255, blue: 249/255, alpha: 1)
+        
+        self.hideKeyboardWhenTappedAround()
     }
 
     override func viewDidLayoutSubviews() {
@@ -73,7 +78,6 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
                 //mail
             }else if indexPath.row == 1{
                 //phone
-                
             }else if indexPath.row == 2{
                 //reset pw
                 let alert = UIAlertController(title: nil, message: "选择身份验证方式", preferredStyle: UIAlertControllerStyle.actionSheet)
@@ -122,8 +126,6 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
-
-        self.profilePic.image = image
         
         let imageData = image.lowQualityJPEGNSData
         let imageFile = AVFile(data: imageData as Data)
@@ -135,45 +137,125 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
             if !done{
                 print("set profile pic failed")
                 self.navigationController?.dismiss(animated: true, completion: { 
-                    self.profilePic.image = UIImage(named: "gray")
-                    let alertController = UIAlertController(title: "Error", message: "Profile image upload failed", preferredStyle: UIAlertControllerStyle.alert)
+                    let alertController = UIAlertController(title: "Error", message: error!.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
                     alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
-                    alertController.addTextField(configurationHandler: { (field:UITextField) in
-                        
-                    })
-                    alertController.addAction(UIAlertAction(title: "resend", style: .default, handler: nil))
-                    alertController.addAction(UIAlertAction(title: "done", style: .default, handler: nil))
                     self.present(alertController, animated: true, completion: nil)
                 })
             }else{
                 print("set profile pic success")
+                self.profilePic.image = image
                 self.navigationController?.dismiss(animated: true, completion: nil)
             }
         }
         
     }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField.tag{
         case 0:
-            let alert = UIAlertController(title: "提示", message: "确定要更改昵称吗？", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action:UIAlertAction) in
-                AVUser.current()
-                feedbackObject.saveInBackground({ (done:Bool, error:Error?) in
-                    if done{
-                        textField.resignFirstResponder()
-                        textField.text = ""
-                    }else{
-                        let failAlert = UIAlertController(title: "错误", message: "提交反馈失败", preferredStyle: .alert)
-                        failAlert.addAction(UIAlertAction(title: "确定", style: .default, handler: nil))
-                        self.present(failAlert, animated: true, completion: nil)
-                    }
-                })
-            }))
-            self.present(alert, animated: true, completion: nil)
-        case 1:
+            var length = 0
+            for char in textField.text!.characters {
+                // 判断是否中文，是中文+2 ，不是+1
+                length += "\(char)".lengthOfBytes(using: String.Encoding.utf8) == 3 ? 2 : 1
+            }
+            if textField.text == ""{
+                let failAlert = UIAlertController(title: "错误", message: "请输入昵称", preferredStyle: .alert)
+                failAlert.addAction(UIAlertAction(title: "确定", style: .default, handler: nil))
+                self.present(failAlert, animated: true, completion: nil)
+            }else if length>20{
+                let failAlert = UIAlertController(title: "错误", message: "昵称字数超过限制", preferredStyle: .alert)
+                failAlert.addAction(UIAlertAction(title: "确定", style: .default, handler: nil))
+                self.present(failAlert, animated: true, completion: nil)
+            }else{
+                let alert = UIAlertController(title: "提示", message: "确定要更改昵称吗？", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action:UIAlertAction) in
+                    let user = AVUser.current()
+                    user?.setObject(textField.text, forKey: "nickname")
+                    user?.saveInBackground({ (done:Bool, error:Error?) in
+                        if done{
+                            textField.resignFirstResponder()
+                        }else{
+                            let failAlert = UIAlertController(title: "更改名称失败", message: error?.localizedDescription, preferredStyle: .alert)
+                            failAlert.addAction(UIAlertAction(title: "确定", style: .default, handler: nil))
+                            self.present(failAlert, animated: true, completion: nil)
+                        }
+                    })
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
+        /*case 1:
+            let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+            let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
             
-        case 2:
+            if email.text == "" {
+                let alertController = UIAlertController(title:"错误", message:"请输入邮箱地址", preferredStyle: UIAlertControllerStyle.alert)
+                alertController.addAction(UIAlertAction(title:"OK", style: .cancel, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+            }else if emailTest.evaluate(with: email.text) == false{
+                let alertController = UIAlertController(title:"错误", message:"请输入正确的邮箱地址", preferredStyle: UIAlertControllerStyle.alert)
+                alertController.addAction(UIAlertAction(title:"OK", style: .cancel, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+            }else{
+                let alert = UIAlertController(title: "提示", message: "确定要更改邮箱吗？", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "确定", style: .default, handler: {(action:UIAlertAction) in
+                    let userObj = AVUser.current()
+                    userObj!.setObject(false, forKey: "emailVerified")
+                    userObj!.saveInBackground({ (done:Bool, error:Error?) in
+                        if error == nil{
+                            AVUser.requestEmailVerify(self.email.text!, with: { (done:Bool, error:Error?) in
+                                if error == nil{
+                                    let alertController = UIAlertController(title: "提示", message: "请查收邮件验证邮箱", preferredStyle: UIAlertControllerStyle.alert)
+                                    alertController.addAction(UIAlertAction(title: "重发邮件", style: UIAlertActionStyle.default, handler: { (actionUIAlertAction) in
+                                        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer:Timer) in
+                                            self.timerCount -= 1
+                                            if self.timerCount == 0 {
+                                                timer.invalidate()
+                                                alert.actions[0].setValue("重发邮件", forKey: "title")
+                                                alert.actions[0].isEnabled = true
+                                            } else {
+                                                alert.actions[0].setValue("\(self.timerCount)s", forKey: "title")
+                                            }
+                                        })
+                                        alert.actions[0].isEnabled = false
+                                    }))
+                                    alertController.addAction(UIAlertAction(title: "验证完毕", style: UIAlertActionStyle.default, handler: { (action:UIAlertAction) in
+                                        AVUser.current()?.refresh()
+                                        if (AVUser.current()?.value(forKey: "emailVerified") as! Bool) == false{
+                                            let failAlert = UIAlertController(title: "错误", message: "邮箱未被验证", preferredStyle: .alert)
+                                            failAlert.addAction(UIAlertAction(title: "确定", style: .default, handler: nil))
+                                            self.present(failAlert, animated: true, completion: nil)
+                                            textField.text = AVUser.current()?.email
+                                        }else{
+                                            let alert = UIAlertController(title: "成功", message: "邮箱地址已被更新", preferredStyle: .alert)
+                                            alert.addAction(UIAlertAction(title: "确定", style: UIAlertActionStyle.default, handler: { (action:UIAlertAction) in
+                                                AVUser.current()?.setObject(textField.text, forKey: "email")
+                                            }))
+                                            self.present(alert, animated: true, completion: nil)
+                                        }
+                                    }))
+                                    alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action:UIAlertAction) in
+                                        textField.text = AVUser.current()?.email
+                                    }))
+                                    self.present(alertController, animated: true, completion: nil)
+                                }else{
+                                    let failAlert = UIAlertController(title: "错误", message: error!.localizedDescription, preferredStyle: .alert)
+                                    failAlert.addAction(UIAlertAction(title: "确定", style: .default, handler: nil))
+                                    self.present(failAlert, animated: true, completion: nil)
+                                }
+                            })
+                        }else{
+                            let failAlert = UIAlertController(title: "错误", message: error!.localizedDescription, preferredStyle: .alert)
+                            failAlert.addAction(UIAlertAction(title: "确定", style: .default, handler: nil))
+                            self.present(failAlert, animated: true, completion: nil)
+                        }
+                    })
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }*/
+            
+//        case 2:
             
         case 3:
             let alert = UIAlertController(title: "提示", message: "确定要提交反馈吗？", preferredStyle: .alert)

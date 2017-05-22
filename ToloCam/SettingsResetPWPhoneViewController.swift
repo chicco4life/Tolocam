@@ -109,7 +109,7 @@ class SettingsResetPWPhoneViewController: UIViewController {
 
 }
 
-@IBDesignable
+//@IBDesignable
 class TextField: UITextField {
     @IBInspectable var insetX: CGFloat = 15
     @IBInspectable var insetY: CGFloat = 0

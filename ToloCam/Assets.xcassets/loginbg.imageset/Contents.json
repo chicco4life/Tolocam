@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "loginbg.pdf",
+      "filename" : "IMG_0138.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "loginbg-1.pdf",
+      "filename" : "IMG_0138@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "loginbg-2.pdf",
+      "filename" : "IMG_0138@3x.png",
       "scale" : "3x"
     }
   ],

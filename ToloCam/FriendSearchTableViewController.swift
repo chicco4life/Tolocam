@@ -23,8 +23,8 @@ class FriendSearchTableViewController: UITableViewController, UISearchBarDelegat
     @IBOutlet var searchBar: UISearchBar!
     
     var usernames = [String]()
-    var filteredUsernames = [String]()
-    var username = String()
+    var nicknames = [String]()
+    var profilePicFiles = [Any]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +41,9 @@ class FriendSearchTableViewController: UITableViewController, UISearchBarDelegat
         self.navigationController?.navigationBar.barTintColor = UIColor.white
         
         searchBar.delegate = self
-        //        search()
+        searchBar.backgroundImage =  #imageLiteral(resourceName: "#F9F9F9")
+        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
+        textFieldInsideSearchBar?.backgroundColor = UIColor(colorLiteralRed: 226/255, green: 226/255, blue: 226/255, alpha: 1)
         
     }
     
@@ -53,45 +55,54 @@ class FriendSearchTableViewController: UITableViewController, UISearchBarDelegat
         // Delegate the search bar to this table view class
         searchBar.delegate = self
     }
-    
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath) as! FriendsSearchTableviewCell
-//        
-//        let username = object!["username"] as! String
-//        
-//        cell.friendUsername.text = username
-//        
-//        return cell
-//    }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath) as! FriendsSearchTableviewCell
 
-        let username = self.usernames[indexPath.row] 
-
-        cell.friendUsername.text = username
-
+        cell.friendNickname.text = self.nicknames[indexPath.row]
+        cell.cellUsername = self.usernames[indexPath.row]
+        if profilePicFiles[indexPath.row] is UIImage {
+            cell.friendPicture.image = #imageLiteral(resourceName: "gray")
+        }else{
+            (self.profilePicFiles[indexPath.row] as! AVFile).getDataInBackground { (data:Data?, error:Error?) in
+                if error == nil{
+                    cell.friendPicture.image = UIImage(data: data!)
+                }else{
+                    fatalError(error!.localizedDescription)
+                }
+            }
+        }
         return cell
     }
     
-    func loadData () {
-//        let query = PFUser.query()
+    func loadData (){
         let query = AVQuery(className: "_User")
-        //let query = AVUser.query()
+        let nicknameQuery = AVQuery(className: "_User")
         if searchBar.text != "" {
             query.whereKey("username", hasPrefix: searchBar.text!.lowercased())
             query.whereKey("username", notEqualTo: AVUser.current()!.username!)
+            nicknameQuery.whereKey("nickname", hasPrefix: searchBar.text!.lowercased())
+            nicknameQuery.whereKey("nickname", notEqualTo: AVUser.current()!.value(forKey: "nickname") as! String)
         }else{
             query.whereKey("username", equalTo: "")
+            nicknameQuery.whereKey("nickname", equalTo: "")
         }
         query.order(byAscending: "username")
+        nicknameQuery.order(byAscending: "nickname")
         
-        query.findObjectsInBackground({ (results:[Any]?, error:Error?) in
+        let orQuery = AVQuery.orQuery(withSubqueries: [query, nicknameQuery])
+        
+        orQuery.findObjectsInBackground({ (results:[Any]?, error:Error?) in
             if error==nil{
                 if let usernames = results as? [AVObject]{
                     for oneID in usernames{
+                        self.nicknames.append(oneID["nickname"] as! String)
                         self.usernames.append(oneID["username"] as! String)
+                        if oneID["profileIm"] == nil{
+                            self.profilePicFiles.append(#imageLiteral(resourceName: "gray"))
+                        }else{
+                            self.profilePicFiles.append(oneID["profileIm"] as! AVFile)
+                        }
                     }
                 }else{
                     print("no results!!!!")
@@ -107,19 +118,36 @@ class FriendSearchTableViewController: UITableViewController, UISearchBarDelegat
         })
     }
     
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        let view = UIImageView(image: #imageLiteral(resourceName: "searchEmpty"))
+        view.frame = CGRect(x: 57, y: 76, width: 301, height: 73)
+        self.tableView.backgroundView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
+        self.tableView.backgroundView?.addSubview(view)
+        if tableView.dataSource?.tableView(tableView, numberOfRowsInSection: section) == 0{
+            self.tableView.backgroundView?.isHidden = false
+            return nil
+        }else{
+            self.tableView.backgroundView?.isHidden = true
+            return "用户"
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.usernames.count
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        //        let cell = tableView.dequeueReusableCellWithIdentifier("friendCell", forIndexPath: indexPath) as! FriendsSearchTableviewCell
-        
         let cell = self.tableView.cellForRow(at: indexPath) as! FriendsSearchTableviewCell
         
         let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "OthersCollectionViewController") as! OthersCollectionViewController
-        vc.userUsername = cell.friendUsername.text!
+        vc.userUsername = cell.cellUsername
         
         print("username pass to othervc\(vc.userUsername)")
         
@@ -156,19 +184,4 @@ class FriendSearchTableViewController: UITableViewController, UISearchBarDelegat
         // Force reload of table data
         self.loadData()
     }
-
-//    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-//        self.filteredUsernames = self.usernames.filter({( newUsername : String) -> Bool in
-//            let categoryMatch = (scope == "All") || (newUsername == scope)
-//            return categoryMatch && newUsername.lowercased().contains(searchText.lowercased())
-//        })
-//        
-//        tableView.reloadData()
-//    }
 }
-
-//extension FriendSearchTableViewController: UISearchResultsUpdating {
-//    func updateSearchResults(for searchController: UISearchController) {
-//        filterContentForSearchText(searchController.searchBar.text!)
-//    }
-//}
