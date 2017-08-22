@@ -5,9 +5,11 @@
 #import "AVConstants.h"
 #import "AVObject.h"
 #import "AVSubclassing.h"
+#import "AVDynamicObject.h"
 
 @class AVRole;
 @class AVQuery;
+@class AVUserShortMessageRequestOptions;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -114,6 +116,17 @@ A LeanCloud Framework User Object that is a local representation of a user persi
  */
 +(void)requestMobilePhoneVerify:(NSString *)phoneNumber withBlock:(AVBooleanResultBlock)block;
 
+/**
+ Request a verification code for a phone number.
+
+ @param phoneNumber The phone number that will be verified later.
+ @param options     The short message request options.
+ @param callback    The callback of request.
+ */
++ (void)requestVerificationCodeForPhoneNumber:(NSString *)phoneNumber
+                                      options:(nullable AVUserShortMessageRequestOptions *)options
+                                     callback:(AVBooleanResultBlock)callback;
+
 /*!
  *  验证手机验证码
  *  发送验证码给服务器进行验证。
@@ -132,6 +145,12 @@ A LeanCloud Framework User Object that is a local representation of a user persi
 - (nullable NSArray<AVRole *> *)getRoles:(NSError **)error;
 
 /*!
+ An alias of `-[AVUser getRolesAndThrowsWithError:]` methods that supports Swift exception.
+ @seealso `-[AVUser getRolesAndThrowsWithError:]`
+ */
+- (nullable NSArray<AVRole *> *)getRolesAndThrowsWithError:(NSError **)error;
+
+/*!
  Asynchronously get roles which current user belongs to.
 
  @param block The callback for request.
@@ -144,6 +163,12 @@ A LeanCloud Framework User Object that is a local representation of a user persi
  @return whether the sign up was successful.
  */
 - (BOOL)signUp:(NSError **)error;
+
+/*!
+ An alias of `-[AVUser signUp:]` methods that supports Swift exception.
+ @seealso `-[AVUser signUp:]`
+ */
+- (BOOL)signUpAndThrowsWithError:(NSError **)error;
 
 /*!
  Signs up the user asynchronously. Make sure that password and username are set. This will also enforce that the username isn't already taken.
@@ -159,6 +184,13 @@ A LeanCloud Framework User Object that is a local representation of a user persi
  @warning 此用户必须登录且同时提供了新旧密码，否则不能更新成功。
  */
 - (void)updatePassword:(NSString *)oldPassword newPassword:(NSString *)newPassword block:(AVIdResultBlock)block;
+
+/*!
+ Refresh user session token asynchronously.
+
+ @param block The callback of request.
+ */
+- (void)refreshSessionTokenWithBlock:(AVBooleanResultBlock)block;
 
 /*!
  Makes a request to login a user with specified credentials. Returns an
@@ -213,6 +245,17 @@ A LeanCloud Framework User Object that is a local representation of a user persi
  *  @param block 回调结果
  */
 +(void)requestLoginSmsCode:(NSString *)phoneNumber withBlock:(AVBooleanResultBlock)block;
+
+/**
+ Request a login code for a phone number.
+
+ @param phoneNumber The phone number of an user who will login later.
+ @param options     The short message request options.
+ @param callback    The callback of request.
+ */
++ (void)requestLoginCodeForPhoneNumber:(NSString *)phoneNumber
+                               options:(nullable AVUserShortMessageRequestOptions *)options
+                              callback:(AVBooleanResultBlock)callback;
 
 /*!
  *  使用手机号码和验证码登录
@@ -298,6 +341,17 @@ A LeanCloud Framework User Object that is a local representation of a user persi
 +(void)requestPasswordResetWithPhoneNumber:(NSString *)phoneNumber
                                      block:(AVBooleanResultBlock)block;
 
+/**
+ Request a password reset code for a phone number.
+
+ @param phoneNumber The phone number of an user whose password will be reset.
+ @param options     The short message request options.
+ @param callback    The callback of request.
+ */
++ (void)requestPasswordResetCodeForPhoneNumber:(NSString *)phoneNumber
+                                       options:(nullable AVUserShortMessageRequestOptions *)options
+                                      callback:(AVBooleanResultBlock)callback;
+
 /*!
  *  使用验证码重置密码
  *  @param code 6位验证码
@@ -328,6 +382,13 @@ A LeanCloud Framework User Object that is a local representation of a user persi
  Creates a query for AVUser objects.
  */
 + (AVQuery *)query;
+
+@end
+
+@interface AVUserShortMessageRequestOptions : AVDynamicObject
+
+@property (nonatomic, copy, nullable) NSString *validationToken;
+
 @end
 
 @interface AVUser (Deprecated)

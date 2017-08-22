@@ -1,40 +1,34 @@
 PODS:
-  - AVOSCloud (3.8.1)
-  - AVOSCloudCrashReporting (3.8.1):
-    - AVOSCloud (= 3.8.1)
-    - AVOSCloudCrashReporting/_ARC (= 3.8.1)
-    - AVOSCloudCrashReporting/_NOARC (= 3.8.1)
-  - AVOSCloudCrashReporting/_ARC (3.8.1):
-    - AVOSCloud (= 3.8.1)
-    - AVOSCloudCrashReporting/_NOARC (= 3.8.1)
-  - AVOSCloudCrashReporting/_NOARC (3.8.1):
-    - AVOSCloud (= 3.8.1)
-  - AVOSCloudIM (3.8.1):
-    - AVOSCloud (= 3.8.1)
-    - AVOSCloudIM/_ARC (= 3.8.1)
-    - AVOSCloudIM/_NOARC (= 3.8.1)
-  - AVOSCloudIM/_ARC (3.8.1):
-    - AVOSCloud (= 3.8.1)
-    - AVOSCloudIM/_NOARC (= 3.8.1)
-  - AVOSCloudIM/_NOARC (3.8.1):
-    - AVOSCloud (= 3.8.1)
-  - JSQMessagesViewController (7.3.4):
+  - AVOSCloud (7.1.0)
+  - AVOSCloudIM (7.1.0):
+    - AVOSCloud (= 7.1.0)
+    - AVOSCloudIM/_ARC (= 7.1.0)
+    - AVOSCloudIM/_NOARC (= 7.1.0)
+  - AVOSCloudIM/_ARC (7.1.0):
+    - AVOSCloud (= 7.1.0)
+    - AVOSCloudIM/_NOARC (= 7.1.0)
+  - AVOSCloudIM/_NOARC (7.1.0):
+    - AVOSCloud (= 7.1.0)
+  - JSQMessagesViewController (7.3.5):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
+  - NVActivityIndicatorView (3.7.0):
+    - NVActivityIndicatorView/Presenter (= 3.7.0)
+  - NVActivityIndicatorView/Presenter (3.7.0)
 
 DEPENDENCIES:
   - AVOSCloud
-  - AVOSCloudCrashReporting
   - AVOSCloudIM
   - JSQMessagesViewController
+  - NVActivityIndicatorView
 
 SPEC CHECKSUMS:
-  AVOSCloud: aa4b75bd7de2f62431ec7acbf357a25a66499427
-  AVOSCloudCrashReporting: e4507d3d9eadb8aaf06dad51fd9401c9d54d5d87
-  AVOSCloudIM: 5ce9c6d38dfb60347aecfa2666829d73335b4541
-  JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
+  AVOSCloud: 8eebafb173f584c00a3ff68b0c98b9de3688da65
+  AVOSCloudIM: a93815efaec33aeefe6c4df6ac1f7df8b867d576
+  JSQMessagesViewController: 6587f56aedbcb150a8ba1d968e1ef58b1bc758b7
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
+  NVActivityIndicatorView: d3738df7e2e476aca0ba6bf32a8c9fbcfc33d64b
 
-PODFILE CHECKSUM: 509eff7054eeae541d367d718e1af0a8deadd28f
+PODFILE CHECKSUM: 212c7b4d0d91ab1dd8d3b45441f430fb00178904
 
 COCOAPODS: 1.1.1

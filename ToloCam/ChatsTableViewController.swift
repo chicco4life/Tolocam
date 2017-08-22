@@ -11,11 +11,14 @@ import AVOSCloud
 
 struct manager {
     static var chattingWith = UserDefaults.standard.array(forKey: "chattingWithArray") as? [String]
+    static var userAndUnreadMessagesCount = UserDefaults.standard.dictionary(forKey: "userAndUnreadMessagesCount") as! [String:Int]
 }
 
 class ChatsTableViewController: UITableViewController {
     
     let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+    
+    var tempUserObject = [AVUser]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,10 +41,6 @@ class ChatsTableViewController: UITableViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(ChatsTableViewController.__refresh), name: NSNotification.Name(rawValue: "ChatVCRefresh"), object: nil)
         
         self.tableView.reloadData()
-        
-        if manager.chattingWith == nil{
-            manager.chattingWith = []
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,15 +63,48 @@ class ChatsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatsCell", for: indexPath) as! ChatsTableViewCell
-
-        // Configure the cell...
-        cell.username.text = manager.chattingWith?[indexPath.row]
-
+        
+        let userId = manager.chattingWith?[indexPath.row]
+        let query = AVQuery(className: "_User")
+        query.whereKey("objectId", equalTo: userId)
+        query.getFirstObjectInBackground { (result, error) in
+            if error == nil{
+                let user = result as! AVUser
+                self.tempUserObject.append(user)
+                cell.username.text = user.value(forKey: "nickname") as! String
+                if let image = user.value(forKey: "profileIm") as? AVFile{
+                    image.getDataInBackground { (data, error) in
+                        if error == nil{
+                            cell.profileImageView.image = UIImage(data: data!)
+                        }else{
+                            print(error!.localizedDescription)
+                        }
+                    }
+                }else{
+                    cell.profileImageView.image = #imageLiteral(resourceName: "gray.png")
+                }
+                
+                cell.unreadCountLabel.isHidden = false
+                if manager.userAndUnreadMessagesCount[user.objectId!] != nil && manager.userAndUnreadMessagesCount[user.objectId!] != 0{
+                    cell.unreadCountLabel.text = String(describing: manager.userAndUnreadMessagesCount[user.objectId!]!)
+                }else{
+                    cell.unreadCountLabel.isHidden = true
+                }
+                
+            }else{
+                print(error!.localizedDescription)
+            }
+        }
         return cell
     }
     
     func __refresh(){
         self.tableView?.reloadData()
+        let tabItems = self.tabBarController!.tabBar.items!
+        let tabItem = tabItems[3]
+        let unreadMessages = Array(manager.userAndUnreadMessagesCount.values).reduce(0, +)
+        tabItem.badgeValue = unreadMessages != 0 ? String(unreadMessages) : nil
+        UIApplication.shared.applicationIconBadgeNumber = unreadMessages
         self.refreshControl?.endRefreshing()
     }
 
@@ -94,36 +126,13 @@ class ChatsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "chatVC") as! ChatViewController
-        let ID = manager.chattingWith?[indexPath.row]
-        vc.username = ID!
-        
-        let userQuery = AVQuery(className: "_User")
-        userQuery.whereKey("username", equalTo: ID!)
-        userQuery.getFirstObjectInBackground { (result:AVObject?, error:Error?) in
-            if error == nil{
-                let selectedCellUser = result as! AVUser
-                
-                vc.otherUser = selectedCellUser
-                
-                //using object IDs to create a channel name
-                var array = [String]()
-                array.append(selectedCellUser.objectId!)
-                array.append((AVUser.current()?.objectId)!)
-                array.sort()
-                
-                let channelName = "\(array[0])-\(array[1])-channel"
-                print(channelName)
-                vc.currentChannel = channelName
-                
-//                self.appDelegate.client?.subscribeToChannels([channelName], withPresence: true)
-                self.navigationController!.pushViewController(vc, animated: true)
-            }else{
-                print(error.debugDescription)
-            }
-        }
+        let userId = manager.chattingWith![indexPath.row]
+        let ID = AVQuery.getObjectOfClass("_User", objectId: userId)?.value(forKey: "nickname") as! String
+        vc.username = ID
+        vc.otherUser = self.tempUserObject[indexPath.row]
+        self.navigationController!.pushViewController(vc, animated: true)
     }
     /*
     // Override to support rearranging the table view.

@@ -78,6 +78,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (readwrite, assign) NSTimeInterval maxCacheAge;
 
+/*!
+ Make the query include AVObjects that have a reference stored at the provided key.
+ This has an effect similar to a join.  You can use dot notation to specify which fields in
+ the included object are also fetch.
+
+ @param key The key to load child AVObjects for.
+ */
+- (void)includeKey:(NSString *)key;
+
 #pragma mark - Find methods
 
 /*!
@@ -92,6 +101,12 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return AVObjects 数组
  */
 - (nullable NSArray *)findObjects:(NSError **)error;
+
+/*!
+ An alias of `-[AVSearchQuery findObjects:]` methods that supports Swift exception.
+ @seealso `-[AVSearchQuery findObjects:]`
+ */
+- (nullable NSArray *)findObjectsAndThrowsWithError:(NSError **)error;
 
 /*!
  *  异步获取搜索结果，并回调block

@@ -10,8 +10,8 @@
 #import "AVUtils.h"
 #import "AVQuery_Internal.h"
 #import "AVInstallation_Internal.h"
-#import "AVOSCloud_Internal.h"
 #import "AVObjectUtils.h"
+#import "LCRouter.h"
 
 /*!
  A class which defines a push notification that can be sent from
@@ -43,7 +43,7 @@ NSString *const kAVPushTargetPlatformWindowsPhone = @"wp";
 
 +(NSString *)myObjectPath
 {
-    return [[[AVOSCloud RESTBaseURL] URLByAppendingPathComponent:@"push"] absoluteString];
+    return [[LCRouter sharedInstance] URLStringForPath:@"push"];
 }
 
 -(id)init
@@ -260,6 +260,10 @@ NSString *const kAVPushTargetPlatformWindowsPhone = @"wp";
     return [AVPush sendPushMessage:self wait:YES block:^(BOOL succeeded, NSError *error) {} error:error];
 }
 
+- (BOOL)sendPushAndThrowsWithError:(NSError * _Nullable __autoreleasing *)error {
+    return [self sendPush:error];
+}
+
 - (void)sendPushInBackground
 {
     [AVPush sendPushMessage:self wait:NO block:^(BOOL succeeded, NSError *error) {} error:nil];
@@ -417,6 +421,10 @@ NSString *const kAVPushTargetPlatformWindowsPhone = @"wp";
 {
     return [AVPush getSubscribedChannelsWithBlock:^(NSSet *channels, NSError *error) {
     } wait:YES error:error];
+}
+
++ (NSSet *)getSubscribedChannelsAndThrowsWithError:(NSError * _Nullable __autoreleasing *)error {
+    return [self getSubscribedChannels:error];
 }
 
 + (void)getSubscribedChannelsInBackgroundWithBlock:(AVSetResultBlock)block

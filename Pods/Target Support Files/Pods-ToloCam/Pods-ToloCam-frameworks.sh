@@ -85,15 +85,15 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/AVOSCloud/AVOSCloud.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/AVOSCloudCrashReporting/AVOSCloudCrashReporting.framework"
   install_framework "$BUILT_PRODUCTS_DIR/AVOSCloudIM/AVOSCloudIM.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JSQMessagesViewController/JSQMessagesViewController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JSQSystemSoundPlayer/JSQSystemSoundPlayer.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/NVActivityIndicatorView/NVActivityIndicatorView.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/AVOSCloud/AVOSCloud.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/AVOSCloudCrashReporting/AVOSCloudCrashReporting.framework"
   install_framework "$BUILT_PRODUCTS_DIR/AVOSCloudIM/AVOSCloudIM.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JSQMessagesViewController/JSQMessagesViewController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JSQSystemSoundPlayer/JSQSystemSoundPlayer.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/NVActivityIndicatorView/NVActivityIndicatorView.framework"
 fi

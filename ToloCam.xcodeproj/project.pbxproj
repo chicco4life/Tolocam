@@ -29,6 +29,7 @@
 		B6CA60551EA87C94000FCD35 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6CA60541EA87C94000FCD35 /* UserNotifications.framework */; };
 		B6CA60571EA87CA5000FCD35 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6CA60561EA87CA5000FCD35 /* CoreTelephony.framework */; };
 		B6DC542D1DABF12600E50276 /* gray.png in Resources */ = {isa = PBXBuildFile; fileRef = B6DC542C1DABF12600E50276 /* gray.png */; };
+		B6DD034F1F3D761D00002E95 /* EULAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DD034E1F3D761D00002E95 /* EULAViewController.swift */; };
 		B6E647521E7CEB08007BF2E0 /* TagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E647511E7CEB08007BF2E0 /* TagsViewController.swift */; };
 		B6E67FCE1E059A680005824B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E67FCD1E059A680005824B /* ChatViewController.swift */; };
 		B6F6ED491ED1FC1D008C13D0 /* Launch Screen@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B6F6ED481ED1FC1D008C13D0 /* Launch Screen@3x.png */; };
@@ -36,7 +37,7 @@
 		FF06E79B1C75BE8F00920007 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E79A1C75BE8F00920007 /* TabBar.swift */; };
 		FF06E7A51C75C84000920007 /* ExploreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */; };
 		FF06E7A71C75C91F00920007 /* ExploreCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */; };
-		FF7CFC211CD76DAC0091E11E /* Compose2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7CFC201CD76DAC0091E11E /* Compose2ViewController.swift */; };
+		FF7CFC211CD76DAC0091E11E /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7CFC201CD76DAC0091E11E /* ComposeViewController.swift */; };
 		FF7CFC231CD76F1F0091E11E /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7CFC221CD76F1F0091E11E /* CameraViewController.swift */; };
 		FFCBBDC01C6C8D8D00BA0773 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCBBDBF1C6C8D8D00BA0773 /* AppDelegate.swift */; };
 		FFCBBDC21C6C8D8D00BA0773 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCBBDC11C6C8D8D00BA0773 /* LoginViewController.swift */; };
@@ -109,13 +110,14 @@
 		B6CA60541EA87C94000FCD35 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		B6CA60561EA87CA5000FCD35 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		B6DC542C1DABF12600E50276 /* gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gray.png; path = ../gray.png; sourceTree = "<group>"; };
+		B6DD034E1F3D761D00002E95 /* EULAViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EULAViewController.swift; sourceTree = "<group>"; };
 		B6E647511E7CEB08007BF2E0 /* TagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsViewController.swift; sourceTree = "<group>"; };
 		B6E67FCD1E059A680005824B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		B6F6ED481ED1FC1D008C13D0 /* Launch Screen@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Launch Screen@3x.png"; sourceTree = "<group>"; };
 		FF06E79A1C75BE8F00920007 /* TabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewCell.swift; sourceTree = "<group>"; };
 		FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewController.swift; sourceTree = "<group>"; };
-		FF7CFC201CD76DAC0091E11E /* Compose2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Compose2ViewController.swift; sourceTree = "<group>"; };
+		FF7CFC201CD76DAC0091E11E /* ComposeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FF7CFC221CD76F1F0091E11E /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		FFCBBDBC1C6C8D8D00BA0773 /* Zezheng Li.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Zezheng Li.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFCBBDBF1C6C8D8D00BA0773 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -233,6 +235,8 @@
 			children = (
 				FFCBBDC11C6C8D8D00BA0773 /* LoginViewController.swift */,
 				FFD788571C731EBE00ACDB65 /* RegisterViewController.swift */,
+				B6DD034E1F3D761D00002E95 /* EULAViewController.swift */,
+				B6A65F341EB8508B000D43D7 /* ResetPW */,
 			);
 			name = "Login&Register";
 			sourceTree = "<group>";
@@ -256,6 +260,7 @@
 				FFE37A651C775BCE00C1670F /* ProfileCollectionViewCell.swift */,
 				B6A578C61E7CFF6500E6A55F /* FollowTableViewController.swift */,
 				B6A578C81E7CFF7600E6A55F /* FollowTableViewCell.swift */,
+				B67282BA1ECCA6DB00E2D9F8 /* Settings */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -265,6 +270,8 @@
 			children = (
 				FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */,
 				FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */,
+				B6B855731E541C5A00CDD4A1 /* Others */,
+				B6DD9C451E56E64C004CE66B /* Search */,
 			);
 			name = Explore;
 			sourceTree = "<group>";
@@ -272,7 +279,8 @@
 		B6D48DE81D617FF200BDEDB3 /* Compose */ = {
 			isa = PBXGroup;
 			children = (
-				FF7CFC201CD76DAC0091E11E /* Compose2ViewController.swift */,
+				FF7CFC221CD76F1F0091E11E /* CameraViewController.swift */,
+				FF7CFC201CD76DAC0091E11E /* ComposeViewController.swift */,
 				B6E647511E7CEB08007BF2E0 /* TagsViewController.swift */,
 			);
 			name = Compose;
@@ -339,17 +347,12 @@
 				FF06E79A1C75BE8F00920007 /* TabBar.swift */,
 				FFCBBDC31C6C8D8D00BA0773 /* Main.storyboard */,
 				B6D48DE31D617F8800BDEDB3 /* Login&Register */,
-				B6A65F341EB8508B000D43D7 /* ResetPW */,
 				B6D48DE41D617F9A00BDEDB3 /* Posts */,
 				B6D48DE81D617FF200BDEDB3 /* Compose */,
 				B6D48DE71D617FDE00BDEDB3 /* Explore */,
 				B6D48DE51D617FA900BDEDB3 /* Profile */,
 				B6549F171E51767900F443B2 /* Chats */,
-				B6B855731E541C5A00CDD4A1 /* Others */,
-				B6DD9C451E56E64C004CE66B /* Search */,
 				B6E67FCD1E059A680005824B /* ChatViewController.swift */,
-				B67282BA1ECCA6DB00E2D9F8 /* Settings */,
-				FF7CFC221CD76F1F0091E11E /* CameraViewController.swift */,
 				B6B494271DBF210300E3D60A /* ToloCam-Bridging-Header.h */,
 				FFCBBDC91C6C8D8D00BA0773 /* Assets.xcassets */,
 				FFA914D41C7480E500121EE2 /* Supporting Files */,
@@ -493,6 +496,7 @@
 					};
 					FFCBBDDD1C6C8D8D00BA0773 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 2NK2JDQHKG;
 						LastSwiftMigration = 0800;
 						TestTargetID = FFCBBDBB1C6C8D8C00BA0773;
 					};
@@ -605,10 +609,11 @@
 			files = (
 				B67127BB1E6A72C800CFA527 /* PostDetailViewController.swift in Sources */,
 				B6549F161E51766F00F443B2 /* ChatsTableViewCell.swift in Sources */,
-				FF7CFC211CD76DAC0091E11E /* Compose2ViewController.swift in Sources */,
+				FF7CFC211CD76DAC0091E11E /* ComposeViewController.swift in Sources */,
 				FF7CFC231CD76F1F0091E11E /* CameraViewController.swift in Sources */,
 				B6A578C91E7CFF7600E6A55F /* FollowTableViewCell.swift in Sources */,
 				B62A3EA01CD3D157006C1F74 /* FriendSearchTableViewController.swift in Sources */,
+				B6DD034F1F3D761D00002E95 /* EULAViewController.swift in Sources */,
 				B61548D31EB8F668002B42C2 /* ResetPWPhoneViewController.swift in Sources */,
 				FFD788521C6CB1BB00ACDB65 /* PostTableViewController.swift in Sources */,
 				B6E647521E7CEB08007BF2E0 /* TagsViewController.swift in Sources */,
@@ -710,6 +715,7 @@
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: leo4life2@163.com (42PESW7DT6)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 2NK2JDQHKG;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -759,6 +765,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 2NK2JDQHKG;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -795,7 +802,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ToloCam/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -828,7 +835,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ToloCam/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
