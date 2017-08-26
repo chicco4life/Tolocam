@@ -64,9 +64,10 @@ class ChatsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatsCell", for: indexPath) as! ChatsTableViewCell
         
-        let userId = manager.chattingWith?[indexPath.row]
+        cell.userObjectId = manager.chattingWith![indexPath.row]
+        
         let query = AVQuery(className: "_User")
-        query.whereKey("objectId", equalTo: userId)
+        query.whereKey("objectId", equalTo: manager.chattingWith?[indexPath.row])
         query.getFirstObjectInBackground { (result, error) in
             if error == nil{
                 let user = result as! AVUser
@@ -128,7 +129,7 @@ class ChatsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "chatVC") as! ChatViewController
-        let userId = manager.chattingWith![indexPath.row]
+        let userId = (self.tableView.cellForRow(at: indexPath) as! ChatsTableViewCell).userObjectId
         let ID = AVQuery.getObjectOfClass("_User", objectId: userId)?.value(forKey: "nickname") as! String
         vc.username = ID
         vc.otherUser = self.tempUserObject[indexPath.row]

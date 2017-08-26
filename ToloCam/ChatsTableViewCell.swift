@@ -14,6 +14,8 @@ class ChatsTableViewCell: UITableViewCell {
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var unreadCountLabel: UILabel!
     
+    var userObjectId = String()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
