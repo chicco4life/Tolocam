@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  ToloCam
+
+  Created by Leo Li on 10/09/2017.
+  Copyright © 2017 Federico Li. All rights reserved.
+*/
+
+//Login VC
+"输入用户名" = "输入用户名";
+"输入密码" = "输入密码";
+"忘记密码" = "忘记密码";
+"登录" = "登录";
+"没有账号？点此注册" = "没有账号？点此注册";
+//Register VC
+//Use Login VC's 输入用户名 for Register VC's Textfield
+"输入手机号" = "输入手机号";
+"输入验证码" = "输入验证码";
+"发送" = "发送";
+"注册" = "注册";
+"已有账号？点此登录" = "已有账号？点此登录";
+
+

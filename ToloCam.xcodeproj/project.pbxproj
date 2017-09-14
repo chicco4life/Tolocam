@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B608E4101F6581B3008C91FF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B608E40F1F6581B3008C91FF /* Localizable.strings */; };
 		B61548D31EB8F668002B42C2 /* ResetPWPhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61548D21EB8F668002B42C2 /* ResetPWPhoneViewController.swift */; };
 		B62A3EA01CD3D157006C1F74 /* FriendSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A3E9F1CD3D157006C1F74 /* FriendSearchTableViewController.swift */; };
 		B62A3EA21CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A3EA11CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift */; };
@@ -28,6 +29,8 @@
 		B6C4FF3A1CD5F4C9008548A2 /* OthersCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C4FF391CD5F4C9008548A2 /* OthersCollectionViewController.swift */; };
 		B6CA60551EA87C94000FCD35 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6CA60541EA87C94000FCD35 /* UserNotifications.framework */; };
 		B6CA60571EA87CA5000FCD35 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6CA60561EA87CA5000FCD35 /* CoreTelephony.framework */; };
+		B6D57DB01F593EA10068AD82 /* WalkthroughPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D57DAF1F593EA10068AD82 /* WalkthroughPageViewController.swift */; };
+		B6D57DB21F593EB10068AD82 /* Walkthrough3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D57DB11F593EB10068AD82 /* Walkthrough3ViewController.swift */; };
 		B6DC542D1DABF12600E50276 /* gray.png in Resources */ = {isa = PBXBuildFile; fileRef = B6DC542C1DABF12600E50276 /* gray.png */; };
 		B6DD034F1F3D761D00002E95 /* EULAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DD034E1F3D761D00002E95 /* EULAViewController.swift */; };
 		B6E647521E7CEB08007BF2E0 /* TagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E647511E7CEB08007BF2E0 /* TagsViewController.swift */; };
@@ -86,6 +89,7 @@
 		395F1D28B703793C52048A8C /* Pods-ToloCam.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToloCam.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ToloCam/Pods-ToloCam.debug.xcconfig"; sourceTree = "<group>"; };
 		6CEA4F539AF8D95079101BB0 /* Pods_ToloCam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToloCam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		844A0FDB61607EFC2764E1C9 /* Pods-ToloCam.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToloCam.release.xcconfig"; path = "Pods/Target Support Files/Pods-ToloCam/Pods-ToloCam.release.xcconfig"; sourceTree = "<group>"; };
+		B608E40F1F6581B3008C91FF /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		B61548D21EB8F668002B42C2 /* ResetPWPhoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetPWPhoneViewController.swift; sourceTree = "<group>"; };
 		B62A3E9F1CD3D157006C1F74 /* FriendSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendSearchTableViewController.swift; sourceTree = "<group>"; };
 		B62A3EA11CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsSearchTableviewCell.swift; sourceTree = "<group>"; };
@@ -109,6 +113,8 @@
 		B6C4FF391CD5F4C9008548A2 /* OthersCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OthersCollectionViewController.swift; sourceTree = "<group>"; };
 		B6CA60541EA87C94000FCD35 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		B6CA60561EA87CA5000FCD35 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		B6D57DAF1F593EA10068AD82 /* WalkthroughPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkthroughPageViewController.swift; sourceTree = "<group>"; };
+		B6D57DB11F593EB10068AD82 /* Walkthrough3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Walkthrough3ViewController.swift; sourceTree = "<group>"; };
 		B6DC542C1DABF12600E50276 /* gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gray.png; path = ../gray.png; sourceTree = "<group>"; };
 		B6DD034E1F3D761D00002E95 /* EULAViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EULAViewController.swift; sourceTree = "<group>"; };
 		B6E647511E7CEB08007BF2E0 /* TagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsViewController.swift; sourceTree = "<group>"; };
@@ -247,8 +253,8 @@
 				FFD788511C6CB1BB00ACDB65 /* PostTableViewController.swift */,
 				FFD7884F1C6CB14300ACDB65 /* PostTableViewCell.swift */,
 				B67127BA1E6A72C800CFA527 /* PostDetailViewController.swift */,
-				B6A578C21E7CF99400E6A55F /* LikerTableViewController.swift */,
-				B6A578C41E7CFB5000E6A55F /* LikerTableViewCell.swift */,
+				B6D57DAE1F593E840068AD82 /* Walkthough */,
+				B6D57DAD1F593E760068AD82 /* LikerTableView */,
 			);
 			name = Posts;
 			sourceTree = "<group>";
@@ -286,6 +292,24 @@
 			name = Compose;
 			sourceTree = "<group>";
 		};
+		B6D57DAD1F593E760068AD82 /* LikerTableView */ = {
+			isa = PBXGroup;
+			children = (
+				B6A578C21E7CF99400E6A55F /* LikerTableViewController.swift */,
+				B6A578C41E7CFB5000E6A55F /* LikerTableViewCell.swift */,
+			);
+			name = LikerTableView;
+			sourceTree = "<group>";
+		};
+		B6D57DAE1F593E840068AD82 /* Walkthough */ = {
+			isa = PBXGroup;
+			children = (
+				B6D57DAF1F593EA10068AD82 /* WalkthroughPageViewController.swift */,
+				B6D57DB11F593EB10068AD82 /* Walkthrough3ViewController.swift */,
+			);
+			name = Walkthough;
+			sourceTree = "<group>";
+		};
 		B6DD9C451E56E64C004CE66B /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -307,6 +331,7 @@
 		FFA914D41C7480E500121EE2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B608E40F1F6581B3008C91FF /* Localizable.strings */,
 				B6DC542C1DABF12600E50276 /* gray.png */,
 				B6F6ED481ED1FC1D008C13D0 /* Launch Screen@3x.png */,
 				B6BBD0CF1E513CB600FBEC84 /* meow.wav */,
@@ -350,8 +375,8 @@
 				B6D48DE41D617F9A00BDEDB3 /* Posts */,
 				B6D48DE81D617FF200BDEDB3 /* Compose */,
 				B6D48DE71D617FDE00BDEDB3 /* Explore */,
-				B6D48DE51D617FA900BDEDB3 /* Profile */,
 				B6549F171E51767900F443B2 /* Chats */,
+				B6D48DE51D617FA900BDEDB3 /* Profile */,
 				B6E67FCD1E059A680005824B /* ChatViewController.swift */,
 				B6B494271DBF210300E3D60A /* ToloCam-Bridging-Header.h */,
 				FFCBBDC91C6C8D8D00BA0773 /* Assets.xcassets */,
@@ -531,6 +556,7 @@
 				B691DA351D7016E700AF1EF6 /* Coves Light.otf in Resources */,
 				FFCBBDCD1C6C8D8D00BA0773 /* LaunchScreen.storyboard in Resources */,
 				B6BBD0D01E513CB600FBEC84 /* meow.wav in Resources */,
+				B608E4101F6581B3008C91FF /* Localizable.strings in Resources */,
 				FFCBBDCA1C6C8D8D00BA0773 /* Assets.xcassets in Resources */,
 				B6F6ED491ED1FC1D008C13D0 /* Launch Screen@3x.png in Resources */,
 				B6DC542D1DABF12600E50276 /* gray.png in Resources */,
@@ -626,6 +652,7 @@
 				B67282BC1ECCA6F500E2D9F8 /* SettingsResetPWPhoneViewController.swift in Sources */,
 				FF06E7A71C75C91F00920007 /* ExploreCollectionViewController.swift in Sources */,
 				FFD788581C731EBF00ACDB65 /* RegisterViewController.swift in Sources */,
+				B6D57DB21F593EB10068AD82 /* Walkthrough3ViewController.swift in Sources */,
 				FFCBBDC81C6C8D8D00BA0773 /* ToloCam.xcdatamodeld in Sources */,
 				FFE37A641C775BAD00C1670F /* ProfileCollectionViewController.swift in Sources */,
 				B6A65F331EB84FBC000D43D7 /* ResetPWMailViewController.swift in Sources */,
@@ -633,6 +660,7 @@
 				FFCBBDC01C6C8D8D00BA0773 /* AppDelegate.swift in Sources */,
 				FFD788501C6CB14300ACDB65 /* PostTableViewCell.swift in Sources */,
 				B6E67FCE1E059A680005824B /* ChatViewController.swift in Sources */,
+				B6D57DB01F593EA10068AD82 /* WalkthroughPageViewController.swift in Sources */,
 				FF06E7A51C75C84000920007 /* ExploreCollectionViewCell.swift in Sources */,
 				FFE37A661C775BCE00C1670F /* ProfileCollectionViewCell.swift in Sources */,
 				B62A3EA21CD3D17A006C1F74 /* FriendsSearchTableviewCell.swift in Sources */,

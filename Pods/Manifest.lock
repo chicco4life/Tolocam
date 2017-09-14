@@ -1,14 +1,14 @@
 PODS:
-  - AVOSCloud (7.1.0)
-  - AVOSCloudIM (7.1.0):
-    - AVOSCloud (= 7.1.0)
-    - AVOSCloudIM/_ARC (= 7.1.0)
-    - AVOSCloudIM/_NOARC (= 7.1.0)
-  - AVOSCloudIM/_ARC (7.1.0):
-    - AVOSCloud (= 7.1.0)
-    - AVOSCloudIM/_NOARC (= 7.1.0)
-  - AVOSCloudIM/_NOARC (7.1.0):
-    - AVOSCloud (= 7.1.0)
+  - AVOSCloud (7.2.0)
+  - AVOSCloudIM (7.2.0):
+    - AVOSCloud (= 7.2.0)
+    - AVOSCloudIM/_ARC (= 7.2.0)
+    - AVOSCloudIM/_NOARC (= 7.2.0)
+  - AVOSCloudIM/_ARC (7.2.0):
+    - AVOSCloud (= 7.2.0)
+    - AVOSCloudIM/_NOARC (= 7.2.0)
+  - AVOSCloudIM/_NOARC (7.2.0):
+    - AVOSCloud (= 7.2.0)
   - JSQMessagesViewController (7.3.5):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
@@ -23,8 +23,8 @@ DEPENDENCIES:
   - NVActivityIndicatorView
 
 SPEC CHECKSUMS:
-  AVOSCloud: 8eebafb173f584c00a3ff68b0c98b9de3688da65
-  AVOSCloudIM: a93815efaec33aeefe6c4df6ac1f7df8b867d576
+  AVOSCloud: 9f09a2a734fe980685866feded7f6129141e9336
+  AVOSCloudIM: a14d3ccf0808dff33160a3287c84aa7e3fa17995
   JSQMessagesViewController: 6587f56aedbcb150a8ba1d968e1ef58b1bc758b7
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   NVActivityIndicatorView: d3738df7e2e476aca0ba6bf32a8c9fbcfc33d64b
