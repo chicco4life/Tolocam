@@ -59,11 +59,9 @@
          finished = YES;
      }
      failure:^(NSHTTPURLResponse *response, id responseObject, NSError *inError) {
-         NSError *serverError = [AVErrorUtils errorFromJSON:responseObject];
 
-         if (serverError) {
-             error = serverError;
-         } else {
+         if (inError) {
+             
              error = inError;
          }
 
@@ -133,18 +131,12 @@
     [[AVPaasClient sharedInstance]
      performRequest:request
      success:^(NSHTTPURLResponse *response, id responseObject) {
-         NSError *error = [AVErrorUtils errorFromJSON:responseObject];
-
-         if (error) {
-             [AVUtils callIdResultBlock:block object:nil error:error];
-         } else {
-             id result = [self processedFunctionResultFromObject:responseObject[@"result"]];
-             [AVUtils callIdResultBlock:block object:result error:nil];
-         }
+         id result = [self processedFunctionResultFromObject:responseObject[@"result"]];
+         [AVUtils callIdResultBlock:block object:result error:nil];
      }
      failure:^(NSHTTPURLResponse *response, id responseObject, NSError *inError) {
-         NSError *error = [AVErrorUtils errorFromJSON:responseObject] ?: inError;
-         [AVUtils callIdResultBlock:block object:nil error:error];
+         
+         [AVUtils callIdResultBlock:block object:nil error:inError];
      }];
 }
 
@@ -152,12 +144,6 @@
     [self rpcFunctionInBackground:function withParameters:parameters block:^(id object, NSError *error) {
         [AVUtils performSelectorIfCould:target selector:selector object:object object:error];
     }];
-}
-
-#pragma mark - Util
-
-+ (NSDictionary *)cloudDictionaryFromObject:(id)object {
-    return [AVObjectUtils dictionaryFromObject:object topObject:YES];
 }
 
 #pragma mark - Data from LeanEngine

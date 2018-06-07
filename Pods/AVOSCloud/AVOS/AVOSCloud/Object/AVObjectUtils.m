@@ -175,17 +175,16 @@
     else if ([AVObjectUtils isPointer:type] ||
              [AVObjectUtils isAVObject:dict] )
     {
-        // the backend stores AVFile as AVObject, but in sdk AVFile is not subclass
-        // of AVObject, have to process the situation here.
+        /*
+         the backend stores AVFile as AVObject, but in sdk AVFile is not subclass of AVObject, have to process the situation here.
+         */
         if ([AVObjectUtils isFilePointer:dict]) {
-            return [AVFile fileFromDictionary:dict];
+            return [[AVFile alloc] initWithRawJSONData:[dict mutableCopy]];
         }
         return [AVObjectUtils avobjectFromDictionary:dict];
     }
-    else if ([AVObjectUtils isFile:type])
-    {
-        AVFile * file = [AVFile fileFromDictionary:dict];
-        return file;
+    else if ([AVObjectUtils isFile:type]) {
+        return [[AVFile alloc] initWithRawJSONData:[dict mutableCopy]];
     }
     else if ([AVObjectUtils isGeoPoint:type])
     {
@@ -242,10 +241,9 @@
     else if ([AVObjectUtils isAVObject:dict]) {
         [target setObject:[AVObjectUtils objectFromDictionary:dict] forKey:key submit:NO];
     }
-    else if ([AVObjectUtils isFile:type])
-    {
-        AVFile * file = [AVFile fileFromDictionary:dict];
-        [target setObject:file forKey:key submit:NO];
+    else if ([AVObjectUtils isFile:type]) {
+        AVFile *file = [[AVFile alloc] initWithRawJSONData:[dict mutableCopy]];
+        [target setObject:file forKey:key submit:false];
     }
     else if ([AVObjectUtils isGeoPoint:type])
     {
@@ -487,7 +485,11 @@
 }
 
 + (NSMutableDictionary *)objectSnapshot:(AVObject *)object recursive:(BOOL)recursive {
-    NSArray * objects = @[object.localData, object.estimatedData];
+    __block NSDictionary *localDataCopy = nil;
+    [object internalSyncLock:^{
+        localDataCopy = object.localData.copy;
+    }];
+    NSArray * objects = @[localDataCopy, object.estimatedData];
     NSMutableDictionary * result = [NSMutableDictionary dictionary];
     [result setObject:@"Object" forKey:kAVTypeTag];
 
@@ -615,11 +617,11 @@
 
 +(NSDictionary *)dictionaryFromFile:(AVFile *)file
 {
-    return [AVFile dictionaryFromFile:file];
+    return [file rawJSONDataCopy];
 }
 
 +(NSDictionary *)dictionaryFromACL:(AVACL *)acl {
-    return acl.permissionsById;
+    return [acl.permissionsById copy];
 }
 
 +(NSDictionary *)dictionaryFromRelation:(AVRelation *)relation {

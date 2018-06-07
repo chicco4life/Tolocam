@@ -13,6 +13,38 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NSString * const LeanCloudSocialPlatform NS_TYPED_EXTENSIBLE_ENUM;
+extern LeanCloudSocialPlatform LeanCloudSocialPlatformWeiBo;
+extern LeanCloudSocialPlatform LeanCloudSocialPlatformQQ;
+extern LeanCloudSocialPlatform LeanCloudSocialPlatformWeiXin;
+
+@interface AVUserAuthDataLoginOption : NSObject
+
+/**
+ Third platform.
+ */
+@property (nonatomic, strong, nullable) LeanCloudSocialPlatform platform;
+
+/**
+ UnionId from the third platform.
+ */
+@property (nonatomic, strong, nullable) NSString *unionId;
+
+/**
+ Set true to generate a platform-unionId signature.
+ if a AVUser instance has a platform-unionId signature, then the platform and the unionId will be the highest priority in auth data matching.
+ @Note must cooperate with platform & unionId.
+ */
+@property (nonatomic, assign) BOOL isMainAccount;
+
+/**
+ Set true to check whether already exists a AVUser instance with the auth data.
+ if not exists, return an error.
+ */
+@property (nonatomic, assign) BOOL failOnNotExist;
+
+@end
+
 /*!
 A LeanCloud Framework User Object that is a local representation of a user persisted to the LeanCloud. This class
  is a subclass of a AVObject, and retains the same functionality of a AVObject, but also extends it with various
@@ -31,7 +63,7 @@ A LeanCloud Framework User Object that is a local representation of a user persi
  Gets the currently logged in user from disk and returns an instance of it.
  @return a AVUser that is the currently logged in user. If there is none, returns nil.
  */
-+ (nullable instancetype)currentUser;
++ (instancetype _Nullable)currentUser;
 
 /*!
  * change the current login user manually.
@@ -39,8 +71,7 @@ A LeanCloud Framework User Object that is a local representation of a user persi
  *  @param save 是否需要把 newUser 保存到本地缓存。如果 newUser==nil && save==YES，则会清除本地缓存
  * Note: 请注意不要随意调用这个函数！
  */
-+(void)changeCurrentUser:(nullable AVUser *)newUser
-                    save:(BOOL)save;
++ (void)changeCurrentUser:(AVUser * _Nullable)newUser save:(BOOL)save;
 
 /// The session token for the AVUser. This is set by the server upon successful authentication.
 @property (nonatomic, copy, nullable) NSString *sessionToken;
@@ -383,6 +414,43 @@ A LeanCloud Framework User Object that is a local representation of a user persi
  */
 + (AVQuery *)query;
 
+// MARK: - Auth Data
+
+/**
+ Login use auth data.
+
+ @param authData Get from third platform, data format e.g. { "id" : "id_string", "access_token" : "access_token_string", ... ... }.
+ @param platformId The key for the auth data, to identify auth data.
+ @param options See AVUserAuthDataLoginOption.
+ @param callback Result callback.
+ */
+- (void)loginWithAuthData:(NSDictionary *)authData
+               platformId:(NSString *)platformId
+                  options:(AVUserAuthDataLoginOption * _Nullable)options
+                 callback:(void (^)(BOOL succeeded, NSError * _Nullable error))callback;
+
+/**
+ Associate auth data to the AVUser instance.
+ 
+ @param authData Get from third platform, data format e.g. { "id" : "id_string", "access_token" : "access_token_string", ... ... }.
+ @param platformId The key for the auth data, to identify auth data.
+ @param options See AVUserAuthDataLoginOption.
+ @param callback Result callback.
+ */
+- (void)associateWithAuthData:(NSDictionary *)authData
+                   platformId:(NSString *)platformId
+                      options:(AVUserAuthDataLoginOption * _Nullable)options
+                     callback:(void (^)(BOOL succeeded, NSError * _Nullable error))callback;
+
+/**
+ Disassociate auth data from the AVUser instance.
+
+ @param platformId The key for the auth data, to identify auth data.
+ @param callback Result callback.
+ */
+- (void)disassociateWithPlatformId:(NSString *)platformId
+                          callback:(void (^)(BOOL succeeded, NSError * _Nullable error))callback;
+
 @end
 
 @interface AVUserShortMessageRequestOptions : AVDynamicObject
@@ -392,6 +460,69 @@ A LeanCloud Framework User Object that is a local representation of a user persi
 @end
 
 @interface AVUser (Deprecated)
+
+/**
+ Use a SNS's auth data to login or signup.
+ if the auth data already bind to a valid AVUser, then the instance of the AVUser will return in result block.
+ if the auth data not bind to a exist AVUser, then a new instance of AVUser will be created and return in result block.
+ 
+ @param authData a Dictionary with specific format.
+ e.g.
+ {
+ "authData" : {
+ 'platform' : {
+ 'uid' : someChars,
+ 'access_token' : someChars,
+ ... ... (other attribute)
+ }
+ }
+ }
+ @param platform if the auth data belongs to Weibo, QQ or Weixin(Wechat),
+ please use `LeanCloudSocialPlatformXXX` to assign platform.
+ if not above platform, use a custom string.
+ @param block result callback.
+ */
++ (void)loginOrSignUpWithAuthData:(NSDictionary *)authData
+                         platform:(NSString *)platform
+                            block:(AVUserResultBlock)block
+__deprecated_msg("deprecated, use -[loginWithAuthData:platformId:options:callback:] instead.");
+
+/**
+ Associate a SNS's auth data to a instance of AVUser.
+ after associated, user can login by auth data.
+ 
+ @param authData a Dictionary with specific format.
+ e.g.
+ {
+ "authData" : {
+ 'platform' : {
+ 'uid' : someChars,
+ 'access_token' : someChars,
+ ... ... (other attribute)
+ }
+ }
+ }
+ @param platform if the auth data belongs to Weibo, QQ or Weixin(Wechat),
+ please use `LeanCloudSocialPlatformXXX` to assign platform.
+ if not above platform, use a custom string.
+ @param block result callback.
+ */
+- (void)associateWithAuthData:(NSDictionary *)authData
+                     platform:(NSString *)platform
+                        block:(AVUserResultBlock)block
+__deprecated_msg("deprecated, use -[associateWithAuthData:platformId:options:callback:] instead.");
+
+/**
+ Disassociate the specified platform's auth data from a instance of AVUser.
+ 
+ @param platform if the auth data belongs to Weibo, QQ or Weixin(Wechat),
+ please use `LeanCloudSocialPlatformXXX` to assign platform.
+ if not above platform, use a custom string.
+ @param block result callback.
+ */
+- (void)disassociateWithPlatform:(NSString *)platform
+                           block:(AVUserResultBlock)block
+__deprecated_msg("deprecated, use -[disassociateWithPlatformId:callback:] instead.");
 
 /*!
  Signs up the user. Make sure that password and username are set. This will also enforce that the username isn't already taken.

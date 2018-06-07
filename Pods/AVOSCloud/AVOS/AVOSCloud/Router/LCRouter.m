@@ -10,6 +10,7 @@
 #import "AVOSCloud.h"
 #import "AVPaasClient.h"
 #import "LCKeyValueStore.h"
+#import "LCNetworkStatistics.h"
 
 #define APIVersion @"1.1"
 
@@ -202,10 +203,41 @@ typedef NS_ENUM(NSInteger, LCServerLocation) {
     [self postUpdateNotification];
 }
 
-- (void)updateInBackground {
+- (void)updateInBackground
+{
     /* App router 2 is unavailable in US node. */
-    if (LCEffectiveServiceRegion == AVServiceRegionUS)
+    if (LCEffectiveServiceRegion == AVServiceRegionUS) {
         return;
+    }
+    
+    BOOL (^isCustomAllService)(void) = ^BOOL(void) {
+        
+        NSArray *serviceKeyArray = @[LCServiceModuleAPI,
+                                     LCServiceModuleRTM,
+                                     LCServiceModulePush,
+                                     LCServiceModuleEngine,
+                                     LCServiceModuleStatistics];
+        
+        for (NSString *serviceKey in serviceKeyArray) {
+            
+            if (_presetURLStringTable[serviceKey] == nil) {
+                
+                return false;
+            }
+        }
+        
+        return true;
+    };
+    
+    /* if custom all service url, then there is no need to update router. */
+    ///
+    BOOL shouldReturn = isCustomAllService();
+    
+    if (shouldReturn) {
+        
+        return;
+    }
+    ///
 
     NSString *applicationId = [AVOSCloud getApplicationId];
 
@@ -300,18 +332,20 @@ typedef NS_ENUM(NSInteger, LCServerLocation) {
         goto found;
     }
 
-    cachedHost = [self cachedServerTableForKey:LCAppRouterCacheKey][module];
-
-    if (cachedHost) {
-        host = cachedHost;
-        goto found;
-    }
-
     switch (self.serverLocation) {
     case LCServerLocationUCloud:
-        host = [self lncldServerForModule:module] ?: [self fallbackAPIURLString]; break;
+        cachedHost = [self cachedServerTableForKey:LCAppRouterCacheKey][module];
+
+        if (cachedHost) {
+            host = cachedHost;
+            goto found;
+        }
+
+        host = [self lncldServerForModule:module] ?: [self fallbackAPIURLString];
+        break;
     default:
-        host = [self fallbackAPIURLString]; break;
+        host = [self fallbackAPIURLString];
+        break;
     }
 
 found:
@@ -383,6 +417,11 @@ found:
     }];
 }
 
+- (NSDictionary *)cachedAppRouterServerTable
+{
+    return [self cachedServerTableForKey:LCAppRouterCacheKey];
+}
+
 - (NSDictionary *)cachedRTMServerTable {
     NSDictionary *RTMServerTable = [self cachedServerTableForKey:LCRTMRouterCacheKey];
 
@@ -405,6 +444,7 @@ found:
         return;
 
     _presetURLStringTable[serviceModule] = URLString;
+    LCNetworkStatistics.sharedInstance.ignoreAlwaysCollectIfCustomedService = true;
 }
 
 @end

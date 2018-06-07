@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 FOUNDATION_EXPORT NSString *const LCServiceModuleAPI;
 FOUNDATION_EXPORT NSString *const LCServiceModuleEngine;
 FOUNDATION_EXPORT NSString *const LCServiceModulePush;
@@ -21,9 +23,14 @@ FOUNDATION_EXPORT NSString *const LCRouterDidUpdateNotification;
 + (instancetype)sharedInstance;
 
 /**
+ Get cached App-Router server table
+ */
+- (NSDictionary * _Nullable)cachedAppRouterServerTable;
+
+/**
  Get cached RTM server table.
  */
-- (NSDictionary *)cachedRTMServerTable;
+- (NSDictionary * _Nullable)cachedRTMServerTable;
 
 /**
  Fetch RTM server table asynchronously.
@@ -32,7 +39,7 @@ FOUNDATION_EXPORT NSString *const LCRouterDidUpdateNotification;
 
  @param block The callback of fetching result.
  */
-- (void)fetchRTMServerTableInBackground:(void(^)(NSDictionary *RTMServerTable, NSError *error))block;
+- (void)fetchRTMServerTableInBackground:(void(^_Nullable)(NSDictionary *RTMServerTable, NSError *error))block;
 
 /**
  Get URL string for storage server.
@@ -66,4 +73,14 @@ FOUNDATION_EXPORT NSString *const LCRouterDidUpdateNotification;
  */
 - (void)updateInBackground;
 
+/**
+ Clean router cache.
+
+ @param key Key for cache.
+ */
+- (void)cleanRouterCacheForKey:(NSString *)key;
+
 @end
+
+NS_ASSUME_NONNULL_END
+

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B309C6EA20C992610028A3AD /* AVOSCloud in Frameworks */ = {isa = PBXBuildFile; fileRef = B309C6E920C992610028A3AD /* AVOSCloud */; settings = {ATTRIBUTES = (Required, ); }; };
+		B3A048BE20C993E800B48582 /* AVOSCloudIM in Frameworks */ = {isa = PBXBuildFile; fileRef = B309C6E120C991A20028A3AD /* AVOSCloudIM */; };
+		B3A048BF20C993E800B48582 /* JSQMessagesViewController in Frameworks */ = {isa = PBXBuildFile; fileRef = B309C6E320C991A20028A3AD /* JSQMessagesViewController */; };
+		B3A048C020C993E800B48582 /* JSQSystemSoundPlayer in Frameworks */ = {isa = PBXBuildFile; fileRef = B309C6E520C991A20028A3AD /* JSQSystemSoundPlayer */; };
+		B3A048C120C993E800B48582 /* NVActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; fileRef = B309C6E720C991A20028A3AD /* NVActivityIndicatorView */; };
 		B608E4101F6581B3008C91FF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B608E40F1F6581B3008C91FF /* Localizable.strings */; };
 		B61548D31EB8F668002B42C2 /* ResetPWPhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61548D21EB8F668002B42C2 /* ResetPWPhoneViewController.swift */; };
 		B62A3EA01CD3D157006C1F74 /* FriendSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A3E9F1CD3D157006C1F74 /* FriendSearchTableViewController.swift */; };
@@ -36,7 +41,8 @@
 		B6E647521E7CEB08007BF2E0 /* TagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E647511E7CEB08007BF2E0 /* TagsViewController.swift */; };
 		B6E67FCE1E059A680005824B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E67FCD1E059A680005824B /* ChatViewController.swift */; };
 		B6F6ED491ED1FC1D008C13D0 /* Launch Screen@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B6F6ED481ED1FC1D008C13D0 /* Launch Screen@3x.png */; };
-		FB5377080AA7238B9FFEDCF6 /* Pods_ToloCam.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CEA4F539AF8D95079101BB0 /* Pods_ToloCam.framework */; };
+		F55E2D4340E24201ECE96E28 /* Pods_ToloCam.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FBB475EFFD22D32B3D06948 /* Pods_ToloCam.framework */; };
+		FB5377080AA7238B9FFEDCF6 /* Pods in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CEA4F539AF8D95079101BB0 /* Pods */; };
 		FF06E79B1C75BE8F00920007 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E79A1C75BE8F00920007 /* TabBar.swift */; };
 		FF06E7A51C75C84000920007 /* ExploreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A41C75C84000920007 /* ExploreCollectionViewCell.swift */; };
 		FF06E7A71C75C91F00920007 /* ExploreCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06E7A61C75C91F00920007 /* ExploreCollectionViewController.swift */; };
@@ -87,8 +93,14 @@
 
 /* Begin PBXFileReference section */
 		395F1D28B703793C52048A8C /* Pods-ToloCam.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToloCam.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ToloCam/Pods-ToloCam.debug.xcconfig"; sourceTree = "<group>"; };
-		6CEA4F539AF8D95079101BB0 /* Pods_ToloCam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToloCam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FBB475EFFD22D32B3D06948 /* Pods_ToloCam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToloCam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CEA4F539AF8D95079101BB0 /* Pods */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods; path = ../../../../../../../../Desktop/Developer/ToloCam/Pods; sourceTree = BUILT_PRODUCTS_DIR; };
 		844A0FDB61607EFC2764E1C9 /* Pods-ToloCam.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToloCam.release.xcconfig"; path = "Pods/Target Support Files/Pods-ToloCam/Pods-ToloCam.release.xcconfig"; sourceTree = "<group>"; };
+		B309C6E120C991A20028A3AD /* AVOSCloudIM */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = AVOSCloudIM; path = Pods/AVOSCloudIM; sourceTree = "<group>"; };
+		B309C6E320C991A20028A3AD /* JSQMessagesViewController */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = JSQMessagesViewController; path = Pods/JSQMessagesViewController; sourceTree = "<group>"; };
+		B309C6E520C991A20028A3AD /* JSQSystemSoundPlayer */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = JSQSystemSoundPlayer; path = Pods/JSQSystemSoundPlayer; sourceTree = "<group>"; };
+		B309C6E720C991A20028A3AD /* NVActivityIndicatorView */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = NVActivityIndicatorView; path = Pods/NVActivityIndicatorView; sourceTree = "<group>"; };
+		B309C6E920C992610028A3AD /* AVOSCloud */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = AVOSCloud; path = ../../../../../../../../Desktop/Developer/ToloCam/Pods/AVOSCloud; sourceTree = BUILT_PRODUCTS_DIR; };
 		B608E40F1F6581B3008C91FF /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		B61548D21EB8F668002B42C2 /* ResetPWPhoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetPWPhoneViewController.swift; sourceTree = "<group>"; };
 		B62A3E9F1CD3D157006C1F74 /* FriendSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendSearchTableViewController.swift; sourceTree = "<group>"; };
@@ -150,11 +162,8 @@
 		FFCBBE001C6C8E6F00BA0773 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FFCBBE021C6C8E9200BA0773 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		FFCBBE041C6C8EA600BA0773 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		FFCBBE061C6C8F1600BA0773 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
-		FFCBBE071C6C8F1600BA0773 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		FFD7884F1C6CB14300ACDB65 /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		FFD788511C6CB1BB00ACDB65 /* PostTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewController.swift; sourceTree = "<group>"; };
-		FFD788531C6CB55D00ACDB65 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		FFD788571C731EBE00ACDB65 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		FFE37A631C775BAD00C1670F /* ProfileCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewController.swift; sourceTree = "<group>"; };
 		FFE37A651C775BCE00C1670F /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -165,6 +174,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3A048BE20C993E800B48582 /* AVOSCloudIM in Frameworks */,
+				B3A048BF20C993E800B48582 /* JSQMessagesViewController in Frameworks */,
+				B3A048C020C993E800B48582 /* JSQSystemSoundPlayer in Frameworks */,
+				B3A048C120C993E800B48582 /* NVActivityIndicatorView in Frameworks */,
+				B309C6EA20C992610028A3AD /* AVOSCloud in Frameworks */,
 				B6CA60571EA87CA5000FCD35 /* CoreTelephony.framework in Frameworks */,
 				B6CA60551EA87C94000FCD35 /* UserNotifications.framework in Frameworks */,
 				B6B4942F1DBF24CA00E3D60A /* Accelerate.framework in Frameworks */,
@@ -179,7 +193,8 @@
 				FFCBBDF51C6C8E3E00BA0773 /* CoreGraphics.framework in Frameworks */,
 				FFCBBDF31C6C8E3700BA0773 /* CFNetwork.framework in Frameworks */,
 				FFCBBDF11C6C8E2800BA0773 /* AudioToolbox.framework in Frameworks */,
-				FB5377080AA7238B9FFEDCF6 /* Pods_ToloCam.framework in Frameworks */,
+				FB5377080AA7238B9FFEDCF6 /* Pods in Frameworks */,
+				F55E2D4340E24201ECE96E28 /* Pods_ToloCam.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,6 +424,11 @@
 		FFCBBE0A1C6C8F2600BA0773 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B309C6E920C992610028A3AD /* AVOSCloud */,
+				B309C6E120C991A20028A3AD /* AVOSCloudIM */,
+				B309C6E320C991A20028A3AD /* JSQMessagesViewController */,
+				B309C6E520C991A20028A3AD /* JSQSystemSoundPlayer */,
+				B309C6E720C991A20028A3AD /* NVActivityIndicatorView */,
 				B6CA60561EA87CA5000FCD35 /* CoreTelephony.framework */,
 				B6CA60541EA87C94000FCD35 /* UserNotifications.framework */,
 				B6B4942E1DBF24C900E3D60A /* Accelerate.framework */,
@@ -421,12 +441,10 @@
 				FFCBBDFC1C6C8E5E00BA0773 /* Security.framework */,
 				FFCBBDFE1C6C8E6600BA0773 /* StoreKit.framework */,
 				FFCBBE001C6C8E6F00BA0773 /* SystemConfiguration.framework */,
-				FFCBBE061C6C8F1600BA0773 /* Bolts.framework */,
-				FFCBBE071C6C8F1600BA0773 /* Parse.framework */,
-				FFD788531C6CB55D00ACDB65 /* ParseUI.framework */,
 				FFCBBE041C6C8EA600BA0773 /* libsqlite3.tbd */,
 				FFCBBE021C6C8E9200BA0773 /* libz.tbd */,
-				6CEA4F539AF8D95079101BB0 /* Pods_ToloCam.framework */,
+				6CEA4F539AF8D95079101BB0 /* Pods */,
+				4FBB475EFFD22D32B3D06948 /* Pods_ToloCam.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -443,7 +461,6 @@
 				FFCBBDB91C6C8D8C00BA0773 /* Frameworks */,
 				FFCBBDBA1C6C8D8C00BA0773 /* Resources */,
 				14516FE82AA01011440071A3 /* [CP] Embed Pods Frameworks */,
-				3CDFB9BE50842E1EA68D08F3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -497,7 +514,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Federico Li";
 				TargetAttributes = {
 					FFCBBDBB1C6C8D8C00BA0773 = {
@@ -587,28 +604,24 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-ToloCam/Pods-ToloCam-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AVOSCloud/AVOSCloud.framework",
+				"${BUILT_PRODUCTS_DIR}/AVOSCloudIM/AVOSCloudIM.framework",
+				"${BUILT_PRODUCTS_DIR}/JSQMessagesViewController/JSQMessagesViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/JSQSystemSoundPlayer/JSQSystemSoundPlayer.framework",
+				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AVOSCloud.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AVOSCloudIM.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQMessagesViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQSystemSoundPlayer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ToloCam/Pods-ToloCam-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3CDFB9BE50842E1EA68D08F3 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ToloCam/Pods-ToloCam-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		41DAF901EDE90E96D22C3DE9 /* [CP] Check Pods Manifest.lock */ = {
@@ -617,13 +630,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ToloCam-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -728,14 +744,22 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -778,14 +802,22 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -818,6 +850,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 395F1D28B703793C52048A8C /* Pods-ToloCam.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
@@ -828,6 +861,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Pods",
 				);
 				INFOPLIST_FILE = ToloCam/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -851,6 +885,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 844A0FDB61607EFC2764E1C9 /* Pods-ToloCam.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
@@ -861,6 +896,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Pods",
 				);
 				INFOPLIST_FILE = ToloCam/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

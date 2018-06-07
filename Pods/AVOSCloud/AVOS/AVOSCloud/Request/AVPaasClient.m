@@ -8,7 +8,6 @@
 
 #import "AVPaasClient.h"
 #import "AVPaasClient_internal.h"
-#import "AVNetworking.h"
 #import "LCNetworking.h"
 #import "AVUtils.h"
 #import "AVUser_Internal.h"
@@ -18,7 +17,6 @@
 #import "AVCacheManager.h"
 #import "AVErrorUtils.h"
 #import "AVPersistenceUtils.h"
-#import "AVUploaderManager.h"
 #import "AVScheduler.h"
 #import "AVObjectUtils.h"
 #import "LCNetworkStatistics.h"
@@ -26,6 +24,10 @@
 #import "SDMacros.h"
 #import "AVOSCloud_Internal.h"
 #import "LCSSLChallenger.h"
+#import "AVConstants.h"
+
+static NSString * const kLC_code = @"code";
+static NSString * const kLC_error = @"error";
 
 #define MAX_LAG_TIME 5.0
 
@@ -120,23 +122,6 @@ NSString *const LCHeaderFieldNameProduction = @"X-LC-Prod";
 }
 @end
 
-@implementation AVHTTPClient (CancelMethods)
-- (void)cancelAllHTTPOperationsWithMethod:(NSString *)method absolutePath:(NSString *)path {
-    for (NSOperation *operation in [self.operationQueue operations]) {
-        if (![operation isKindOfClass:[AVHTTPRequestOperation class]]) {
-            continue;
-        }
-        
-        BOOL hasMatchingMethod = !method || [method isEqualToString:[[(AVHTTPRequestOperation *)operation request] HTTPMethod]];
-        BOOL hasMatchingURL = [[[[(AVHTTPRequestOperation *)operation request] URL] absoluteString] isEqualToString:path];
-        
-        if (hasMatchingMethod && hasMatchingURL) {
-            [operation cancel];
-        }
-    }
-}
-@end
-
 @interface AVPaasClient()
 
 @property (nonatomic, strong) LCURLSessionManager *sessionManager;
@@ -187,16 +172,17 @@ NSString *const LCHeaderFieldNameProduction = @"X-LC-Prod";
             LCURLSessionManager *manager = [[LCURLSessionManager alloc] initWithSessionConfiguration:configuration];
             manager.completionQueue = _completionQueue;
 
-#if LC_SSL_PINNING_ENABLED
-            [manager setSessionDidReceiveAuthenticationChallengeBlock:
-            ^NSURLSessionAuthChallengeDisposition(NSURLSession * _Nonnull session,
-                                                  NSURLAuthenticationChallenge * _Nonnull challenge,
-                                                  NSURLCredential *__autoreleasing  _Nullable * _Nullable credential)
-            {
-                [[LCSSLChallenger sharedInstance] acceptChallenge:challenge];
-                return NSURLSessionAuthChallengeUseCredential;
-            }];
-#endif
+            if ([AVOSCloud isSSLPinningEnabled]) {
+                
+                [manager setSessionDidReceiveAuthenticationChallengeBlock:
+                 ^NSURLSessionAuthChallengeDisposition(NSURLSession * _Nonnull session,
+                                                       NSURLAuthenticationChallenge * _Nonnull challenge,
+                                                       NSURLCredential *__autoreleasing  _Nullable * _Nullable credential)
+                 {
+                     [[LCSSLChallenger sharedInstance] acceptChallenge:challenge];
+                     return NSURLSessionAuthChallengeUseCredential;
+                 }];
+            }
 
             /* Remove all null value of result. */
             LCJSONResponseSerializer *responseSerializer = (LCJSONResponseSerializer *)manager.responseSerializer;
@@ -330,10 +316,23 @@ NSString *const LCHeaderFieldNameProduction = @"X-LC-Prod";
                              policy:(AVCachePolicy)policy
                               block:(AVIdResultBlock)block
 {
-    BOOL needCache = (policy != kAVCachePolicyIgnoreCache);
-    NSMutableURLRequest *request = [self requestWithPath:path method:@"GET" headers:nil parameters:parameters];
+    NSURLRequest *request = [self requestWithPath:path method:@"GET" headers:nil parameters:parameters];
 
-    [self performRequest:request saveResult:needCache block:block];
+    /* If GET request too heavy,
+       wrap it into a POST request and ignore cache policy. */
+    if (parameters && request.URL.absoluteString.length > 4096) {
+        NSDictionary *request = [AVPaasClient batchMethod:@"GET" path:path body:nil parameters:parameters];
+        [self postBatchObject:@[request] block:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+            if (!error) {
+                [AVUtils callIdResultBlock:block object:objects.firstObject error:nil];
+            } else {
+                [AVUtils callIdResultBlock:block object:nil error:error];
+            }
+        }];
+    } else {
+        BOOL needCache = (policy != kAVCachePolicyIgnoreCache);
+        [self performRequest:request saveResult:needCache block:block];
+    }
 }
 
 - (void)getObject:(NSString *)path withParameters:(NSDictionary *)parameters policy:(AVCachePolicy)policy maxCacheAge:(NSTimeInterval)maxCacheAge block:(AVIdResultBlock)block {
@@ -440,17 +439,29 @@ NSString *const LCHeaderFieldNameProduction = @"X-LC-Prod";
             if (error) {
                 block(nil, error);
             } else {
-                block(nil, [AVErrorUtils errorWithCode:0 errorText:@"The batch count of server response is not equal to request count"]);
+                block(nil, LCErrorInternal(@"The batch count of server response is not equal to request count"));
             }
         } else {
             // 网络请求成功
             NSMutableArray *results = [NSMutableArray array];
             for (NSDictionary *object in objects) {
-                if (object[@"success"]) {
-                    [results addObject:object[@"success"]];
-                } else if (object[@"error"]) {
-                    NSError *error = [AVErrorUtils errorFromJSON:object[@"error"]];
+                
+                id success = object[@"success"];
+                
+                if (success) {
+                    
+                    [results addObject:success];
+                    
+                    continue;
+                }
+                
+                id error = object[@"error"];
+                
+                if (error) {
+                    
                     [results addObject:error];
+                    
+                    continue;
                 }
             }
             block(results, nil);
@@ -522,7 +533,6 @@ NSString *const LCHeaderFieldNameProduction = @"X-LC-Prod";
 
 - (void)performRequest:(NSURLRequest *)request saveResult:(BOOL)saveResult block:(AVIdResultBlock)block retryTimes:(NSInteger)retryTimes {
     NSURL *URL = request.URL;
-    NSString *path = URL.path;
     NSString *URLString = URL.absoluteString;
     NSMutableURLRequest *mutableRequest = [request mutableCopy];
 
@@ -541,8 +551,8 @@ NSString *const LCHeaderFieldNameProduction = @"X-LC-Prod";
         @strongify(self);
 
         if (block) {
-            NSError *error = [AVErrorUtils errorFromJSON:responseObject];
-            block(responseObject, error);
+            
+            block(responseObject, nil);
         }
 
         if (self.isLastModifyEnabled && [request.HTTPMethod isEqualToString:@"GET"]) {
@@ -584,8 +594,9 @@ NSString *const LCHeaderFieldNameProduction = @"X-LC-Prod";
                 }
             }];
         } else {
-            if (block)
-                block(responseObject, [AVErrorUtils errorFromJSON:responseObject] ?: error);
+            if (block) {
+                block(responseObject, error);
+            }
         }
     }];
 }
@@ -621,16 +632,46 @@ NSString *const LCHeaderFieldNameProduction = @"X-LC-Prod";
         NSHTTPURLResponse *HTTPResponse = (NSHTTPURLResponse *)response;
 
         if (error) {
+            
+            NSError *callbackError = nil;
+            if ([NSDictionary lc__checkingType:responseObject]) {
+                
+                NSMutableDictionary *userInfo = ((NSDictionary *)responseObject).mutableCopy;
+                
+                // decoding 'code'
+                NSNumber *code = [NSNumber lc__decodingDictionary:userInfo key:kLC_code];
+                
+                if (code) {
+                    
+                    // decoding 'error'
+                    NSString *reason = [NSString lc__decodingDictionary:userInfo key:kLC_error];
+                    
+                    [userInfo removeObjectsForKeys:@[kLC_code, kLC_error]];
+                    
+                    /* for compatibility */
+                    id data = error.userInfo[LCNetworkingOperationFailingURLResponseDataErrorKey];
+                    if (data) {
+                        userInfo[LCNetworkingOperationFailingURLResponseDataErrorKey] = data;
+                    }
+                    userInfo[kLeanCloudRESTAPIResponseError] = responseObject;
+                    
+                    callbackError = LCError(code.integerValue, reason, userInfo);
+                } else {
+                    callbackError = error;
+                }
+            } else {
+                callbackError = error;
+            }
+            
+            NSTimeInterval costTime = -([operationEnqueueDate timeIntervalSinceNow] * 1000);
+            AVLoggerDebug(AVLoggerDomainNetwork, LC_REST_RESPONSE_LOG_FORMAT, path, costTime, callbackError);
+            
             if (failureBlock) {
-                failureBlock(HTTPResponse, responseObject, error);
+                failureBlock(HTTPResponse, responseObject, callbackError);
             }
 
-            NSInteger statusCode = HTTPResponse.statusCode;
-            NSTimeInterval costTime = -([operationEnqueueDate timeIntervalSinceNow] * 1000);
-
-            AVLoggerDebug(AVLoggerDomainNetwork, LC_REST_RESPONSE_LOG_FORMAT, path, costTime, error);
-
             // Doing network statistics
+            NSInteger statusCode = HTTPResponse.statusCode;
             if ([self shouldStatisticsForPath:path statusCode:statusCode]) {
                 LCNetworkStatistics *statistician = [LCNetworkStatistics sharedInstance];
 
@@ -643,16 +684,16 @@ NSString *const LCHeaderFieldNameProduction = @"X-LC-Prod";
                 [statistician addIncrementalAttribute:1 forKey:@"total"];
             }
         } else {
+            
+            NSTimeInterval costTime = -([operationEnqueueDate timeIntervalSinceNow] * 1000);
+            AVLoggerDebug(AVLoggerDomainNetwork, LC_REST_RESPONSE_LOG_FORMAT, path, costTime, responseObject);
+            
             if (successBlock) {
                 successBlock(HTTPResponse, responseObject);
             }
-
-            NSInteger statusCode = HTTPResponse.statusCode;
-            NSTimeInterval costTime = -([operationEnqueueDate timeIntervalSinceNow] * 1000);
-
-            AVLoggerDebug(AVLoggerDomainNetwork, LC_REST_RESPONSE_LOG_FORMAT, path, costTime, responseObject);
-
+            
             // Doing network statistics
+            NSInteger statusCode = HTTPResponse.statusCode;
             if ([self shouldStatisticsForPath:path statusCode:statusCode]) {
                 LCNetworkStatistics *statistician = [LCNetworkStatistics sharedInstance];
 

@@ -50,6 +50,8 @@ typedef NS_ENUM(int, AVCachePolicy) {
 
 // Errors
 
+FOUNDATION_EXPORT NSString * _Nonnull const kLeanCloudErrorDomain;
+FOUNDATION_EXPORT NSString * _Nonnull const kLeanCloudRESTAPIResponseError;
 
 /*! @abstract 1: Internal server error. No information available. */
 extern NSInteger const kAVErrorInternalServer;
@@ -157,6 +159,8 @@ extern NSInteger const kAVErrorUserWithMobilePhoneNotFound;
 extern NSInteger const kAVErrorUserMobilePhoneNumberTaken;
 /*! @abstract 215: Mobile phone number isn't verified. */
 extern NSInteger const kAVErrorUserMobilePhoneNotVerified;
+/*! @abstract 216: SNS Auth Data's format is invalid. */
+extern NSInteger const kAVErrorUserSNSAuthDataInvalid;
 /*! @abstract 250: Linked id missing from request */
 extern NSInteger const kAVErrorLinkedIdMissing;
 /*! @abstract 251: Invalid linked session */
@@ -182,3 +186,5 @@ typedef void (^AVFileResultBlock)(AVFile * _Nullable file, NSError * _Nullable e
 typedef void (^AVDictionaryResultBlock)(NSDictionary * _Nullable dict, NSError * _Nullable error);
 
 #define AV_DEPRECATED(explain) __attribute__((deprecated(explain)))
+
+#define LC_WARN_UNUSED_RESULT __attribute__((warn_unused_result))

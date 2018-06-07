@@ -59,7 +59,10 @@
 #import "AVCaptcha.h"
 #import "AVSMS.h"
 
-#if AV_IOS_ONLY && !TARGET_OS_WATCH
+// Router
+#import "LCRouter.h"
+
+#if TARGET_OS_IOS && !TARGET_OS_WATCH
 // Analytics
 #import "AVAnalytics.h"
 #endif
@@ -74,7 +77,7 @@ typedef NS_ENUM(NSInteger, AVStorageType) {
     AVStorageTypeQCloud,
     /* Default service region */
     AVStorageTypeDefault = AVStorageTypeQiniu
-} ;
+} __deprecated_msg("deprecated");
 
 typedef enum AVLogLevel : NSUInteger {
     AVLogLevelNone      = 0,
@@ -109,6 +112,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  AVOSCloud is the main Class for AVOSCloud SDK
  */
 @interface AVOSCloud : NSObject
+
+/**
+ A switch of SSL Pinning for all LeanCloud's HTTPS Requests.
+ Default is False.
+ 
+ @param enabled Set whatever you want if you master SSL & SSL Pinning.
+ */
++ (void)setSSLPinningEnabled:(BOOL)enabled;
 
 /*!
  * Enable logs of all levels and domains. When define DEBUG macro, it's enabled, otherwise, it's not enabled. This is recommended. But you can set it NO, and call AVLogger's methods to control which domains' log should be output.
@@ -167,7 +178,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  Set third party file storage service. If uses China server, you can use QCloud or Qiniu, the default is Qiniu, if uses US server, the default is AWS S3.
  *  @param type Qiniu, QCloud or AWS S3.
  */
-+ (void)setStorageType:(AVStorageType)type;
++ (void)setStorageType:(AVStorageType)type
+__deprecated_msg("deprecated");
 
 /**
  * Use specified region.
@@ -277,19 +289,44 @@ NS_ASSUME_NONNULL_BEGIN
     AV_DEPRECATED("Deprecated in AVOSCloud SDK 3.5.0. It will be removed in future.");
 
 /**
- * Handle device token registered from APNs.
- * @param deviceToken Device token issued by APNs.
- * This method should be called in -[UIApplication application:didRegisterForRemoteNotificationsWithDeviceToken:].
+ Handle device token registered from APNs.
+ This method should be called in -[UIApplication application:didRegisterForRemoteNotificationsWithDeviceToken:].
+
+ @param deviceToken Device token issued by APNs.
  */
 + (void)handleRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
 
 /**
- * Handle device token registered from APNs.
- * @param deviceToken Device token issued by APNs.
- * @param block       Constructing block of [AVInstallation currentInstallation].
- * This method should be called in -[UIApplication application:didRegisterForRemoteNotificationsWithDeviceToken:].
+ Handle device token registered from APNs, with a team ID.
+ This method should be called in -[UIApplication application:didRegisterForRemoteNotificationsWithDeviceToken:].
+
+ @param deviceToken Device token issued by APNs.
+ @param teamId Team ID.
  */
-+ (void)handleRemoteNotificationsWithDeviceToken:(NSData *)deviceToken constructingInstallationWithBlock:(nullable void (^)(AVInstallation *currentInstallation))block;
++ (void)handleRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+                                          teamId:(NSString * _Nullable)teamId;
+
+/**
+ Handle device token registered from APNs.
+ This method should be called in -[UIApplication application:didRegisterForRemoteNotificationsWithDeviceToken:].
+
+ @param deviceToken Device token issued by APNs.
+ @param block Constructing block of [AVInstallation defaultInstallation].
+ */
++ (void)handleRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+               constructingInstallationWithBlock:(void(^ _Nullable)(AVInstallation *currentInstallation))block;
+
+/**
+ Handle device token registered from APNs, with a team ID.
+ This method should be called in -[UIApplication application:didRegisterForRemoteNotificationsWithDeviceToken:].
+
+ @param deviceToken Device token issued by APNs.
+ @param teamId Team ID.
+ @param block Constructing block of [AVInstallation defaultInstallation].
+ */
++ (void)handleRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+                                          teamId:(NSString * _Nullable)teamId
+               constructingInstallationWithBlock:(void(^ _Nullable)(AVInstallation *))block;
 
 @end
 
